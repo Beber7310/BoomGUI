@@ -28,6 +28,7 @@ public:
 
 	virtual void render(SDL_Renderer *renderer);
 	void AddChild(guiBase * pWin);
+	virtual void event(int x,int y,int button);
 };
 
 #endif /* SRC_GUIBASE_H_ */

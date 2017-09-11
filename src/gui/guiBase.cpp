@@ -100,3 +100,16 @@ guiBase::render (SDL_Renderer *renderer)
 
   SDL_RenderSetClipRect (renderer, NULL);
 }
+
+
+void guiBase::event(int x,int y,int button)
+{
+  guiBase * pTemp;
+  pTemp = _pFirstChild;
+   while (pTemp)
+ 	{
+
+ 	  pTemp->event (x,y,button);
+ 	  pTemp = pTemp->_pNextWnd;
+ 	}
+}
