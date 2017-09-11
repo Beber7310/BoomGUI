@@ -21,8 +21,9 @@ public:
   void render (SDL_Renderer *renderer);
   void event(int x,int y,int button);
 
-  int _offset1;
-  int _offset2;
+  int _offset1; //
+  int _offset2; //
+  int _contentHeight;
   int _firstYmousse;
 };
 

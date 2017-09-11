@@ -73,6 +73,18 @@ guiBase::AddChild (guiBase * pWin)
   pWin->_pParent = this;
 }
 
+guiBase * guiBase::GetFirstChild()
+{
+	return _pFirstChild;
+}
+guiBase * guiBase::GetNextChild(guiBase * pC)
+{
+	if(pC)
+		return pC->_pNextWnd;
+	else
+		return NULL;
+}
+
 void
 guiBase::render (SDL_Renderer *renderer)
 {

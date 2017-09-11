@@ -17,18 +17,25 @@ public:
 
 	virtual ~guiBase();
 
+
+	SDL_Rect _relWndRect;
+	SDL_Rect _absWndRect;
+
+	void AddChild(guiBase * pWin);
+	guiBase * GetFirstChild();
+	guiBase * GetNextChild(guiBase * pC);
+
+
+	virtual void render(SDL_Renderer *renderer);
+
+	virtual void event(int x,int y,int button);
+
+private:
 	guiBase * _pParent;
 	guiBase * _pFirstChild;
 	guiBase * _pPrevWnd;
 	guiBase * _pNextWnd;
 
-	SDL_Rect _relWndRect;
-	SDL_Rect _absWndRect;
-
-
-	virtual void render(SDL_Renderer *renderer);
-	void AddChild(guiBase * pWin);
-	virtual void event(int x,int y,int button);
 };
 
 #endif /* SRC_GUIBASE_H_ */

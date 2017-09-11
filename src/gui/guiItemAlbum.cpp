@@ -71,7 +71,6 @@ guiItemAlbum::~guiItemAlbum () {
 
 void
 guiItemAlbum::render (SDL_Renderer *renderer) {
-  guiBase * pTemp;
   SDL_Rect coverRect;
 
   SDL_RenderSetClipRect (renderer, &_absWndRect);

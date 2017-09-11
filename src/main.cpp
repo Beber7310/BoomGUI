@@ -21,6 +21,7 @@
 
 Uint32 lastButton=0;
 
+#ifndef __WIN32__
 void* guiMouseThread(void * p)
 {
 	stMouse* pMouse;
@@ -116,6 +117,8 @@ void* guiMouseThread(void * p)
 	close(fd);
 	return 0;
 }
+#endif
+
 
 int
 mousseMgt (guiBase* mainWin) {

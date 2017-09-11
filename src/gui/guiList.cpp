@@ -11,6 +11,8 @@ guiList::guiList () {
   // TODO Auto-generated constructor stub
   _offset1 = 0;
   _offset2 = 0;
+  _contentHeight=0;
+  _firstYmousse=0;
 }
 
 guiList::~guiList () {
@@ -27,7 +29,8 @@ guiList::render (SDL_Renderer *renderer) {
   boxRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
   rectangleRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 
-  pTemp = _pFirstChild;
+  pTemp = GetFirstChild();
+  _contentHeight=0;
   while (pTemp) {
 	SDL_RenderSetClipRect (renderer, &_absWndRect);
 
@@ -38,10 +41,17 @@ guiList::render (SDL_Renderer *renderer) {
 	pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
 	pTemp->_absWndRect.w = _relWndRect.w;
 	pTemp->_absWndRect.h = pTemp->_relWndRect.h;
-
+	_contentHeight+=pTemp->_relWndRect.h;
 	pTemp->render (renderer);
-	pTemp = pTemp->_pNextWnd;
+	pTemp = GetNextChild(pTemp);
   }
+
+
+  if(_offset1>0)
+	  _offset1=0;
+  if(_offset1<-(_contentHeight-1024)) //FIXME SCREEN_HEIGHT
+ 	  _offset1=-(_contentHeight-1024);//FIXME SCREEN_HEIGHT
+
 
   SDL_RenderSetClipRect (renderer, NULL);
 }
