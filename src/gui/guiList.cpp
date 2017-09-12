@@ -28,8 +28,8 @@ guiList::render (SDL_Renderer *renderer) {
 
   boxRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
   rectangleRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
-
-  pTemp = GetFirstChild();
+  std::list<guiBase*>::iterator it;
+  pTemp = GetFirstChild(&it);
   _contentHeight=0;
   while (pTemp) {
 	SDL_RenderSetClipRect (renderer, &_absWndRect);
@@ -43,7 +43,7 @@ guiList::render (SDL_Renderer *renderer) {
 	pTemp->_absWndRect.h = pTemp->_relWndRect.h;
 	_contentHeight+=pTemp->_relWndRect.h;
 	pTemp->render (renderer);
-	pTemp = GetNextChild(pTemp);
+	pTemp = GetNextChild(&it);
   }
 
 

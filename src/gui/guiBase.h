@@ -9,6 +9,7 @@
 #define SRC_GUIBASE_H_
 
 #include "SDL2_gfxPrimitives.h"
+#include <list>
 
 class guiBase {
 public:
@@ -20,21 +21,25 @@ public:
 
 	SDL_Rect _relWndRect;
 	SDL_Rect _absWndRect;
+	std::list<guiBase*> _lstWnd;
+	char* _sortName;
 
 	void AddChild(guiBase * pWin);
-	guiBase * GetFirstChild();
-	guiBase * GetNextChild(guiBase * pC);
-
-
+	guiBase * GetFirstChild(std::list<guiBase*>::iterator* it);
+	guiBase * GetNextChild(std::list<guiBase*>::iterator* it);
+	void sort ();
 	virtual void render(SDL_Renderer *renderer);
 
 	virtual void event(int x,int y,int button);
 
 private:
 	guiBase * _pParent;
-	guiBase * _pFirstChild;
-	guiBase * _pPrevWnd;
-	guiBase * _pNextWnd;
+
+	/*guiBase * _pFirstChild1;
+	guiBase * _pPrevWnd1;
+	guiBase * _pNextWnd1;
+	*/
+
 
 };
 

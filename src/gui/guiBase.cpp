@@ -6,16 +6,12 @@
  */
 
 #include <stdio.h>
-
-
+#include "string.h"
 #include "guiBase.h"
 
-guiBase::guiBase ()
-{
+guiBase::guiBase () {
   _pParent = NULL;
-  _pFirstChild = NULL;
-  _pPrevWnd = NULL;
-  _pNextWnd = NULL;
+
 
   _relWndRect.x = 0;
   _relWndRect.y = 0;
@@ -26,14 +22,12 @@ guiBase::guiBase ()
   _absWndRect.y = 0;
   _absWndRect.w = 600;
   _absWndRect.h = 1024;
+  _sortName=NULL;
 }
 
-guiBase::guiBase (int x, int y, int w, int h)
-{
+guiBase::guiBase (int x, int y, int w, int h) {
   _pParent = NULL;
-  _pFirstChild = NULL;
-  _pPrevWnd = NULL;
-  _pNextWnd = NULL;
+
 
   _relWndRect.x = x;
   _relWndRect.y = y;
@@ -44,84 +38,71 @@ guiBase::guiBase (int x, int y, int w, int h)
   _absWndRect.y = 0;
   _absWndRect.w = 200;
   _absWndRect.h = 200;
+  _sortName=NULL;
 }
 
-guiBase::~guiBase ()
-{
+guiBase::~guiBase () {
   // TODO Auto-generated destructor stub
 }
 
-void
-guiBase::AddChild (guiBase * pWin)
-{
-  guiBase * pTemp;
-  if (_pFirstChild == NULL)
-	{
-	  _pFirstChild = pWin;
-	}
-  else
-	{
-	  pTemp = _pFirstChild;
-	  while (pTemp->_pNextWnd)
-		{
-		  pTemp = pTemp->_pNextWnd;
-		}
-	  pTemp->_pNextWnd = pWin;
-	  pWin->_pPrevWnd = pTemp;
-	}
+void guiBase::sort () {
+  // TODO Auto-generated destructor stub
+  _lstWnd.sort([](const guiBase* a, const guiBase* b) { return (strcmp( a->_sortName, b->_sortName)<0); });
 
+}
+
+void
+guiBase::AddChild (guiBase * pWin) {
   pWin->_pParent = this;
+  _lstWnd.push_back (pWin);
 }
 
-guiBase * guiBase::GetFirstChild()
-{
-	return _pFirstChild;
+guiBase *
+guiBase::GetFirstChild (std::list<guiBase*>::iterator* it) {
+  *it = _lstWnd.begin();
+  return _lstWnd.front ();
 }
-guiBase * guiBase::GetNextChild(guiBase * pC)
-{
-	if(pC)
-		return pC->_pNextWnd;
-	else
-		return NULL;
+guiBase *
+guiBase::GetNextChild (std::list<guiBase*>::iterator* it) {
+  (*it)++;
+  if ((*it) != _lstWnd.end ()) return (guiBase*)((**it));
+  else return NULL;
 }
 
 void
-guiBase::render (SDL_Renderer *renderer)
-{
+guiBase::render (SDL_Renderer *renderer) {
   guiBase * pTemp;
-
 
   SDL_RenderSetClipRect (renderer, &_absWndRect);
 
   boxRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
   rectangleRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 
-  pTemp = _pFirstChild;
-  while (pTemp)
-	{
-	  SDL_RenderSetClipRect (renderer, &_absWndRect);
+  std::list<guiBase*>::iterator it;
+  pTemp = GetFirstChild (&it);
+  while (pTemp) {
+	SDL_RenderSetClipRect (renderer, &_absWndRect);
 
-	  pTemp->_absWndRect.x=_absWndRect.x+pTemp->_relWndRect.x;
-	  pTemp->_absWndRect.y=_absWndRect.y+pTemp->_relWndRect.y;
-	  pTemp->_absWndRect.w=pTemp->_relWndRect.w;
-	  pTemp->_absWndRect.h=pTemp->_relWndRect.h;
+	pTemp->_absWndRect.x = _absWndRect.x + pTemp->_relWndRect.x;
+	pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
+	pTemp->_absWndRect.w = pTemp->_relWndRect.w;
+	pTemp->_absWndRect.h = pTemp->_relWndRect.h;
 
-	  pTemp->render (renderer);
-	  pTemp = pTemp->_pNextWnd;
-	}
+	pTemp->render (renderer);
+	pTemp = GetNextChild (&it);
+  }
 
   SDL_RenderSetClipRect (renderer, NULL);
 }
 
-
-void guiBase::event(int x,int y,int button)
-{
+void
+guiBase::event (int x, int y, int button) {
   guiBase * pTemp;
-  pTemp = _pFirstChild;
-   while (pTemp)
- 	{
+  std::list<guiBase*>::iterator it;
+  pTemp = GetFirstChild (&it);
+  while (pTemp) {
 
- 	  pTemp->event (x,y,button);
- 	  pTemp = pTemp->_pNextWnd;
- 	}
+	pTemp->event (x, y, button);
+	pTemp = GetNextChild (&it);
+  }
 }

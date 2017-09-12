@@ -2,8 +2,15 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#ifndef __WIN32__
+
+
+#ifdef __RASP__
+#include <pthread.h>
+#include <semaphore.h>
+#include <pthread.h>
+#include <semaphore.h>
 #include <linux/input.h>
+#define EVENT_DEVICE    "/dev/input/event0"
 #endif
 
 #include "SDL2_gfxPrimitives.h"
@@ -21,18 +28,17 @@
 
 Uint32 lastButton=0;
 
-#ifndef __WIN32__
+#ifdef __RASP__
 void* guiMouseThread(void * p)
 {
-	stMouse* pMouse;
 	int x=0,y=0,t=0;
+	int rx=0,ry=0,rt=0;
 	int error_read=0;
 	struct input_event ev;
 	int fd;
 	char name[256] = "Unknown";
-	pMouse=(stMouse*)p;
 	bool update=false;
-	pMouse->update=0;
+
 
 	/* Open Device */
 	fd = open(EVENT_DEVICE, O_RDONLY);
@@ -96,17 +102,21 @@ void* guiMouseThread(void * p)
 		if(update)
 		{
 			update=false;
-			pthread_mutex_lock(&mousseLock);
 
- 			pMouse->x=600-y; // swap on purpose !!!
-			pMouse->y=x; // swap on purpose !!!
+ 			rx=600-y; // swap on purpose !!!
+			ry=x; // swap on purpose !!!
+			rt=t;
+			//pMouse->update++;
+			SDL_Event e;
 
+			e.type=SDL_MOUSEMOTION;
+			e.motion.x=rx;
+			e.motion.y=ry;
+			e.motion.state=t;
 
-			pMouse->t=t;
-			pMouse->update++;
+			SDL_PushEvent(&e);
 			//printf("%3.3i %3.3i %1.1i\n",pMouse->x, pMouse->y,pMouse->t);
-			pthread_mutex_unlock(&mousseLock);
-			guiInvalidate();
+
 		}
 	}
 	printf("Endof mousse thread!\n");
@@ -149,6 +159,11 @@ mousseMgt (guiBase* mainWin) {
 
 int main (int argc, char* argv[]) {
 
+#ifdef __RASP__
+  pthread_t my_mouseThread;
+  SDL_ShowCursor(SDL_DISABLE);
+#endif
+
   if (SDL_Init (SDL_INIT_VIDEO)) {
 	printf ("SDL_Init Error: %s", SDL_GetError ());
 	return 1;
@@ -159,7 +174,7 @@ int main (int argc, char* argv[]) {
 	return 1;
   }
 
-  SDL_Window *window = SDL_CreateWindow ("SDL2_gfx test", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+  SDL_Window *window = SDL_CreateWindow ("SDL2_gfx test", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_OPENGL|SDL_WINDOW_FULLSCREEN);
   if (window == NULL) {
 	printf ("SDL_CreateWindow Error: %s", SDL_GetError ());
 	SDL_Quit ();
@@ -174,6 +189,13 @@ int main (int argc, char* argv[]) {
 	return 3;
   }
 
+#ifdef __RASP__
+  int ret =  pthread_create(&my_mouseThread, NULL, &guiMouseThread, NULL);
+  	if(ret != 0) {
+  		printf("Error: pthread_create() failed\n");
+  	}
+#endif
+
   FPSmanager manager;
 
   //Initialisation
@@ -183,6 +205,7 @@ int main (int argc, char* argv[]) {
   guiList mainWin;
 
   toolsLoadAlbum (renderer, &mainWin);
+  mainWin.sort();
 
   int renderingTime = 0;
   char szFPS[64];

@@ -59,7 +59,14 @@ guiItemAlbum::guiItemAlbum (SDL_Renderer * renderer, char* fileName) {
 	  //FIXME free surface!!!!
 	  SDL_Surface * image = IMG_Load (str_cover);
 	  texCover = SDL_CreateTextureFromSurface (renderer, image);
+	  SDL_FreeSurface(image);
 	}
+
+	_sortName=(char*) malloc (strlen (str_artiste)+strlen (str_album)+10);
+	sprintf(_sortName,"%s_%s",str_artiste,str_album);
+
+
+
 
   }
   printf ("Exit\n");
@@ -87,4 +94,10 @@ guiItemAlbum::render (SDL_Renderer *renderer) {
 
   stringRGBA(renderer, _absWndRect.h+10, _absWndRect.y+_absWndRect.h/4,_Artiste,0xFF,0xFF,0xFF,0xFF);
   stringRGBA(renderer, _absWndRect.h+10, _absWndRect.y+3*_absWndRect.h/4,_AlbumName,0xFF,0xFF,0xFF,0xFF);
+}
+
+void guiItemAlbum::play()
+{
+	system("mpc clear");
+
 }

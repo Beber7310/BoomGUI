@@ -8,7 +8,7 @@
 #ifndef SRC_CONFIGURATION_H_
 #define SRC_CONFIGURATION_H_
 
-#ifdef __WIN32__
+#ifndef __RASP__
 #define ALBUM_PLAYLIST_DIR	"album"
 #else
 #define ALBUM_PLAYLIST_DIR	"/mnt/usbdrive/album"
