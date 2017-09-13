@@ -12,16 +12,17 @@ guiButton::guiButton() {
 
 }
 
-guiButton::guiButton(SDL_Renderer * renderer, int x,int y,int w,int h,char* szImg) {
+guiButton::guiButton(SDL_Renderer * renderer, int x, int y, int w, int h,
+		char* szImg) {
 	// TODO Auto-generated constructor stub
 	SDL_Surface * image = IMG_Load(szImg);
 	_texButton = SDL_CreateTextureFromSurface(renderer, image);
 	SDL_FreeSurface(image);
 
-	_relWndRect.x=x;
-	_relWndRect.y=y;
-	_relWndRect.w=w;
-	_relWndRect.h=h;
+	_relWndRect.x = x;
+	_relWndRect.y = y;
+	_relWndRect.w = w;
+	_relWndRect.h = h;
 }
 
 guiButton::~guiButton() {
@@ -43,5 +44,5 @@ void guiButton::render(SDL_Renderer *renderer) {
 }
 
 void guiButton::event(int x, int y, int button) {
-printf("Bing!\n");
+	_click=button;
 }

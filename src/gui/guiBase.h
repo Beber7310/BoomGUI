@@ -8,9 +8,13 @@
 #ifndef SRC_GUIBASE_H_
 #define SRC_GUIBASE_H_
 
+class guiBase;
+
 #include "SDL2_gfxPrimitives.h"
 #include <SDL_image.h>
 #include <list>
+#include "guiManager.h"
+#include <stdio.h>
 
 class guiBase {
 public:
@@ -29,8 +33,8 @@ public:
 	guiBase * GetNextChild(std::list<guiBase*>::iterator* it);
 	void sort();
 	virtual void render(SDL_Renderer *renderer);
-
 	virtual void event(int x, int y, int button);
+	void setRect(int x, int y, int w, int h);
 
 private:
 	guiBase * _pParent;

@@ -18,6 +18,7 @@ public:
 	void render (SDL_Renderer *renderer);
 	void event(int x, int y, int button);
 	SDL_Texture * _texButton;
+	int _click;
 };
 
 #endif /* SRC_GUI_GUIBUTTON_H_ */

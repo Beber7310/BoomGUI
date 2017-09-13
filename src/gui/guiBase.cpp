@@ -41,6 +41,13 @@ guiBase::guiBase(int x, int y, int w, int h) {
 	_sortName = NULL;
 }
 
+void guiBase::setRect(int x, int y, int w, int h) {
+	_relWndRect.x = x;
+	_relWndRect.y = y;
+	_relWndRect.w = w;
+	_relWndRect.h = h;
+}
+
 guiBase::~guiBase() {
 	// TODO Auto-generated destructor stub
 }
@@ -86,8 +93,6 @@ void guiBase::render(SDL_Renderer *renderer) {
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	while (pTemp) {
-		SDL_RenderSetClipRect(renderer, &_absWndRect);
-
 		pTemp->_absWndRect.x = _absWndRect.x + pTemp->_relWndRect.x;
 		pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
 		pTemp->_absWndRect.w = pTemp->_relWndRect.w;
@@ -97,17 +102,18 @@ void guiBase::render(SDL_Renderer *renderer) {
 		pTemp = GetNextChild(&it);
 	}
 
-	SDL_RenderSetClipRect(renderer, NULL);
+
 }
 
 void guiBase::event(int x, int y, int button) {
+
 	guiBase * pTemp;
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	while (pTemp) {
-		if (x >  pTemp->_relWndRect.x && y >  pTemp->_relWndRect.y
-				&& x < ( pTemp->_relWndRect.x +  pTemp->_relWndRect.w)
-				&& y < ( pTemp->_relWndRect.y +  pTemp->_relWndRect.h)) {
+		if (x > pTemp->_relWndRect.x && y > pTemp->_relWndRect.y
+				&& x < (pTemp->_relWndRect.x + pTemp->_relWndRect.w)
+				&& y < (pTemp->_relWndRect.y + pTemp->_relWndRect.h)) {
 			pTemp->event(x - pTemp->_relWndRect.x, y - pTemp->_relWndRect.y,
 					button);
 		}
