@@ -20,6 +20,7 @@
 #include "guiBase.h"
 #include "guiList.h"
 #include "guiItemAlbum.h"
+#include "guiHome.h"
 
 #include "tools.h"
 
@@ -174,7 +175,7 @@ int main (int argc, char* argv[]) {
 	return 1;
   }
 
-  SDL_Window *window = SDL_CreateWindow ("SDL2_gfx test", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_OPENGL|SDL_WINDOW_FULLSCREEN);
+  SDL_Window *window = SDL_CreateWindow ("SDL2_gfx test", 100, 100, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
   if (window == NULL) {
 	printf ("SDL_CreateWindow Error: %s", SDL_GetError ());
 	SDL_Quit ();
@@ -203,26 +204,28 @@ int main (int argc, char* argv[]) {
   SDL_setFramerate (&manager, 50);
 
   guiList mainWin;
-
   toolsLoadAlbum (renderer, &mainWin);
   mainWin.sort();
+
+  guiHome mainHome(renderer);
 
   int renderingTime = 0;
   char szFPS[64];
 
-  while (!mousseMgt (&mainWin)) {
+  while (!mousseMgt (&mainHome)) {
 
 	SDL_SetRenderDrawColor (renderer, 0, 0, 0, 0);
 	SDL_RenderClear (renderer);
 
 	//SDL_RenderCopy(renderer, texture, NULL, NULL);
-	mainWin.render (renderer);
+	//mainWin.render (renderer);
+	mainHome.render(renderer);
 	if (renderingTime) sprintf (szFPS, "%f", 1000.0f / renderingTime);
 	else sprintf (szFPS, "NA");
 	stringRGBA (renderer, 16, 16, szFPS, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderPresent (renderer);
 
-	renderingTime = SDL_framerateDelay (&manager);
+	//renderingTime = SDL_framerateDelay (&manager);
 
   }
 

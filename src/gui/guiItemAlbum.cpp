@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
+#include <stdlib.h>
 #include "string.h"
 #include "guiList.h"
 #include "guiItemAlbum.h"
