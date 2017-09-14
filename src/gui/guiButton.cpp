@@ -30,7 +30,10 @@ guiButton::~guiButton() {
 }
 
 void guiButton::render(SDL_Renderer *renderer) {
-	SDL_RenderSetClipRect(renderer, &_absWndRect);
+
+	int res=SDL_RenderSetClipRect(renderer, &_absWndRect);
+		if(res)
+			printf("%s",SDL_GetError());
 
 	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
 			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,

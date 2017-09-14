@@ -81,7 +81,7 @@ void
 guiItemAlbum::render (SDL_Renderer *renderer) {
   SDL_Rect coverRect;
 
-  SDL_RenderSetClipRect (renderer, &_absWndRect);
+ // SDL_RenderSetClipRect (renderer, &_absWndRect);
 
   boxRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
   rectangleRGBA (renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);

@@ -19,8 +19,10 @@ public:
 	void event(int x, int y, int button);
 
 
-	guiList* 	wndLstAlb;
-	guiButton* 	wndBtnBack;
+	guiList* 		wndLstAlb;
+	guiAlbumFilter* wndAlbFlt;
+	guiButton* 		wndBtnBack;
+	guiButton* 		wndBtnFilter;
 };
 
 #endif /* SRC_GUI_ALBUM_GUILISTALBUM_H_ */

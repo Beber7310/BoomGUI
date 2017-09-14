@@ -81,7 +81,17 @@ guiBase::GetNextChild(std::list<guiBase*>::iterator* it) {
 void guiBase::render(SDL_Renderer *renderer) {
 	guiBase * pTemp;
 
-	SDL_RenderSetClipRect(renderer, &_absWndRect);
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = 0;
+	rect.w = 100;
+	rect.h = 100;
+
+
+	int res=SDL_RenderSetClipRect(renderer, &_absWndRect);
+	if(res)
+		printf("%s",SDL_GetError());
+
 
 	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
 			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
