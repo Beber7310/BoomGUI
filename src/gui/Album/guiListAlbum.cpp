@@ -15,6 +15,7 @@ guiListAlbum::guiListAlbum(SDL_Renderer *renderer) {
 	wndLstAlb=new guiList();
 	wndLstAlb->setRect(0,100,600,942);
 	toolsLoadAlbum (renderer, wndLstAlb);
+	wndLstAlb->sort();
 
 	wndBtnBack=new guiButton(renderer,0,0,100,100,"back.jpg");
 	AddChild(wndBtnBack);
