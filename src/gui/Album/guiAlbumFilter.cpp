@@ -1,4 +1,4 @@
-/*
+	/*
  * guiAlbumFilter.cpp
  *
  *  Created on: Sep 14, 2017
@@ -17,7 +17,7 @@ guiAlbumFilter::guiAlbumFilter(SDL_Renderer *renderer) {
 	wndLstFlt->setRect(0,100,600,924);
 
 
-	wndBtnBack=new guiButton(renderer,0,0,100,100,"back.jpg");
+	wndBtnBack=new guiButton(renderer,0,0,100,100,"res/back.jpg");
 
 	AddChild(wndBtnBack);
 	AddChild(wndLstFlt);

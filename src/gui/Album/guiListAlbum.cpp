@@ -18,14 +18,14 @@ guiListAlbum::guiListAlbum(SDL_Renderer *renderer) {
 	toolsLoadAlbum (renderer, wndLstAlb);
 	wndLstAlb->sort();
 
-	wndBtnBack=new guiButton(renderer,0,0,100,100,"back.jpg");
+	wndBtnBack=new guiButton(renderer,0,0,100,100,"res/back.jpg");
 	wndBtnFilter=new guiButton(renderer,500,0,100,100,"filter.jpg");
 
 	AddChild(wndBtnBack);
 	AddChild(wndBtnFilter);
 	AddChild(wndLstAlb);
 
-	wndAlbFlt=new guiAlbumFilter();
+	wndAlbFlt=new guiAlbumFilter(renderer);
 }
 
 guiListAlbum::~guiListAlbum() {

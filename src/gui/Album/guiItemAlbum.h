@@ -27,6 +27,7 @@ public:
 	SDL_Texture * texCover;
 	char* _Artiste;
 	char* _AlbumName;
+	char* _Genre;
 
 };
 #endif /* SRC_GUIITEMALBUM_H_ */

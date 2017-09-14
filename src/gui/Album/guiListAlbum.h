@@ -10,6 +10,7 @@
 
 #include <guiList.h>
 #include <guiButton.h>
+#include <guiAlbumFilter.h>
 
 class guiListAlbum: public guiBase {
 public:
