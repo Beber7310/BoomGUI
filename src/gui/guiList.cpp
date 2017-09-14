@@ -49,8 +49,8 @@ guiList::render (SDL_Renderer *renderer) {
 
   if(_offset1>0)
 	  _offset1=0;
-  if(_offset1<-(_contentHeight-1024)) //FIXME SCREEN_HEIGHT
- 	  _offset1=-(_contentHeight-1024);//FIXME SCREEN_HEIGHT
+  if(_offset1<-(_contentHeight-_relWndRect.h))
+ 	  _offset1=-(_contentHeight-_relWndRect.h);
 
   SDL_RenderSetClipRect (renderer, NULL);
 }
