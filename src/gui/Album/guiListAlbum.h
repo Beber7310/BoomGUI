@@ -18,7 +18,7 @@ public:
 	guiListAlbum(SDL_Renderer *renderer);
 	virtual ~guiListAlbum();
 	void event(int x, int y, int button);
-
+	void parseGenre();
 
 	guiList* 		wndLstAlb;
 	guiAlbumFilter* wndAlbFlt;

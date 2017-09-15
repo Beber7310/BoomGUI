@@ -7,6 +7,7 @@
 
 #include "guiListAlbum.h"
 #include "guiAlbumFilter.h"
+#include "guiItemAlbum.h"
 #include "guiManager.h"
 #include "tools.h"
 
@@ -17,6 +18,7 @@ guiListAlbum::guiListAlbum(SDL_Renderer *renderer) {
 	wndLstAlb->setRect(0,100,600,924);
 	toolsLoadAlbum (renderer, wndLstAlb);
 	wndLstAlb->sort();
+	parseGenre();
 
 	wndBtnBack=new guiButton(renderer,0,0,100,100,"res/back.jpg");
 	wndBtnFilter=new guiButton(renderer,500,0,100,100,"filter.jpg");
@@ -42,4 +44,13 @@ void guiListAlbum::event(int x, int y, int button) {
 	if(wndBtnFilter->_click==3)
 			setActiveWindows(wndAlbFlt);
 	wndBtnFilter->_click=0;
+}
+
+void guiListAlbum::parseGenre() {
+	std::list<guiBase*>::iterator it;
+	guiItemAlbum* pTemp =(guiItemAlbum*)wndLstAlb-> GetFirstChild(&it);
+		while (pTemp) {
+				printf("%s\n",pTemp->_Genre);
+			pTemp = (guiItemAlbum*)wndLstAlb->GetNextChild(&it);
+		}
 }
