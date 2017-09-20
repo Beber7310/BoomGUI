@@ -46,6 +46,16 @@ void guiButton::render(SDL_Renderer *renderer) {
 
 }
 
+bool guiButton::isClicked()
+{
+	if(_click==4)
+	{
+		_click=0;
+		return true;
+	}
+	return false;
+}
+
 void guiButton::event(int x, int y, int button) {
 	_click=button;
 }

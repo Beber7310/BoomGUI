@@ -15,6 +15,7 @@ class guiBase;
 #include <list>
 #include "guiManager.h"
 #include <stdio.h>
+#include <SDL_ttf.h>
 
 class guiBase {
 public:
@@ -35,12 +36,15 @@ public:
 	virtual void render(SDL_Renderer *renderer);
 	virtual void event(int x, int y, int button);
 	void setRect(int x, int y, int w, int h);
-
+	static void staticInit(void);
 private:
 	guiBase * _pParent;
 
 protected:
 	static SDL_Renderer *_renderer;
+	static TTF_Font *_police1;
+	static TTF_Font *_police2;
+	static TTF_Font *_police3;
 	/*guiBase * _pFirstChild1;
 	 guiBase * _pPrevWnd1;
 	 guiBase * _pNextWnd1;

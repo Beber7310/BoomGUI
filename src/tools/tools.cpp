@@ -13,13 +13,14 @@
 #include "string.h"
 #include "guiList.h"
 #include "guiItemAlbum.h"
+#include "guiAlbumFilter.h"
 
 using namespace std;
 
 
 
 void
-toolsLoadAlbum (SDL_Renderer *renderer,guiList* mainWin) {
+toolsLoadAlbum (SDL_Renderer *renderer,guiList* mainWin,guiAlbumFilter* wndFilter) {
   int ii=0;
 
   DIR *d;
@@ -30,9 +31,9 @@ toolsLoadAlbum (SDL_Renderer *renderer,guiList* mainWin) {
 	  ii++;
 	  if (dir->d_type == DT_REG) {
 		if (strstr (dir->d_name, ".piz") != NULL) {
-		  printf ("%s\n", dir->d_name);
-		  mainWin->AddChild(new guiItemAlbum(renderer,dir->d_name));
-		  printf ("Done %s\n", dir->d_name);
+
+		  mainWin->AddChild(new guiItemAlbum(renderer,dir->d_name,wndFilter));
+
 		}
 	  }
 	}

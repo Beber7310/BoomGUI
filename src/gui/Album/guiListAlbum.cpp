@@ -14,20 +14,20 @@
 guiListAlbum::guiListAlbum(SDL_Renderer *renderer) {
 	// TODO Auto-generated constructor stub
 
-	wndLstAlb=new guiList();
-	wndLstAlb->setRect(0,100,600,924);
-	toolsLoadAlbum (renderer, wndLstAlb);
+	wndLstAlb = new guiList();
+	wndLstAlb->setRect(0, 100, 600, 924);
+	wndAlbFlt = new guiAlbumFilter(renderer);
+	toolsLoadAlbum(renderer, wndLstAlb, wndAlbFlt);
 	wndLstAlb->sort();
-	parseGenre();
 
-	wndBtnBack=new guiButton(renderer,0,0,100,100,"res/back.jpg");
-	wndBtnFilter=new guiButton(renderer,500,0,100,100,"filter.jpg");
+	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.jpg");
+	wndBtnFilter = new guiButton(renderer, 500, 0, 100, 100, "filter.jpg");
 
 	AddChild(wndBtnBack);
 	AddChild(wndBtnFilter);
 	AddChild(wndLstAlb);
 
-	wndAlbFlt=new guiAlbumFilter(renderer);
+	wndAlbFlt->wndLstFlt->sort();
 }
 
 guiListAlbum::~guiListAlbum() {
@@ -35,22 +35,13 @@ guiListAlbum::~guiListAlbum() {
 }
 
 void guiListAlbum::event(int x, int y, int button) {
-	guiBase::event(x,y,button);
+	guiBase::event(x, y, button);
 
-	if(wndBtnBack->_click==3)
+	if (wndBtnBack->isClicked())
 		popActiveWindows();
-	wndBtnBack->_click=0;
 
-	if(wndBtnFilter->_click==3)
-			setActiveWindows(wndAlbFlt);
-	wndBtnFilter->_click=0;
+	if (wndBtnFilter->isClicked())
+		setActiveWindows(wndAlbFlt);
+
 }
 
-void guiListAlbum::parseGenre() {
-	std::list<guiBase*>::iterator it;
-	guiItemAlbum* pTemp =(guiItemAlbum*)wndLstAlb-> GetFirstChild(&it);
-		while (pTemp) {
-				printf("%s\n",pTemp->_Genre);
-			pTemp = (guiItemAlbum*)wndLstAlb->GetNextChild(&it);
-		}
-}

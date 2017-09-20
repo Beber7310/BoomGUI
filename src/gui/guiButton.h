@@ -18,6 +18,8 @@ public:
 	void render (SDL_Renderer *renderer);
 	void event(int x, int y, int button);
 	SDL_Texture * _texButton;
+	bool isClicked();
+private:
 	int _click;
 };
 

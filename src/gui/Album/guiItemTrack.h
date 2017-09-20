@@ -13,8 +13,13 @@
 class guiItemTrack : public guiListItem {
   public:
 	guiItemTrack ();
+	guiItemTrack(char* name);
 	virtual
 	~guiItemTrack ();
+
+	char* _szName;
+	char* _szPath;
 };
 
 #endif /* SRC_GUI_GUIITEMTRACK_H_ */
+

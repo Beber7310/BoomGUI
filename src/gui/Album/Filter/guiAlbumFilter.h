@@ -11,15 +11,17 @@
 #include <guiBase.h>
 #include <guiList.h>
 #include <guiButton.h>
+#include <guiItemFilter.h>
 
 class guiAlbumFilter: public guiBase {
 public:
 	guiAlbumFilter();
 	guiAlbumFilter(SDL_Renderer *renderer);
 	virtual ~guiAlbumFilter();
+	void selectAll(bool sel);
 
 	void event(int x, int y, int button);
-
+	guiItemFilter* AddFilter(char* szGenre);
 	guiList* wndLstFlt;
 	guiButton* wndBtnBack;
 };

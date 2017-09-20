@@ -9,7 +9,7 @@
 #define SRC_TOOLS_TOOLS_H_
 
 void
-toolsLoadAlbum (SDL_Renderer *renderer,guiList* mainWin);
+toolsLoadAlbum (SDL_Renderer *renderer,guiList* mainWin,guiAlbumFilter* wndFilter);
 
 
 

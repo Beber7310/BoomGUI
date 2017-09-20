@@ -42,7 +42,7 @@ guiHome::~guiHome() {
 void guiHome::event(int x, int y, int button) {
 	guiBase::event(x,y,button);
 
-	if(butAlbum->_click==3)
+	if(butAlbum->isClicked())
 		setActiveWindows(wndAlbum);
-	butAlbum->_click=0;
+
 }

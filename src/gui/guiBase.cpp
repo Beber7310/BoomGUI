@@ -10,6 +10,9 @@
 #include "guiBase.h"
 
 SDL_Renderer *guiBase::_renderer;
+TTF_Font *guiBase::_police1;
+TTF_Font *guiBase::_police2;
+TTF_Font *guiBase::_police3;
 
 guiBase::guiBase() {
 	_pParent = NULL;
@@ -41,6 +44,27 @@ guiBase::guiBase(int x, int y, int w, int h) {
 	_sortName = NULL;
 }
 
+void guiBase::staticInit(void) {
+
+	_police1=TTF_OpenFont("res/font1.otf", 65);
+	if (!_police1) {
+		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
+
+	}
+
+	_police2=TTF_OpenFont("res/font2.otf", 30);
+	if (!_police2) {
+		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
+
+	}
+
+	_police3=TTF_OpenFont("res/font1.otf", 65);
+	if (!_police3) {
+		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
+
+	}
+}
+
 void guiBase::setRect(int x, int y, int w, int h) {
 	_relWndRect.x = x;
 	_relWndRect.y = y;
@@ -55,7 +79,7 @@ guiBase::~guiBase() {
 void guiBase::sort() {
 	// TODO Auto-generated destructor stub
 	_lstWnd.sort(
-			[](const guiBase* a, const guiBase* b) {return (strcmp( a->_sortName, b->_sortName)<0);});
+			[](const guiBase* a, const guiBase* b) {return (strcasecmp( a->_sortName, b->_sortName)<0);});
 
 }
 
@@ -87,11 +111,9 @@ void guiBase::render(SDL_Renderer *renderer) {
 	rect.w = 100;
 	rect.h = 100;
 
-
-	int res=SDL_RenderSetClipRect(renderer, &_absWndRect);
-	if(res)
-		printf("%s",SDL_GetError());
-
+	int res = SDL_RenderSetClipRect(renderer, &_absWndRect);
+	if (res)
+		printf("%s", SDL_GetError());
 
 	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
 			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
@@ -111,7 +133,6 @@ void guiBase::render(SDL_Renderer *renderer) {
 		pTemp->render(renderer);
 		pTemp = GetNextChild(&it);
 	}
-
 
 }
 
