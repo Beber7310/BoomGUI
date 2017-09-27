@@ -35,12 +35,8 @@ void guiButton::render(SDL_Renderer *renderer) {
 		if(res)
 			printf("%s",SDL_GetError());
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
-			0x0, 0x00, 0xFF);
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,
-			0xFF, 0xFF, 0xFF);
+	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,0x0, 0x00, 0xFF);
+	//rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
 
 	SDL_RenderCopy(renderer, _texButton, NULL, &_absWndRect);
 

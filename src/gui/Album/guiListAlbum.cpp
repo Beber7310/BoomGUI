@@ -20,8 +20,8 @@ guiListAlbum::guiListAlbum(SDL_Renderer *renderer) {
 	toolsLoadAlbum(renderer, wndLstAlb, wndAlbFlt);
 	wndLstAlb->sort();
 
-	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.jpg");
-	wndBtnFilter = new guiButton(renderer, 500, 0, 100, 100, "filter.jpg");
+	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.png");
+	wndBtnFilter = new guiButton(renderer, 500, 0, 100, 100, "res/filter.png");
 
 	AddChild(wndBtnBack);
 	AddChild(wndBtnFilter);

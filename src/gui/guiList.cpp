@@ -13,6 +13,10 @@ guiList::guiList() {
 	_offset2 = 0;
 	_contentHeight = 0;
 	_firstYmousse = 0;
+
+	dbg_spd = -1;
+	dbg_pos = 0;
+	;
 }
 
 guiList::~guiList() {
@@ -23,6 +27,10 @@ void guiList::render(SDL_Renderer *renderer) {
 	guiBase * pTemp;
 	int lastAbsPosY = _offset1 + _offset2;
 
+	/*lastAbsPosY += dbg_pos;
+	dbg_pos += dbg_spd;
+	dbg_spd = -10;
+*/
 	SDL_RenderSetClipRect(renderer, &_absWndRect);
 
 	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
@@ -40,12 +48,24 @@ void guiList::render(SDL_Renderer *renderer) {
 		pTemp->_relWndRect.y = lastAbsPosY;
 		lastAbsPosY = pTemp->_relWndRect.y + pTemp->_relWndRect.h;
 
-			pTemp->_absWndRect.x = _absWndRect.x;
-			pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
-			pTemp->_absWndRect.w = _relWndRect.w;
-			pTemp->_absWndRect.h = pTemp->_relWndRect.h;
-			_contentHeight += pTemp->_relWndRect.h;
+		pTemp->_absWndRect.x = _absWndRect.x;
+		pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
+		pTemp->_absWndRect.w = _relWndRect.w;
+		pTemp->_absWndRect.h = pTemp->_relWndRect.h;
+		_contentHeight += pTemp->_relWndRect.h;
+
+		bool skip = false;
+
+		if (pTemp->_absWndRect.y > (_absWndRect.y + _absWndRect.h)) {
+			skip = true;
+		}
+		if ((pTemp->_absWndRect.y + pTemp->_absWndRect.h) < (_absWndRect.y)) {
+			skip = true;
+		}
+
+		if (!skip) {
 			pTemp->render(renderer);
+		}
 
 		pTemp = GetNextChild(&it);
 	}
@@ -54,7 +74,6 @@ void guiList::render(SDL_Renderer *renderer) {
 		_offset1 = -(_contentHeight - _relWndRect.h);
 	if (_offset1 > 0)
 		_offset1 = 0;
-
 
 	SDL_RenderSetClipRect(renderer, NULL);
 }

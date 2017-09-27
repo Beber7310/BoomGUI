@@ -12,6 +12,9 @@
 #include <guiButton.h>
 #include <guiList.h>
 #include <guiListAlbum.h>
+#include <guiListPlaylist.h>
+#include <guiHomeControl.h>
+#include <guiPlayer.h>
 
 
 class guiHome : public guiBase{
@@ -24,8 +27,12 @@ public:
 	guiButton* butAlbum;
 	guiButton* butplaylist;
 	guiButton* butHomeControl;
+	guiButton* butPlayer;
 
 	guiListAlbum*   wndAlbum;
+	guiListPlaylist*   wndPlaylist;
+	guiHomeControl* wndHomeControl;
+	guiPlayer* wndPlayer;
 };
 
 #endif /* SRC_GUI_GUIHOME_H_ */

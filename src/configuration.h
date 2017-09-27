@@ -9,10 +9,11 @@
 #define SRC_CONFIGURATION_H_
 
 #ifndef __RASP__
-#define ALBUM_PLAYLIST_DIR	"album"
+#define ALBUM_DIR	  "album"
+#define PLAYLIST_DIR  "playlists"
 #else
-#define ALBUM_PLAYLIST_DIR	"/mnt/usbdrive/album"
-
+#define ALBUM_DIR	  "/mnt/usbdrive/album"
+#define PLAYLIST_DIR  "/mnt/usbdrive/playlists"
 #endif
 
 #endif /* SRC_CONFIGURATION_H_ */

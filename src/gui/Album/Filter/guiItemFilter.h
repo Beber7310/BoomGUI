@@ -8,8 +8,8 @@
 #ifndef SRC_GUI_ALBUM_GUIITEMFILTER_H_
 #define SRC_GUI_ALBUM_GUIITEMFILTER_H_
 
-#include <guiBase.h>
-#include <guiListItem.h>
+#include "guiBase.h"
+#include "guiListItem.h"
 
 class guiItemFilter: public guiListItem {
 public:

@@ -10,6 +10,7 @@
 
 #include "guiBase.h"
 
+
 class guiList : public guiBase
 {
 
@@ -25,6 +26,9 @@ public:
   int _offset2; //
   int _contentHeight;
   int _firstYmousse;
+
+  int dbg_spd;
+  int dbg_pos;
 };
 
 #endif /* SRC_GUILIST_H_ */

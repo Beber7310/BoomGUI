@@ -20,7 +20,7 @@ guiAlbumFilter::guiAlbumFilter(SDL_Renderer *renderer) {
 	wndLstFlt = new guiList();
 	wndLstFlt->setRect(0, 100, 600, 924);
 
-	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.jpg");
+	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.png");
 
 	AddChild(wndBtnBack);
 	AddChild(wndLstFlt);

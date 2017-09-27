@@ -14,6 +14,10 @@ TTF_Font *guiBase::_police1;
 TTF_Font *guiBase::_police2;
 TTF_Font *guiBase::_police3;
 
+
+guiBase *guiBase::_gblPlayer;
+
+
 guiBase::guiBase() {
 	_pParent = NULL;
 
@@ -115,12 +119,9 @@ void guiBase::render(SDL_Renderer *renderer) {
 	if (res)
 		printf("%s", SDL_GetError());
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
-			0x0, 0x00, 0xFF);
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,
-			0xFF, 0xFF, 0xFF);
+
+	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,0x0, 0x00, 0xFF);
+	//rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
 
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
@@ -134,6 +135,7 @@ void guiBase::render(SDL_Renderer *renderer) {
 		pTemp = GetNextChild(&it);
 	}
 
+	SDL_RenderSetClipRect(renderer, NULL);
 }
 
 void guiBase::event(int x, int y, int button) {

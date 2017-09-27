@@ -5,9 +5,11 @@
  *      Author: Bertrand
  */
 
-#include <guiItemFilter.h>
+
 #include <string.h>
 #include <stdlib.h>
+
+#include "guiItemFilter.h"
 
 guiItemFilter::guiItemFilter() {
 	// TODO Auto-generated constructor stub

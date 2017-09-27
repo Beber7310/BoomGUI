@@ -24,7 +24,6 @@
 #include <SDL_ttf.h>
 #include "SDL2_framerate.h"
 
-
 #include "guiBase.h"
 #include "guiList.h"
 #include "guiItemAlbum.h"
@@ -140,26 +139,27 @@ void* guiMouseThread(void * p)
 
 int mousseMgt(guiBase* mainWin) {
 	SDL_Event e;
-	static int firstX,firstY;
+	static int firstX, firstY;
 
 	if (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT)
 			return -1;
 
-		if (e.type == SDL_MOUSEMOTION) {
-
-			if (e.motion.state > 0 && lastButton == 0) {
-				mainWin->event(e.motion.x, e.motion.y, 1);
-				firstX=e.motion.x;
-				firstY=e.motion.y;
-			}
+		if ((e.type == SDL_MOUSEMOTION)||(e.type == SDL_MOUSEBUTTONDOWN)||(e.type == SDL_MOUSEBUTTONUP)) {
 			if (e.motion.state > 0 && lastButton > 0) {
 				mainWin->event(e.motion.x, e.motion.y, 2);
+				while (SDL_PollEvent(&e));
 			}
+			if (e.motion.state > 0 && lastButton == 0) {
+				mainWin->event(e.motion.x, e.motion.y, 1);
+				firstX = e.motion.x;
+				firstY = e.motion.y;
+			}
+
 			if (e.motion.state == 0 && lastButton > 0) {
 				mainWin->event(e.motion.x, e.motion.y, 3);
-				if((abs(firstX-e.motion.x)<100) &&(abs(firstY-e.motion.y)<100))
-				{
+				if ((abs(firstX - e.motion.x) < 100)
+						&& (abs(firstY - e.motion.y) < 100)) {
 					mainWin->event(e.motion.x, e.motion.y, 4);
 				}
 			}
@@ -192,8 +192,7 @@ int rendertask() {
 		return 1;
 	}
 
-	SDL_Window *window = SDL_CreateWindow("SDL2_gfx test", 100, 100, WIDTH,
-	HEIGHT, SDL_WINDOW_OPENGL);
+	SDL_Window *window = SDL_CreateWindow("SDL2_gfx test", 100, 100, WIDTH,HEIGHT, SDL_WINDOW_OPENGL);
 	if (window == NULL) {
 		printf("SDL_CreateWindow Error: %s", SDL_GetError());
 		SDL_Quit();
@@ -209,25 +208,13 @@ int rendertask() {
 		return 3;
 	}
 
-	if(TTF_Init())
-	{
-	    fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
-	    exit(EXIT_FAILURE);
-	}
-/*
-	SDL_Surface *texte = NULL;
-	TTF_Font *police = TTF_OpenFont("res/font1.otf", 65);
-	if(!police)
-	{
-		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
-		 exit(EXIT_FAILURE);
+	printf("%s\n",SDL_GetCurrentVideoDriver());
+
+	if (TTF_Init()) {
+		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n",TTF_GetError());
+		exit(EXIT_FAILURE);
 	}
 
-	SDL_Color couleurBlanc = {128, 128, 255,128};
-	texte = TTF_RenderText_Blended(police, "Salut les Zér0s !", couleurBlanc);
-	SDL_Texture * texture=SDL_CreateTextureFromSurface(renderer, texte);
-	SDL_FreeSurface(texte);
-*/
 
 #ifdef __RASP__
 	int ret = pthread_create(&my_mouseThread, NULL, &guiMouseThread, NULL);

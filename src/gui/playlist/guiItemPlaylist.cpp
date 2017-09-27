@@ -1,5 +1,5 @@
 /*
- * guiItemAlbum.cpp
+ * guiItemPlaylist.cpp
  *
  *  Created on: 9 sept. 2017
  *      Author: Bertrand
@@ -14,56 +14,47 @@
 #include <stdlib.h>
 #include "string.h"
 #include "guiList.h"
-#include "guiItemAlbum.h"
+#include "guiItemPlaylist.h"
 #include "guiItemTrack.h"
 #include "guiAlbumFilter.h"
 #include "guiPlayer.h"
 
-guiItemAlbum::guiItemAlbum() {
+guiItemPlaylist::guiItemPlaylist() {
 
 }
 
-guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,
-		guiAlbumFilter* wndFilter) {
+guiItemPlaylist::guiItemPlaylist(SDL_Renderer * renderer, char* fileName) {
 	char filePath[512];
 	char str[512];
 
 	char str_artiste[512];
 	char str_album[512];
 	char str_cover[512];
-	char str_genre[512];
+
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
 	_relWndRect.w = 600;
 	_relWndRect.h = 200;
 
-	_pGenre = NULL;
+
 
 	_TrackList = new guiList();
 
 	// texCover = IMG_LoadTexture(renderer,"cover.jpeg");
 
-	sprintf(filePath, "%s/%s", ALBUM_DIR, fileName);
+	sprintf(filePath, "%s/%s", PLAYLIST_DIR, fileName);
 	std::ifstream infile(filePath);
 	std::string line;
 
 	while (!infile.eof()) {
 		infile.getline(str, 500);
 
-		if (strstr(str, "<ARTISTE>") != NULL) {
-			strcpy(str_artiste, &str[strlen("<ARTISTE>")]);
-			_Artiste = (char*) malloc(strlen(str_artiste) + 1);
-			strcpy(_Artiste, str_artiste);
-		} else if (strstr(str, "<ALBUM>") != NULL) {
-			strcpy(str_album, &str[strlen("<ALBUM>")]);
-			_AlbumName = (char*) malloc(strlen(str_album) + 1);
-			strcpy(_AlbumName, str_album);
-		} else if (strstr(str, "<GENRE>") != NULL) {
-
-			strcpy(str_genre, &str[strlen("<GENRE>")]);
-			_pGenre = wndFilter->AddFilter(str_genre);
-		} else if (strstr(str, "<COVER>") != NULL) {
+		if (strstr(str, "<PLAYLIST>") != NULL) {
+			strcpy(str_artiste, &str[strlen("<PLAYLIST>")]);
+			_PlaylistName = (char*) malloc(strlen(str_artiste) + 1);
+			strcpy(_PlaylistName, str_artiste);
+		}  else if (strstr(str, "<COVER>") != NULL) {
 			strcpy(str_cover, &str[strlen("<COVER>")]);
 			SDL_Surface * image = IMG_Load(str_cover);
 			_texCover = SDL_CreateTextureFromSurface(renderer, image);
@@ -77,7 +68,7 @@ guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,
 
 	char str_tmp[1024];
 	SDL_Color couleurTexte = { 255, 255, 255, 255 };
-	sprintf(str_tmp, "%s\n%s", _AlbumName, _Artiste);
+	sprintf(str_tmp, "%s", _PlaylistName);
 	SDL_Surface* texteAlb = TTF_RenderUTF8_Blended_Wrapped(_police2, str_tmp,couleurTexte, 370);
 	_textAlbum = SDL_CreateTextureFromSurface(renderer, texteAlb);
 	SDL_FreeSurface(texteAlb);
@@ -87,22 +78,12 @@ guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,
 	sprintf(_sortName, "%s_%s", str_artiste, str_album);
 }
 
-guiItemAlbum::~guiItemAlbum() {
+guiItemPlaylist::~guiItemPlaylist() {
 	// TODO Auto-generated destructor stub
 }
 
-void guiItemAlbum::render(SDL_Renderer *renderer) {
+void guiItemPlaylist::render(SDL_Renderer *renderer) {
 	SDL_Rect coverRect;
-
-	if (_pGenre != NULL) {
-		if (_pGenre->_selected) {
-			_relWndRect.h = 200;
-		} else {
-			_relWndRect.h = 0;
-			return;
-		}
-	}
-	// SDL_RenderSetClipRect (renderer, &_absWndRect);
 
 	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
 			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
@@ -123,7 +104,7 @@ void guiItemAlbum::render(SDL_Renderer *renderer) {
 	SDL_RenderCopy(renderer, _textAlbum, NULL, &_textSize);
 }
 
-void guiItemAlbum::play() {
+void guiItemPlaylist::play() {
 	guiBase * pTemp;
 	char szCmd[256];
 	system("mpc clear");
@@ -139,7 +120,7 @@ void guiItemAlbum::play() {
 	system("mpc play");
 }
 
-void guiItemAlbum::event(int x, int y, int button) {
+void guiItemPlaylist::event(int x, int y, int button) {
 	guiBase::event(x, y, button);
 	if (button == 4) {
 		play();
