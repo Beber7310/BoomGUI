@@ -25,10 +25,10 @@ guiHcRadiateur::guiHcRadiateur(SDL_Renderer *renderer, char* name, int index) {
 	_relWndRect.h = 200;
 	_targetTemp = 0;
 
-	wndBtnPlus = new guiButton(renderer, 200, 100, 100, 100, "res/plus.png");
+	wndBtnPlus = new guiButton(renderer, 200, 80, 100, 100, "res/plus.png");
 	AddChild(wndBtnPlus);
 
-	wndBtnMinus = new guiButton(renderer, 0, 100, 100, 100, "res/minus.png");
+	wndBtnMinus = new guiButton(renderer, 0, 80, 100, 100, "res/minus.png");
 	AddChild(wndBtnMinus);
 
 	SDL_Color couleurTexte = { 255, 255, 255, 255 };

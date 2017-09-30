@@ -24,10 +24,10 @@ guiHcLight::guiHcLight(SDL_Renderer *renderer, char* name, int index) {
 	_relWndRect.w = 600;
 	_relWndRect.h = 200;
 
-	wndBtnOn = new guiButton(renderer, 200, 100, 100, 100, "res/back.png");
+	wndBtnOn = new guiButton(renderer, 200, 80, 100, 100, "res/on.png");
 	AddChild(wndBtnOn);
 
-	wndBtnOff = new guiButton(renderer, 0, 100, 100, 100, "res/back.png");
+	wndBtnOff = new guiButton(renderer, 0, 80, 100, 100, "res/off.png");
 	AddChild(wndBtnOff);
 
 	SDL_Color couleurTexte = { 255, 255, 255, 255 };
@@ -43,7 +43,21 @@ guiHcLight::~guiHcLight() {
 }
 
 void guiHcLight::render(SDL_Renderer *renderer) {
-	computeClipping(renderer);
+	guiBase * pTemp;
+
+		computeClipping(renderer);
+		std::list<guiBase*>::iterator it;
+		pTemp = GetFirstChild(&it);
+		while (pTemp) {
+			pTemp->_absWndRect.x = _absWndRect.x + pTemp->_relWndRect.x;
+			pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
+			pTemp->_absWndRect.w = pTemp->_relWndRect.w;
+			pTemp->_absWndRect.h = pTemp->_relWndRect.h;
+
+			pTemp->render(renderer);
+			pTemp = GetNextChild(&it);
+		}
+		computeClipping(renderer);
 
 	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
 
