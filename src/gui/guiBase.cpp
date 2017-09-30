@@ -14,9 +14,7 @@ TTF_Font *guiBase::_police1;
 TTF_Font *guiBase::_police2;
 TTF_Font *guiBase::_police3;
 
-
 guiBase *guiBase::_gblPlayer;
-
 
 guiBase::guiBase() {
 	_pParent = NULL;
@@ -30,6 +28,12 @@ guiBase::guiBase() {
 	_absWndRect.y = 0;
 	_absWndRect.w = 600;
 	_absWndRect.h = 1024;
+
+	_clpWndRect.x = 0;
+	_clpWndRect.y = 0;
+	_clpWndRect.w = 600;
+	_clpWndRect.h = 1024;
+
 	_sortName = NULL;
 }
 
@@ -50,19 +54,19 @@ guiBase::guiBase(int x, int y, int w, int h) {
 
 void guiBase::staticInit(void) {
 
-	_police1=TTF_OpenFont("res/font1.otf", 65);
+	_police1 = TTF_OpenFont("res/font1.otf", 65);
 	if (!_police1) {
 		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
 	}
 
-	_police2=TTF_OpenFont("res/font2.otf", 30);
+	_police2 = TTF_OpenFont("res/font2.otf", 30);
 	if (!_police2) {
 		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
 	}
 
-	_police3=TTF_OpenFont("res/font1.otf", 65);
+	_police3 = TTF_OpenFont("res/font1.otf", 65);
 	if (!_police3) {
 		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
@@ -109,18 +113,11 @@ guiBase::GetNextChild(std::list<guiBase*>::iterator* it) {
 void guiBase::render(SDL_Renderer *renderer) {
 	guiBase * pTemp;
 
-	SDL_Rect rect;
-	rect.x = 0;
-	rect.y = 0;
-	rect.w = 100;
-	rect.h = 100;
+	computeClipping(renderer);
 
-	int res = SDL_RenderSetClipRect(renderer, &_absWndRect);
-	if (res)
-		printf("%s", SDL_GetError());
-
-
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,0x0, 0x00, 0xFF);
+	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
+			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
+			0x0, 0x00, 0xFF);
 	//rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
 
 	std::list<guiBase*>::iterator it;
@@ -152,4 +149,21 @@ void guiBase::event(int x, int y, int button) {
 		}
 		pTemp = GetNextChild(&it);
 	}
+}
+
+void guiBase::computeClipping(SDL_Renderer *renderer) {
+	_clpWndRect.x = _absWndRect.x;
+	_clpWndRect.y = _absWndRect.y;
+	_clpWndRect.w = _absWndRect.w;
+	_clpWndRect.h = _absWndRect.h;
+
+	if(_pParent)
+	{
+		_clpWndRect.x=std::max(_absWndRect.x,_pParent->_clpWndRect.x);
+		_clpWndRect.y=std::max(_absWndRect.y,_pParent->_clpWndRect.y);
+	}
+
+	int res = SDL_RenderSetClipRect(renderer, &_clpWndRect);
+	if (res)
+		printf("%s", SDL_GetError());
 }

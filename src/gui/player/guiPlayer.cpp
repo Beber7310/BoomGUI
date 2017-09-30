@@ -89,6 +89,7 @@ void guiPlayer::render(SDL_Renderer *renderer) {
 	SDL_Rect coverRect;
 	guiBase::render(renderer);
 
+	computeClipping(renderer);
 	coverRect.x = _absWndRect.x;
 	coverRect.y = _absWndRect.y + 100;
 	coverRect.w = _absWndRect.w;

@@ -31,7 +31,7 @@ void guiList::render(SDL_Renderer *renderer) {
 	dbg_pos += dbg_spd;
 	dbg_spd = -10;
 */
-	SDL_RenderSetClipRect(renderer, &_absWndRect);
+	computeClipping(renderer);
 
 	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
 			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,

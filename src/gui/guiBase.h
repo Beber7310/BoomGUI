@@ -26,6 +26,7 @@ public:
 
 	SDL_Rect _relWndRect;
 	SDL_Rect _absWndRect;
+	SDL_Rect _clpWndRect;
 	std::list<guiBase*> _lstWnd;
 	char* _sortName;
 
@@ -33,6 +34,7 @@ public:
 	guiBase * GetFirstChild(std::list<guiBase*>::iterator* it);
 	guiBase * GetNextChild(std::list<guiBase*>::iterator* it);
 	void sort();
+	void computeClipping(SDL_Renderer *renderer);
 	virtual void render(SDL_Renderer *renderer);
 	virtual void event(int x, int y, int button);
 	void setRect(int x, int y, int w, int h);

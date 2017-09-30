@@ -13,6 +13,8 @@
 #include <guiList.h>
 #include <guiHcRadiateur.h>
 #include <guiHcThermometre.h>
+#include <guiHcLight.h>
+#include <guiHcCurrent.h>
 
 #include "homeControl.h"
 
