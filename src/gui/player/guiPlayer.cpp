@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#ifdef __RASP__
+
 void* guiPLayerThread(void * p) {
 	FILE *in;
 	guiPlayer* pPlay=(guiPlayer*)p;
@@ -43,7 +43,7 @@ void* guiPLayerThread(void * p) {
 		sleep(1);
 	}
 }
-#endif
+
 
 guiPlayer::guiPlayer() {
 

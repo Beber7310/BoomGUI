@@ -5,7 +5,10 @@
  *      Author: Bertrand
  */
 
-#include <HomeControl/guiHomeControl.h>
+#include <guiHomeControl.h>
+#include "homeControl.h"
+
+
 
 guiHomeControl::guiHomeControl() {
 	// TODO Auto-generated constructor stub
@@ -15,6 +18,19 @@ guiHomeControl::guiHomeControl(SDL_Renderer * renderer) {
 	// TODO Auto-generated constructor stub
 	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.png");
 	AddChild(wndBtnBack);
+
+	wndLstHc = new guiList();
+	AddChild(wndLstHc);
+	wndLstHc->setRect(0, 100, 600, 924);
+
+	wndLstHc->AddChild(new guiHcRadiateur(renderer,"Cuisine",HC_HEATER_CUISINE));
+	wndLstHc->AddChild(new guiHcRadiateur(renderer,"Salon",HC_HEATER_SALON));
+	wndLstHc->AddChild(new guiHcRadiateur(renderer,"Barnabé",HC_HEATER_BARNABE));
+	wndLstHc->AddChild(new guiHcRadiateur(renderer,"Daphnée",HC_HEATER_DAPHNEE));
+	wndLstHc->AddChild(new guiHcThermometre(renderer,"Victor",HC_TEMP_VICTOR));
+	wndLstHc->AddChild(new guiHcRadiateur(renderer,"HomeCinema",HC_HEATER_HOMECINEMA));
+
+	homeControlLaunch();
 }
 
 guiHomeControl::~guiHomeControl() {

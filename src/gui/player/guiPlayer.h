@@ -11,13 +11,13 @@
 class guiBase;
 #include "guiItemAlbum.h"
 
-#ifdef __RASP__
+//#ifdef __RASP__
 #include <pthread.h>
 #include <semaphore.h>
 #include <pthread.h>
 #include <semaphore.h>
 
-#endif
+//#endif
 
 class guiPlayer: public guiBase {
 public:
@@ -39,9 +39,9 @@ public:
 	SDL_Rect  _textSize;
 	SDL_Texture * _texCover;
 	bool	update;
-	#ifdef __RASP__
+	//#ifdef __RASP__
 	pthread_mutex_t my_mutex;
-	#endif
+	//#endif
 };
 
 #endif /* SRC_GUI_GUIPLAYER_H_ */

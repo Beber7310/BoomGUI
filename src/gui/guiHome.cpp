@@ -57,11 +57,13 @@ void guiHome::event(int x, int y, int button) {
 
 	if (butAlbum->isClicked())
 		setActiveWindows(wndAlbum);
+
 	if (butplaylist->isClicked())
 		setActiveWindows(wndPlaylist);
 
 	if (butHomeControl->isClicked())
 		setActiveWindows(wndHomeControl);
+
 	if (butPlayer->isClicked())
 		setActiveWindows(wndPlayer);
 }

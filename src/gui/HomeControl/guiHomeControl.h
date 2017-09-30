@@ -10,6 +10,12 @@
 
 #include <guiBase.h>
 #include <guiButton.h>
+#include <guiList.h>
+#include <guiHcRadiateur.h>
+#include <guiHcThermometre.h>
+
+#include "homeControl.h"
+
 
 class guiHomeControl: public guiBase {
 public:
@@ -18,7 +24,9 @@ public:
 	virtual ~guiHomeControl();
 	void event(int x, int y, int button);
 
+	guiList* 		wndLstHc;
 	guiButton* 		wndBtnBack;
+
 };
 
 #endif /* SRC_GUI_HOMECONTROL_GUIHOMECONTROL_H_ */

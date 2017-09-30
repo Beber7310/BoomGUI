@@ -23,8 +23,7 @@ guiItemAlbum::guiItemAlbum() {
 
 }
 
-guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,
-		guiAlbumFilter* wndFilter) {
+guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,guiAlbumFilter* wndFilter) {
 	char filePath[512];
 	char str[512];
 
