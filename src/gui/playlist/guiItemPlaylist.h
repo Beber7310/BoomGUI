@@ -19,11 +19,11 @@
 class guiItemPlaylist: public guiListItem {
 public:
 	guiItemPlaylist();
-	guiItemPlaylist(SDL_Renderer * renderer, char* fileName);
+	guiItemPlaylist(char* fileName);
 	virtual
 	~guiItemPlaylist();
 
-	void render(SDL_Renderer *renderer);
+	void render();
 	void event(int x, int y, int button);
 
 	void play();
@@ -33,7 +33,6 @@ public:
 
 
 	guiList* _TrackList;
-	SDL_Texture * _textAlbum;
-	SDL_Rect  _textSize;
+
 };
 #endif /* SRC_guiItemPlaylist_H_ */

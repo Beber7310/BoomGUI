@@ -10,66 +10,70 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 void* guiPLayerThread(void * p) {
 	FILE *in;
-	guiPlayer* pPlay=(guiPlayer*)p;
+	guiPlayer* pPlay = (guiPlayer*) p;
 	char buff[512];
-	bool goodTrack=false;
+	bool goodTrack = false;
 
 	while (1) {
-		if(goodTrack)
-		system("mpc idle");
-		goodTrack=false;
+		if (goodTrack)
+			system("mpc idle");
+		goodTrack = false;
 		if (!(in = popen("mpc current", "r"))) {
 			//return;
 		}
 		while (fgets(buff, sizeof(buff), in) != NULL) {
 
-			int ii=0;
+			int ii = 0;
 			while (buff[ii] != '\0') {
 				if (buff[ii] == '-') {
-					buff[ii]='\n';
-					goodTrack=true;
+					buff[ii] = '\n';
+					goodTrack = true;
 				}
 				ii++;
 			}
-			pthread_mutex_lock (&pPlay->my_mutex);
-			sprintf(pPlay->szCurrent,"%s",buff);
-			pPlay->update=true;
-			pthread_mutex_unlock (&pPlay->my_mutex);
+			pthread_mutex_lock(&pPlay->my_mutex);
+			sprintf(pPlay->szCurrent, "%s", buff);
+			pPlay->update = true;
+			pthread_mutex_unlock(&pPlay->my_mutex);
 		}
 		pclose(in);
 		sleep(1);
 	}
 }
 
-
 guiPlayer::guiPlayer() {
-
-}
-
-guiPlayer::guiPlayer(SDL_Renderer * renderer) {
 
 #ifdef __RASP__
 	pthread_t my_PLayerThread;
 #endif
 
 	// TODO Auto-generated constructor stub
-	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.png");
+	wndBtnBack = new guiButton(0, 0, 100, 100, "res/back.png");
 	AddChild(wndBtnBack);
 
-	wndBtnPrev = new guiButton(renderer, 125, 924, 100, 100, "res/prev.png");
+	wndBtnPrev = new guiButton(125, 924, 100, 100, "res/prev.png");
 	AddChild(wndBtnPrev);
 
-	wndBtnPlay = new guiButton(renderer, 250, 924, 100, 100, "res/play.png");
+	wndBtnPlay = new guiButton(250, 924, 100, 100, "res/play.png");
 	AddChild(wndBtnPlay);
 
-	wndBtnNext = new guiButton(renderer, 375, 924, 100, 100, "res/next.png");
+	wndBtnNext = new guiButton(375, 924, 100, 100, "res/next.png");
 	AddChild(wndBtnNext);
 
+	wndBtnRandom = new guiButton(0, 854, 100, 100, "res/shuffle.png");
+	AddChild(wndBtnRandom);
+	wndBtnRandom->enable(false);
+
+	wndBtnNoRandom = new guiButton(0, 854, 100, 100, "res/shuffle_no.png");
+	AddChild(wndBtnNoRandom);
+
 	_texCover = NULL;
-	;
+
+
+	_mpcRandom = false;
+	_mpcPause = false;
 
 #ifdef __RASP__
 	pthread_mutex_init (&my_mutex, NULL);
@@ -85,41 +89,46 @@ guiPlayer::~guiPlayer() {
 	// TODO Auto-generated destructor stub
 }
 
-void guiPlayer::render(SDL_Renderer *renderer) {
+void guiPlayer::render() {
 	SDL_Rect coverRect;
-	guiBase::render(renderer);
+	guiBase * pTemp;
 
-	computeClipping(renderer);
+	computeClipping();
+
+	SDL_RenderCopy(_renderer, _textWallPaper, NULL, NULL);
+
+	std::list<guiBase*>::iterator it;
+	pTemp = GetFirstChild(&it);
+	while (pTemp) {
+		pTemp->_absWndRect.x = _absWndRect.x + pTemp->_relWndRect.x;
+		pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
+		pTemp->_absWndRect.w = pTemp->_relWndRect.w;
+		pTemp->_absWndRect.h = pTemp->_relWndRect.h;
+
+		pTemp->render();
+		pTemp = GetNextChild(&it);
+	}
+
+	computeClipping();
 	coverRect.x = _absWndRect.x;
 	coverRect.y = _absWndRect.y + 100;
 	coverRect.w = _absWndRect.w;
 	coverRect.h = _absWndRect.w;
+
 	if (_texCover)
-		SDL_RenderCopy(renderer, _texCover, NULL, &coverRect);
+		SDL_RenderCopy(_renderer, _texCover, NULL, &coverRect);
 
 #ifdef __RASP__
 	pthread_mutex_lock (&my_mutex);
 #endif
 
 	if (update) {
-		if (_textSong)
-			SDL_DestroyTexture(_textSong);
-
-		if (szCurrent) {
-			SDL_Color couleurTexte = { 255, 255, 255, 255 };
-			SDL_Surface* texteAlb = TTF_RenderUTF8_Blended_Wrapped(_police2, szCurrent, couleurTexte, 600);
-			_textSong = SDL_CreateTextureFromSurface(renderer, texteAlb);
-			SDL_FreeSurface(texteAlb);
-			SDL_QueryTexture(_textSong, NULL, NULL, &_textSize.w, &_textSize.h);
-		}
 		update = false;
 	}
 
-	//stringRGBA(renderer, 100,750, szCurrent, 0xFF, 0xFF, 0xFF,0xFF);
-	_textSize.x = 300 - _textSize.w / 2;
-	_textSize.y = 750;
-	SDL_RenderCopy(renderer, _textSong, NULL, &_textSize);
-
+	if (szCurrent) {
+		_font2->print(szCurrent, 100, 750);
+	}
 #ifdef __RASP__
 	pthread_mutex_unlock (&my_mutex);
 #endif
@@ -140,4 +149,16 @@ void guiPlayer::event(int x, int y, int button) {
 
 	if (wndBtnNext->isClicked())
 		system("mpc next");
+
+	if (wndBtnRandom->isClicked()) {
+		system("mpc random off");
+		wndBtnRandom->enable(false);
+		wndBtnNoRandom->enable(true);
+	}
+	if (wndBtnNoRandom->isClicked()) {
+		system("mpc random on");
+		wndBtnRandom->enable(true);
+		wndBtnNoRandom->enable(false);
+	}
+
 }

@@ -12,7 +12,7 @@
 #include <SDL2_gfxPrimitives.h>
 #include "homeControl.h"
 
-guiHcThermometre::guiHcThermometre(SDL_Renderer *renderer,char* name,int index) {
+guiHcThermometre::guiHcThermometre(char* name,int index) {
 	// TODO Auto-generated constructor stub
 
 	_Name = (char*) malloc(strlen(name) + 10);
@@ -22,14 +22,8 @@ guiHcThermometre::guiHcThermometre(SDL_Renderer *renderer,char* name,int index) 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
 	_relWndRect.w = 600;
-	_relWndRect.h = 200;
+	_relWndRect.h = 100;
 
-
-	SDL_Color couleurTexte = { 255, 255, 255, 255 };
-	SDL_Surface* texteAlb = TTF_RenderText_Blended_Wrapped(_police2, _Name,couleurTexte, 500);
-	_textAlbum = SDL_CreateTextureFromSurface(renderer, texteAlb);
-	SDL_FreeSurface(texteAlb);
-	SDL_QueryTexture(_textAlbum, NULL, NULL, &_textSize.w, &_textSize.h);
 }
 
 guiHcThermometre::~guiHcThermometre() {
@@ -37,26 +31,19 @@ guiHcThermometre::~guiHcThermometre() {
 }
 
 
-void guiHcThermometre::render(SDL_Renderer *renderer) {
+void guiHcThermometre::render() {
 	SDL_Rect coverRect;
 
-	computeClipping(renderer);
+	computeClipping();
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,0x0, 0x00, 0xFF);
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
+	boxRGBA(_renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,0x0, 0x00, 0xFF);
+	rectangleRGBA(_renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
 
 	char szTmp[32];
 	sprintf(szTmp,"%3.1f",hcGetTemp(_index));
-	stringRGBA(renderer,500,_absWndRect.y+20,szTmp,0xFF,0xFF,0xFF,0xFF);
+	stringRGBA(_renderer,500,_absWndRect.y+20,szTmp,0xFF,0xFF,0xFF,0xFF);
+	_font2->print(szTmp,300,_absWndRect.y);
 
-
-	sprintf(szTmp,"%3.1f",hcGetTargetTemp(_index));
-	stringRGBA(renderer,500,_absWndRect.y+100,szTmp,0xFF,0xFF,0xFF,0xFF);
-
-
-
-	_textSize.x = 25;
-	_textSize.y = _absWndRect.y;
-	SDL_RenderCopy(renderer, _textAlbum, NULL, &_textSize);
+	_font2->print(_Name,25,_absWndRect.y);
 
 }

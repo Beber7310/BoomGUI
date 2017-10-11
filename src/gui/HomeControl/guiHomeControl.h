@@ -22,7 +22,6 @@
 class guiHomeControl: public guiBase {
 public:
 	guiHomeControl();
-	guiHomeControl(SDL_Renderer * renderer);
 	virtual ~guiHomeControl();
 	void event(int x, int y, int button);
 

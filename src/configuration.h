@@ -8,6 +8,8 @@
 #ifndef SRC_CONFIGURATION_H_
 #define SRC_CONFIGURATION_H_
 
+
+#define WALLPAPER	"res/wallpaper2.jpg"
 #ifndef __RASP__
 #define ALBUM_DIR	  "album"
 #define PLAYLIST_DIR  "playlists"

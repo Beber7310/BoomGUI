@@ -16,7 +16,6 @@
 class guiAlbumFilter: public guiBase {
 public:
 	guiAlbumFilter();
-	guiAlbumFilter(SDL_Renderer *renderer);
 	virtual ~guiAlbumFilter();
 	void selectAll(bool sel);
 

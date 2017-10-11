@@ -19,11 +19,7 @@
 #include "guiAlbumFilter.h"
 #include "guiPlayer.h"
 
-guiItemAlbum::guiItemAlbum() {
-
-}
-
-guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,guiAlbumFilter* wndFilter) {
+guiItemAlbum::guiItemAlbum(char* fileName, guiAlbumFilter* wndFilter) {
 	char filePath[512];
 	char str[512];
 
@@ -65,7 +61,7 @@ guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,guiAlbumFilte
 		} else if (strstr(str, "<COVER>") != NULL) {
 			strcpy(str_cover, &str[strlen("<COVER>")]);
 			SDL_Surface * image = IMG_Load(str_cover);
-			_texCover = SDL_CreateTextureFromSurface(renderer, image);
+			_texCover = SDL_CreateTextureFromSurface(_renderer, image);
 			SDL_FreeSurface(image);
 		} else {
 			if (strlen(str) > 10) //FIXME add keyword
@@ -74,13 +70,7 @@ guiItemAlbum::guiItemAlbum(SDL_Renderer * renderer, char* fileName,guiAlbumFilte
 
 	}
 
-	char str_tmp[1024];
-	SDL_Color couleurTexte = { 255, 255, 255, 255 };
-	sprintf(str_tmp, "%s\n%s", _AlbumName, _Artiste);
-	SDL_Surface* texteAlb = TTF_RenderUTF8_Blended_Wrapped(_police2, str_tmp,couleurTexte, 370);
-	_textAlbum = SDL_CreateTextureFromSurface(renderer, texteAlb);
-	SDL_FreeSurface(texteAlb);
-	SDL_QueryTexture(_textAlbum, NULL, NULL, &_textSize.w, &_textSize.h);
+
 
 	_sortName = (char*) malloc(strlen(str_artiste) + strlen(str_album) + 10);
 	sprintf(_sortName, "%s_%s", str_artiste, str_album);
@@ -90,7 +80,7 @@ guiItemAlbum::~guiItemAlbum() {
 	// TODO Auto-generated destructor stub
 }
 
-void guiItemAlbum::render(SDL_Renderer *renderer) {
+void guiItemAlbum::render() {
 	SDL_Rect coverRect;
 
 	if (_pGenre != NULL) {
@@ -101,25 +91,21 @@ void guiItemAlbum::render(SDL_Renderer *renderer) {
 			return;
 		}
 	}
-	// SDL_RenderSetClipRect (renderer, &_absWndRect);
+	computeClipping();
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
-			0x0, 0x00, 0xFF);
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,
-			0xFF, 0xFF, 0xFF);
+ 	rectangleRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	coverRect.x = _absWndRect.x;
 	coverRect.y = _absWndRect.y;
 	coverRect.w = _absWndRect.h;
 	coverRect.h = _absWndRect.h;
 
-	SDL_RenderCopy(renderer, _texCover, NULL, &coverRect);
+	SDL_RenderCopy(_renderer, _texCover, NULL, &coverRect);
 
-	_textSize.x = 215;
-	_textSize.y = _absWndRect.y;
-	SDL_RenderCopy(renderer, _textAlbum, NULL, &_textSize);
+	char str_tmp[1024];
+	sprintf(str_tmp, "%s\n%s", _AlbumName, _Artiste);
+	_font2->print(str_tmp,215,_absWndRect.y);
+
 }
 
 void guiItemAlbum::play() {
@@ -142,7 +128,7 @@ void guiItemAlbum::event(int x, int y, int button) {
 	guiBase::event(x, y, button);
 	if (button == 4) {
 		play();
-		((guiPlayer*)_gblPlayer)->_texCover=_texCover;
+		((guiPlayer*) _gblPlayer)->_texCover = _texCover;
 		setActiveWindows(_gblPlayer);
 	}
 }

@@ -5,7 +5,6 @@
  *      Author: Bertrand
  */
 
-
 #include <string.h>
 #include <stdlib.h>
 
@@ -39,36 +38,22 @@ guiItemFilter::guiItemFilter(SDL_Renderer *renderer, char* genre) {
 	strcpy(_sortName, genre);
 
 
-	SDL_Color couleurTexte = { 255, 255, 255, 255 };
-	SDL_Surface* texteFilt = TTF_RenderUTF8_Blended_Wrapped(_police2, _szGenre,couleurTexte, 600);
-	_textFilter = SDL_CreateTextureFromSurface(renderer, texteFilt);
-	SDL_FreeSurface(texteFilt);
-	SDL_QueryTexture(_textFilter, NULL, NULL, &_textSize.w, &_textSize.h);
 }
 
-void guiItemFilter::render(SDL_Renderer *renderer) {
+void guiItemFilter::render() {
 	SDL_Rect coverRect;
 
 	// SDL_RenderSetClipRect (renderer, &_absWndRect);
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
-			0x0, 0x00, 0xFF);
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,
-			0xFF, 0xFF, 0xFF);
+	boxRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
+	rectangleRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 	if (_selected)
-		stringRGBA(renderer, _absWndRect.x + 500,
-				_absWndRect.y + _absWndRect.h / 4, _szGenre, 0xFF, 0xFF, 0xFF,
-				0xFF);
+		stringRGBA(_renderer, _absWndRect.x + 500, _absWndRect.y + _absWndRect.h / 4, _szGenre, 0xFF, 0xFF, 0xFF, 0xFF);
 	else
-		stringRGBA(renderer, _absWndRect.x + 500,
-				_absWndRect.y + _absWndRect.h / 4, _szGenre, 0x80, 0x80, 0x80,
-				0xFF);
+		stringRGBA(_renderer, _absWndRect.x + 500, _absWndRect.y + _absWndRect.h / 4, _szGenre, 0x80, 0x80, 0x80, 0xFF);
 
-	_textSize.x=15;
-	_textSize.y=_absWndRect.y;
-	SDL_RenderCopy(renderer, _textFilter, NULL, &_textSize);
+	_font2->print(_szGenre, 15, _absWndRect.y);
+
 }
 
 guiItemFilter::~guiItemFilter() {

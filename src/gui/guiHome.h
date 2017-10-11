@@ -13,26 +13,32 @@
 #include <guiList.h>
 #include <guiListAlbum.h>
 #include <guiListPlaylist.h>
+#include <guiListPodcast.h>
 #include <guiHomeControl.h>
 #include <guiPlayer.h>
 
-
-class guiHome : public guiBase{
+class guiHome: public guiBase {
 public:
 	guiHome();
-	guiHome(SDL_Renderer *renderer);
+
 	virtual ~guiHome();
 	void event(int x, int y, int button);
+	void render();
 
 	guiButton* butAlbum;
 	guiButton* butplaylist;
 	guiButton* butHomeControl;
 	guiButton* butPlayer;
+	guiButton* butPodcast;
 
-	guiListAlbum*   wndAlbum;
-	guiListPlaylist*   wndPlaylist;
+	guiListAlbum* wndAlbum;
+	guiListPlaylist* wndPlaylist;
+	guiListPodcast* wndPodcast;
 	guiHomeControl* wndHomeControl;
 	guiPlayer* wndPlayer;
+
+
+	SDL_Rect _texSize;
 };
 
 #endif /* SRC_GUI_GUIHOME_H_ */

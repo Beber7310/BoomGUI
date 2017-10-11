@@ -5,16 +5,20 @@
  *      Author: Bertrand
  */
 
+#include <configuration.h>
 #include <stdio.h>
 #include "string.h"
 #include "guiBase.h"
+#include "guiFont.h"
 
 SDL_Renderer *guiBase::_renderer;
-TTF_Font *guiBase::_police1;
-TTF_Font *guiBase::_police2;
-TTF_Font *guiBase::_police3;
+
+guiFont* guiBase::_font1=new guiFont();
+guiFont* guiBase::_font2=new guiFont();
+
 
 guiBase *guiBase::_gblPlayer;
+SDL_Texture * guiBase::_textWallPaper;
 
 guiBase::guiBase() {
 	_pParent = NULL;
@@ -52,8 +56,8 @@ guiBase::guiBase(int x, int y, int w, int h) {
 	_sortName = NULL;
 }
 
-void guiBase::staticInit(void) {
-
+void guiBase::staticInit(SDL_Renderer *renderer) {
+/*
 	_police1 = TTF_OpenFont("res/font1.otf", 65);
 	if (!_police1) {
 		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
@@ -71,6 +75,15 @@ void guiBase::staticInit(void) {
 		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
 	}
+*/
+
+	_textWallPaper = IMG_LoadTexture(renderer, WALLPAPER);
+	_renderer = renderer;
+
+	//_font1=new guiFont(_renderer,"res/font2.otf");
+	_font2=new guiFont(_renderer,"res/Mermaid1001.ttf");
+//	_font3=new guiFont(_renderer,"res/font3.otf");
+
 }
 
 void guiBase::setRect(int x, int y, int w, int h) {
@@ -86,8 +99,7 @@ guiBase::~guiBase() {
 
 void guiBase::sort() {
 	// TODO Auto-generated destructor stub
-	_lstWnd.sort(
-			[](const guiBase* a, const guiBase* b) {return (strcasecmp( a->_sortName, b->_sortName)<0);});
+	_lstWnd.sort([](const guiBase* a, const guiBase* b) {return (strcasecmp( a->_sortName, b->_sortName)<0);});
 
 }
 
@@ -110,14 +122,12 @@ guiBase::GetNextChild(std::list<guiBase*>::iterator* it) {
 		return NULL;
 }
 
-void guiBase::render(SDL_Renderer *renderer) {
+void guiBase::render() {
 	guiBase * pTemp;
 
-	computeClipping(renderer);
+	computeClipping();
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
-			0x0, 0x00, 0xFF);
+	boxRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
 	//rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
 
 	std::list<guiBase*>::iterator it;
@@ -128,11 +138,11 @@ void guiBase::render(SDL_Renderer *renderer) {
 		pTemp->_absWndRect.w = pTemp->_relWndRect.w;
 		pTemp->_absWndRect.h = pTemp->_relWndRect.h;
 
-		pTemp->render(renderer);
+		pTemp->render();
 		pTemp = GetNextChild(&it);
 	}
 
-	SDL_RenderSetClipRect(renderer, NULL);
+	SDL_RenderSetClipRect(_renderer, NULL);
 }
 
 void guiBase::event(int x, int y, int button) {
@@ -141,29 +151,27 @@ void guiBase::event(int x, int y, int button) {
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	while (pTemp) {
-		if (x > pTemp->_relWndRect.x && y > pTemp->_relWndRect.y
-				&& x < (pTemp->_relWndRect.x + pTemp->_relWndRect.w)
-				&& y < (pTemp->_relWndRect.y + pTemp->_relWndRect.h)) {
-			pTemp->event(x - pTemp->_relWndRect.x, y - pTemp->_relWndRect.y,
-					button);
+		if ((x > pTemp->_relWndRect.x) && (y > pTemp->_relWndRect.y) && (x < (pTemp->_relWndRect.x + pTemp->_relWndRect.w)) && (y < (pTemp->_relWndRect.y + pTemp->_relWndRect.h))) {
+			pTemp->event(x - pTemp->_relWndRect.x, y - pTemp->_relWndRect.y, button);
 		}
 		pTemp = GetNextChild(&it);
 	}
 }
 
-void guiBase::computeClipping(SDL_Renderer *renderer) {
+void guiBase::computeClipping() {
 	_clpWndRect.x = _absWndRect.x;
 	_clpWndRect.y = _absWndRect.y;
 	_clpWndRect.w = _absWndRect.w;
 	_clpWndRect.h = _absWndRect.h;
 
-	if(_pParent)
-	{
-		_clpWndRect.x=std::max(_absWndRect.x,_pParent->_clpWndRect.x);
-		_clpWndRect.y=std::max(_absWndRect.y,_pParent->_clpWndRect.y);
+	if (_pParent) {
+		_clpWndRect.x = std::max(_absWndRect.x, _pParent->_clpWndRect.x);
+		_clpWndRect.y = std::max(_absWndRect.y, _pParent->_clpWndRect.y);
 	}
 
-	int res = SDL_RenderSetClipRect(renderer, &_clpWndRect);
+	int res = SDL_RenderSetClipRect(_renderer, &_clpWndRect);
 	if (res)
 		printf("%s", SDL_GetError());
 }
+
+

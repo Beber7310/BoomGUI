@@ -13,16 +13,13 @@
 
 class guiHcLight: public guiListItem {
 public:
-	guiHcLight(SDL_Renderer *renderer,char* name,int index);
+	guiHcLight(char* name,int index);
 	virtual ~guiHcLight();
 
-	void render(SDL_Renderer *renderer);
+	void render();
 	void event(int x, int y, int button);
 	char* 	_Name;
 	int 	_index;
-
-	SDL_Texture * _textAlbum;
-	SDL_Rect  _textSize;
 
 
 	guiButton* 		wndBtnOn;

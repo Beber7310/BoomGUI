@@ -19,7 +19,7 @@ public:
   virtual
   ~guiList ();
 
-  void render (SDL_Renderer *renderer);
+  void render ();
   void event(int x,int y,int button);
 
   int _offset1; //

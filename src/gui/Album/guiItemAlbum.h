@@ -18,12 +18,11 @@
 
 class guiItemAlbum: public guiListItem {
 public:
-	guiItemAlbum();
-	guiItemAlbum(SDL_Renderer * renderer, char* fileName,guiAlbumFilter* wndFilter);
+	guiItemAlbum(char* fileName, guiAlbumFilter* wndFilter);
 	virtual
 	~guiItemAlbum();
 
-	void render(SDL_Renderer *renderer);
+	void render();
 	void event(int x, int y, int button);
 
 	void play();
@@ -33,7 +32,5 @@ public:
 	char* _AlbumName;
 	guiItemFilter* _pGenre;
 	guiList* _TrackList;
-	SDL_Texture * _textAlbum;
-	SDL_Rect  _textSize;
 };
 #endif /* SRC_GUIITEMALBUM_H_ */

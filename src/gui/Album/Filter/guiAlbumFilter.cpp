@@ -9,18 +9,16 @@
 #include <guiItemFilter.h>
 #include <string.h>
 
+
+
 guiAlbumFilter::guiAlbumFilter() {
-
-}
-
-guiAlbumFilter::guiAlbumFilter(SDL_Renderer *renderer) {
 	// TODO Auto-generated constructor stub
-	_renderer=renderer;
+
 
 	wndLstFlt = new guiList();
 	wndLstFlt->setRect(0, 100, 600, 924);
 
-	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.png");
+	wndBtnBack = new guiButton(0, 0, 100, 100, "res/back.png");
 
 	AddChild(wndBtnBack);
 	AddChild(wndLstFlt);

@@ -23,26 +23,22 @@ guiList::~guiList() {
 	// TODO Auto-generated destructor stub
 }
 
-void guiList::render(SDL_Renderer *renderer) {
+void guiList::render() {
 	guiBase * pTemp;
 	int lastAbsPosY = _offset1 + _offset2;
 
 	/*lastAbsPosY += dbg_pos;
-	dbg_pos += dbg_spd;
-	dbg_spd = -10;
-*/
-	computeClipping(renderer);
+	 dbg_pos += dbg_spd;
+	 dbg_spd = -10;
+	 */
+	computeClipping();
 
-	boxRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0,
-			0x0, 0x00, 0xFF);
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,
-			0xFF, 0xFF, 0xFF);
+	//boxRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
+	rectangleRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	_contentHeight = 0;
-	SDL_RenderSetClipRect(renderer, &_absWndRect);
+	SDL_RenderSetClipRect(_renderer, &_absWndRect);
 	while (pTemp) {
 
 		pTemp->_relWndRect.y = lastAbsPosY;
@@ -64,7 +60,7 @@ void guiList::render(SDL_Renderer *renderer) {
 		}
 
 		if (!skip) {
-			pTemp->render(renderer);
+			pTemp->render();
 		}
 
 		pTemp = GetNextChild(&it);
@@ -75,7 +71,7 @@ void guiList::render(SDL_Renderer *renderer) {
 	if (_offset1 > 0)
 		_offset1 = 0;
 
-	SDL_RenderSetClipRect(renderer, NULL);
+	SDL_RenderSetClipRect(_renderer, NULL);
 }
 
 void guiList::event(int x, int y, int button) {
@@ -94,11 +90,8 @@ void guiList::event(int x, int y, int button) {
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	while (pTemp) {
-		if (x > pTemp->_relWndRect.x && y > pTemp->_relWndRect.y
-				&& x < (pTemp->_relWndRect.x + pTemp->_relWndRect.w)
-				&& y < (pTemp->_relWndRect.y + pTemp->_relWndRect.h)) {
-			pTemp->event(x - pTemp->_relWndRect.x, y - pTemp->_relWndRect.y,
-					button);
+		if (x > pTemp->_relWndRect.x && y > pTemp->_relWndRect.y && x < (pTemp->_relWndRect.x + pTemp->_relWndRect.w) && y < (pTemp->_relWndRect.y + pTemp->_relWndRect.h)) {
+			pTemp->event(x - pTemp->_relWndRect.x, y - pTemp->_relWndRect.y, button);
 		}
 		pTemp = GetNextChild(&it);
 	}

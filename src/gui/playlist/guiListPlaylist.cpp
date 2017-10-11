@@ -11,15 +11,15 @@
 #include "guiManager.h"
 #include "tools.h"
 
-guiListPlaylist::guiListPlaylist(SDL_Renderer *renderer) {
+guiListPlaylist::guiListPlaylist() {
 	// TODO Auto-generated constructor stub
 
 	wndLstPlaylist = new guiList();
 	wndLstPlaylist->setRect(0, 100, 600, 924);
-	toolsLoadPlaylist(renderer, wndLstPlaylist);
+	toolsLoadPlaylist(_renderer, wndLstPlaylist);
 	wndLstPlaylist->sort();
 
-	wndBtnBack = new guiButton(renderer, 0, 0, 100, 100, "res/back.png");
+	wndBtnBack = new guiButton( 0, 0, 100, 100, "res/back.png");
 
 
 	AddChild(wndBtnBack);

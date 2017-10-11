@@ -25,8 +25,10 @@
 
 #define HC_LIGHT_VMC			0
 #define HC_LIGHT_DISCO			1
-#define HC_LIGHT_LAST			2
-
+#define HC_LIGHT_GARAGE			2
+#define HC_LIGHT_ETABLI			3
+#define HC_LIGHT_ATELIER		4
+#define HC_LIGHT_LAST			5
 
 struct stHomeControl
 {

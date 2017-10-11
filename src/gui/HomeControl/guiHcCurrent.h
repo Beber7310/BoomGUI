@@ -13,15 +13,12 @@
 
 class guiHcCurrent: public guiListItem {
 public:
-	guiHcCurrent(SDL_Renderer *renderer,char* name);
+	guiHcCurrent(char* name);
 	virtual ~guiHcCurrent();
 
-	void render(SDL_Renderer *renderer);
+	void render();
 	void event(int x, int y, int button);
 	char* 	_Name;
-
-	SDL_Texture * _textAlbum;
-	SDL_Rect  _textSize;
 
 
 	guiButton* 		wndBtnOn;

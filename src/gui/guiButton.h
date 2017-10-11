@@ -13,14 +13,16 @@
 class guiButton: public guiBase {
 public:
 	guiButton();
-	guiButton(SDL_Renderer * renderer,int x,int y,int w,int h,char* szImg);
+	guiButton(int x,int y,int w,int h,char* szImg);
 	virtual ~guiButton();
-	void render (SDL_Renderer *renderer);
+	void render ();
 	void event(int x, int y, int button);
 	SDL_Texture * _texButton;
 	bool isClicked();
+	bool enable(bool on);
 private:
 	int _click;
+	bool _enabled;
 };
 
 #endif /* SRC_GUI_GUIBUTTON_H_ */

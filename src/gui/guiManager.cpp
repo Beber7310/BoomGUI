@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include <stdlib.h>
 
 #ifdef __RASP__
@@ -175,6 +176,17 @@ int mousseMgt(guiBase* mainWin) {
 	return 0;
 }
 
+void setActiveWindows(guiBase* pWin) {
+	pActiveWnd = pWin;
+	lstWnd.push_front(pActiveWnd);
+}
+
+void popActiveWindows() {
+	lstWnd.pop_front();
+	pActiveWnd = lstWnd.front();
+
+}
+
 int rendertask() {
 
 #ifdef __RASP__
@@ -182,15 +194,14 @@ int rendertask() {
 	SDL_ShowCursor(SDL_DISABLE);
 #endif
 
+	system("mpc random off");
+
 	if (SDL_Init(SDL_INIT_VIDEO)) {
 		printf("SDL_Init Error: %s", SDL_GetError());
 		return 1;
 	}
 
-	if (!IMG_Init(IMG_INIT_JPG)) {
-		printf("IMG_Init Error: %s", SDL_GetError());
-		return 1;
-	}
+
 
 	SDL_Window *window = SDL_CreateWindow("SDL2_gfx test", 100, 100, WIDTH,HEIGHT, SDL_WINDOW_OPENGL);
 	if (window == NULL) {
@@ -215,6 +226,13 @@ int rendertask() {
 		exit(EXIT_FAILURE);
 	}
 
+    int flags = IMG_INIT_JPG | IMG_INIT_PNG;
+    int initted=IMG_Init(flags);
+    if( initted & flags != flags) {
+    	printf("could not init SDL_Image");
+    	printf("Reason: %s \n", IMG_GetError());
+    }
+
 
 #ifdef __RASP__
 	int ret = pthread_create(&my_mouseThread, NULL, &guiMouseThread, NULL);
@@ -223,17 +241,26 @@ int rendertask() {
 	}
 #endif
 
-	guiHome::staticInit();
-	guiHome mainHome(renderer);
+	guiHome::staticInit(renderer);
+	guiHome mainHome;
+	mainHome.setRect(0,0,600,1024);
 	setActiveWindows(&mainHome);
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	guiBase *localpActiveWnd = pActiveWnd;
 	while (!mousseMgt(localpActiveWnd)) {
 		localpActiveWnd = pActiveWnd;
-		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		if(strlen(SDL_GetError())>3)
+		{
+			printf("Error catch in main loop: %s\n", SDL_GetError());
+			SDL_ClearError();
+		}
+
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
 		SDL_RenderClear(renderer);
 
-		localpActiveWnd->render(renderer);
+		localpActiveWnd->render();
 
 		SDL_RenderPresent(renderer);
 	}
@@ -246,13 +273,4 @@ int rendertask() {
 	return 0;
 }
 
-void setActiveWindows(guiBase* pWin) {
-	pActiveWnd = pWin;
-	lstWnd.push_front(pActiveWnd);
-}
 
-void popActiveWindows() {
-	lstWnd.pop_front();
-	pActiveWnd = lstWnd.front();
-
-}

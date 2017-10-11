@@ -13,16 +13,14 @@
 
 class guiHcRadiateur: public guiListItem {
 public:
-	guiHcRadiateur(SDL_Renderer *renderer,char* name,int index);
+	guiHcRadiateur(char* name,int index);
 	virtual ~guiHcRadiateur();
 
-	void render(SDL_Renderer *renderer);
+	void render( );
 	void event(int x, int y, int button);
 	char* 	_Name;
 	int 	_index;
 
-	SDL_Texture * _textAlbum;
-	SDL_Rect  _textSize;
 	float _targetTemp;
 
 	guiButton* 		wndBtnPlus;

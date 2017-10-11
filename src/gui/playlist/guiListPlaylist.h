@@ -15,7 +15,6 @@
 class guiListPlaylist: public guiBase {
 public:
 	guiListPlaylist();
-	guiListPlaylist(SDL_Renderer *renderer);
 	virtual ~guiListPlaylist();
 	void event(int x, int y, int button);
 	void parseGenre();

@@ -12,7 +12,7 @@
 #include <SDL2_gfxPrimitives.h>
 #include "homeControl.h"
 
-guiHcRadiateur::guiHcRadiateur(SDL_Renderer *renderer, char* name, int index) {
+guiHcRadiateur::guiHcRadiateur( char* name, int index) {
 	// TODO Auto-generated constructor stub
 
 	_Name = (char*) malloc(strlen(name) + 10);
@@ -22,31 +22,26 @@ guiHcRadiateur::guiHcRadiateur(SDL_Renderer *renderer, char* name, int index) {
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
 	_relWndRect.w = 600;
-	_relWndRect.h = 200;
+	_relWndRect.h = 100;
 	_targetTemp = 0;
 
-	wndBtnPlus = new guiButton(renderer, 200, 80, 100, 100, "res/plus.png");
+	wndBtnPlus = new guiButton( 500, 10, 80, 80, "res/plus.png");
 	AddChild(wndBtnPlus);
 
-	wndBtnMinus = new guiButton(renderer, 0, 80, 100, 100, "res/minus.png");
+	wndBtnMinus = new guiButton( 400, 10, 80, 80, "res/minus.png");
 	AddChild(wndBtnMinus);
 
-	SDL_Color couleurTexte = { 255, 255, 255, 255 };
-	SDL_Surface* texteAlb = TTF_RenderText_Blended_Wrapped(_police2, _Name,
-			couleurTexte, 500);
-	_textAlbum = SDL_CreateTextureFromSurface(renderer, texteAlb);
-	SDL_FreeSurface(texteAlb);
-	SDL_QueryTexture(_textAlbum, NULL, NULL, &_textSize.w, &_textSize.h);
 }
 
 guiHcRadiateur::~guiHcRadiateur() {
 	// TODO Auto-generated destructor stub
 }
 
-void guiHcRadiateur::render(SDL_Renderer *renderer) {
+void guiHcRadiateur::render() {
 	guiBase * pTemp;
+	char szTmp[32];
 
-	computeClipping(renderer);
+	computeClipping();
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	while (pTemp) {
@@ -55,27 +50,23 @@ void guiHcRadiateur::render(SDL_Renderer *renderer) {
 		pTemp->_absWndRect.w = pTemp->_relWndRect.w;
 		pTemp->_absWndRect.h = pTemp->_relWndRect.h;
 
-		pTemp->render(renderer);
+		pTemp->render();
 		pTemp = GetNextChild(&it);
 	}
-	computeClipping(renderer);
-	char szTmp[32];
+	computeClipping();
+
 	sprintf(szTmp, "%3.1f", hcGetTemp(_index));
-	stringRGBA(renderer, 500, _absWndRect.y + 20, szTmp, 0xFF, 0xFF, 0xFF,
-			0xFF);
+	_font2->print(szTmp,300,_absWndRect.y);
+
 
 	_targetTemp = hcGetTargetTemp(_index);
 	sprintf(szTmp, "%3.1f", _targetTemp);
-	stringRGBA(renderer, 100, _absWndRect.y + 100, szTmp, 0xFF, 0xFF, 0xFF,
-			0xFF);
+	_font2->print(szTmp,300,_absWndRect.y+30);
 
-	_textSize.x = 25;
-	_textSize.y = _absWndRect.y;
-	SDL_RenderCopy(renderer, _textAlbum, NULL, &_textSize);
+	_font2->print(_Name,25,_absWndRect.y);
 
-	rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,
-			_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,
-			0xFF, 0xFF, 0xFF);
+
+	rectangleRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
 void guiHcRadiateur::event(int x, int y, int button) {

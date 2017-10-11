@@ -22,26 +22,29 @@ class guiBase;
 class guiPlayer: public guiBase {
 public:
 	guiPlayer();
-	guiPlayer(SDL_Renderer * renderer);
+
 	char szCurrent[512];
 
 	virtual ~guiPlayer();
-	void render(SDL_Renderer *renderer);
+	void render();
 	void event(int x, int y, int button);
-	guiItemAlbum* _pCurrentAlbum;
+	//guiItemAlbum* _pCurrentAlbum;
 	guiButton* wndBtnBack;
 	guiButton* wndBtnPrev;
 	guiButton* wndBtnNext;
 	guiButton* wndBtnPlay;
+	guiButton* wndBtnRandom;
+	guiButton* wndBtnNoRandom;
 
-	SDL_Texture * _textSong;
-
-	SDL_Rect  _textSize;
 	SDL_Texture * _texCover;
 	bool	update;
-	//#ifdef __RASP__
+
+	bool	_mpcRandom;
+	bool	_mpcPause;
+
 	pthread_mutex_t my_mutex;
-	//#endif
+
+
 };
 
 #endif /* SRC_GUI_GUIPLAYER_H_ */

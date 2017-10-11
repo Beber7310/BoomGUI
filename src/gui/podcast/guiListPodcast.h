@@ -5,25 +5,25 @@
  *      Author: Bertrand
  */
 
-#ifndef SRC_GUI_ALBUM_GUILISTALBUM_H_
-#define SRC_GUI_ALBUM_GUILISTALBUM_H_
+#ifndef SRC_GUI_ALBUM_GUILISTPODCAST_H_
+#define SRC_GUI_ALBUM_GUILISTPODCAST_H_
 
+#include <guiBase.h>
 #include <guiList.h>
 #include <guiButton.h>
 #include <guiAlbumFilter.h>
 
-class guiListAlbum: public guiBase {
+class guiListPodcast: public guiBase {
 public:
-	guiListAlbum();
-	virtual ~guiListAlbum();
+	guiListPodcast();
+
+	virtual ~guiListPodcast();
 	void event(int x, int y, int button);
 	void parseGenre();
-	void render();
 
 	guiList* 		wndLstAlb;
-	guiAlbumFilter* wndAlbFlt;
 	guiButton* 		wndBtnBack;
-	guiButton* 		wndBtnFilter;
+
 };
 
-#endif /* SRC_GUI_ALBUM_GUILISTALBUM_H_ */
+#endif /* SRC_GUI_ALBUM_guiListPodcast_H_ */

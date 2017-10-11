@@ -9,13 +9,16 @@
 #define SRC_GUIBASE_H_
 
 class guiBase;
+class guiFont;
 
 #include "SDL2_gfxPrimitives.h"
 #include <SDL_image.h>
 #include <list>
 #include "guiManager.h"
+#include "guiFont.h"
 #include <stdio.h>
 #include <SDL_ttf.h>
+
 
 class guiBase {
 public:
@@ -34,22 +37,28 @@ public:
 	guiBase * GetFirstChild(std::list<guiBase*>::iterator* it);
 	guiBase * GetNextChild(std::list<guiBase*>::iterator* it);
 	void sort();
-	void computeClipping(SDL_Renderer *renderer);
-	virtual void render(SDL_Renderer *renderer);
+	void computeClipping();
+	virtual void render();
 	virtual void event(int x, int y, int button);
 	void setRect(int x, int y, int w, int h);
-	static void staticInit(void);
+	static void staticInit(SDL_Renderer *renderer);
+
 
 	static guiBase * _gblPlayer;
-
+	static SDL_Texture * _textWallPaper;
+	static SDL_Renderer *_renderer;
 private:
 	guiBase * _pParent;
 
 protected:
-	static SDL_Renderer *_renderer;
+	/*
 	static TTF_Font *_police1;
 	static TTF_Font *_police2;
 	static TTF_Font *_police3;
+	*/
+
+	static guiFont* _font1;
+	static guiFont* _font2;
 
 
 };

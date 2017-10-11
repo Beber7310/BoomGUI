@@ -17,14 +17,13 @@ public:
 	guiItemFilter(SDL_Renderer *renderer,char* genre);
 	virtual ~guiItemFilter();
 	void event(int x, int y, int button);
-	void render(SDL_Renderer *renderer);
+	void render();
 	bool isClicked();
 
 	char* _szGenre;
 	bool _selected;
 	int _click;
-	SDL_Texture * _textFilter;
-	SDL_Rect _textSize;
+
 };
 
 #endif /* SRC_GUI_ALBUM_GUIITEMFILTER_H_ */
