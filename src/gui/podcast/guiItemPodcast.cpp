@@ -26,37 +26,30 @@ guiItemPodcast::guiItemPodcast() {
 }
 
 guiItemPodcast::guiItemPodcast(char* title,peePodcast* pPodcast) {
-	char filePath[512];
-	char str[512];
-
-	char str_artiste[512];
-	char str_album[512];
-	char str_cover[512];
-	char str_genre[512];
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
 	_relWndRect.w = 600;
-	_relWndRect.h = 100;
+	_relWndRect.h = 200;
 
 	_TrackList = new guiList();
 
 	_coverHtmplPath = NULL;
 	_htmlSource = NULL;
-	_titleUTF8 = NULL;
 
 	_titleUTF8 = (char*) malloc(strlen(title) + 1);
 	strcpy(_titleUTF8, title);
 
-	_wndPodcastTracks=new guiListPodcastTracks(pPodcast);
-
 	_texCover = NULL;
 
-	_minLength = 10;
+	_directory = (char*) malloc(strlen(pPodcast->_directory) + 1);
+	strcpy(_directory, pPodcast->_directory);
 
-	_directory = NULL;
+	setImage(pPodcast->_coverHtmplPath);
 
 	_sortName = _titleUTF8;
+
+	_wndPodcastTracks=new guiListPodcastTracks(pPodcast,_texCover);
 }
 
 guiItemPodcast::~guiItemPodcast() {
@@ -86,7 +79,6 @@ void guiItemPodcast::render() {
 	_font2->print(_titleUTF8, 215, _absWndRect.y+20);
 }
 
-
 void guiItemPodcast::event(int x, int y, int button) {
 	guiBase::event(x, y, button);
 	if (button == 4) {
@@ -95,35 +87,25 @@ void guiItemPodcast::event(int x, int y, int button) {
 	}
 }
 
-void guiItemPodcast::setTitle(const char* title) {
-	_titleUTF8 = (char*) malloc(strlen(title) + 1);
-	strcpy(_titleUTF8, title);
-
-	_directory = (char*) malloc(strlen(title) + 1);
-	strcpy(_directory, title);
-
-	toolsCleanUTF8(_directory);
-
-}
-
 void guiItemPodcast::setImage(const char* img) {
 	char szTemp[1024];
+	char szPath[1024];
 
 	_coverHtmplPath = (char*) malloc(strlen(img) + 1);
 	strcpy(_coverHtmplPath, img);
 
-	sprintf(szTemp, "%s/%s/cover.jpg", PODCAST_DIR, _directory);
+	sprintf(szPath, "%s/coverOrig.jpg", _directory);
 
-	if (!toolsDownloadExist(szTemp)) {
-		sprintf(szTemp, "wget \"%s\" -O \"%s/%s/cover.jpg\" -q --limit-rate=100k", _coverHtmplPath, PODCAST_DIR, _directory);
+	if (!toolsDownloadExist(szPath)) {
+		sprintf(szTemp, "wget \"%s\" -O \"%s/%s\" -q --limit-rate=100k", _coverHtmplPath,PODCAST_DIR, szPath);
 		printf("%s\n", szTemp);
 		system(szTemp);
 	}
 
-	sprintf(szTemp, "%s/%s/cover.jpg", PODCAST_DIR, _directory);
-	_texCover = IMG_LoadTexture(_renderer, szTemp);
+	sprintf(szPath, "%s/%s/cover.jpg", PODCAST_DIR, _directory);
+	_texCover = IMG_LoadTexture(_renderer, szPath);
 	if (!_texCover) {
-		printf("Error when loading texture %s: %s\n", szTemp, SDL_GetError());
+		printf("Error when loading texture %s: %s\n", szPath, SDL_GetError());
 		SDL_ClearError();
 	} else {
 		SDL_SetTextureBlendMode(_texCover, SDL_BLENDMODE_BLEND);

@@ -26,7 +26,7 @@ guiListPodcastTracks::guiListPodcastTracks() {
 	AddChild(wndLstAlb);
 	_pPodcast=NULL;
 }
-guiListPodcastTracks::guiListPodcastTracks(peePodcast* pPodcast) {
+guiListPodcastTracks::guiListPodcastTracks(peePodcast* pPodcast,SDL_Texture * 	texCover) {
 	// TODO Auto-generated constructor stub
 	guiBase * pTemp;
 	std::list<guiBase*>::iterator it;
@@ -40,7 +40,7 @@ guiListPodcastTracks::guiListPodcastTracks(peePodcast* pPodcast) {
 	AddChild(wndLstAlb);
 
 	_pPodcast=pPodcast;
-
+	_texCover=texCover;
 	_sortName=pPodcast->_titleUTF8;
 
 	pTemp = wndLstAlb->GetFirstChild(&it);
@@ -71,7 +71,7 @@ void guiListPodcastTracks::update() {
 					pTemp = wndLstAlb->GetNextChild(&it);
 				}
 				if (!skip)
-					wndLstAlb->AddChild(new guiItemPodcastTracks(&(_pPodcast->GetTracksAt(ii)->_date),_pPodcast->GetTracksAt(ii)->_title,_pPodcast->GetTracksAt(ii)->_size,_pPodcast->GetTracksAt(ii)->_localPath));
+					wndLstAlb->AddChild(new guiItemPodcastTracks(&(_pPodcast->GetTracksAt(ii)->_date),_pPodcast->GetTracksAt(ii)->_title,_pPodcast->GetTracksAt(ii)->_size,_pPodcast->GetTracksAt(ii)->_localPath,_texCover));
 
 		}
 

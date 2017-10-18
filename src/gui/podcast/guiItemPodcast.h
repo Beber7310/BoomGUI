@@ -42,7 +42,7 @@ public:
 	char* 	_titleUTF8;
 	char* 	_directory;
 	char* 	_coverHtmplPath;
-	int 	_minLength;
+
 	guiList* 		_TrackList;
 	SDL_Rect  		_textSize;
 	guiListPodcastTracks* _wndPodcastTracks;

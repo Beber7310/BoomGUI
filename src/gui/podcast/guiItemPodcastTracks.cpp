@@ -25,7 +25,7 @@ guiItemPodcastTracks::guiItemPodcastTracks() {
 
 }
 
-guiItemPodcastTracks::guiItemPodcastTracks(tm* date, const char* title, int size,char* localPath) {
+guiItemPodcastTracks::guiItemPodcastTracks(tm* date, const char* title, int size,char* localPath,SDL_Texture * 	texCover) {
 	// TODO Auto-generated constructor stub
 	char szTmpTitle[512];
 
@@ -51,6 +51,7 @@ guiItemPodcastTracks::guiItemPodcastTracks(tm* date, const char* title, int size
 
 	_sortName = _strtime;
 	_downloaded = false;
+	_texCover=texCover;
 
 }
 
@@ -78,7 +79,6 @@ void guiItemPodcastTracks::render() {
 void guiItemPodcastTracks::event(int x, int y, int button) {
 	guiBase::event(x, y, button);
 	if (button == 4) {
-		guiBase * pTemp;
 		char szCmd[256];
 		system("mpc clear");
 
@@ -87,5 +87,9 @@ void guiItemPodcastTracks::event(int x, int y, int button) {
 		system(szCmd);
 
 		system("mpc play");
+
+		((guiPlayer*) _gblPlayer)->_texCover = _texCover;
+		setActiveWindows(_gblPlayer);
+
 	}
 }

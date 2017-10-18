@@ -16,7 +16,7 @@
 
 class guiListPodcastTracks: public guiListItem {
 public:
-	guiListPodcastTracks(peePodcast* pPodcast);
+	guiListPodcastTracks(peePodcast* pPodcast,SDL_Texture * texCover);
 	guiListPodcastTracks();
 
 
@@ -28,7 +28,7 @@ public:
 	guiList* 		wndLstAlb;
 	guiButton* 		wndBtnBack;
 	peePodcast* 	_pPodcast;
-
+	SDL_Texture * 	_texCover;
 };
 
 #endif /* SRC_GUI_ALBUM_guiListPodcastTracks_H_ */

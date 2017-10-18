@@ -48,8 +48,10 @@ public:
 	static guiBase * _gblPlayer;
 	static SDL_Texture * _textWallPaper;
 	static SDL_Renderer *_renderer;
-private:
+
 	guiBase * _pParent;
+
+
 
 protected:
 	/*

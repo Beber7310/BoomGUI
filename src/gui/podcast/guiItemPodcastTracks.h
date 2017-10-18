@@ -21,7 +21,7 @@
 class guiItemPodcastTracks: public guiListItem {
 public:
 	guiItemPodcastTracks();
-	guiItemPodcastTracks(tm* date, const char* title,int size,char* localPath);
+	guiItemPodcastTracks(tm* date, const char* title,int size,char* localPath,SDL_Texture * 	texCover);
 	virtual	~guiItemPodcastTracks();
 
 	void render();
@@ -35,6 +35,7 @@ public:
 	char* 	_localPath;
 	bool 	_downloaded;
 	int 	_size;
+	SDL_Texture * 	_texCover;
 
 };
 #endif /* SRC_guiItemPodcastTracks_H_ */
