@@ -15,7 +15,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <pthread.h>
-#include <semaphore.h>
+
 #include <linux/input.h>
 #define EVENT_DEVICE    "/dev/input/event0"
 #endif

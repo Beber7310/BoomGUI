@@ -44,7 +44,7 @@ void guiListAlbum::event(int x, int y, int button) {
 		setActiveWindows(wndAlbFlt);
 
 }
-
+/*
 void guiListAlbum::render() {
 	guiBase * pTemp;
 
@@ -66,5 +66,5 @@ void guiListAlbum::render() {
 	}
 
 	SDL_RenderSetClipRect(_renderer, NULL);
-}
+}*/
 

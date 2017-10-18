@@ -102,6 +102,11 @@ void guiBase::sort() {
 	_lstWnd.sort([](const guiBase* a, const guiBase* b) {return (strcasecmp( a->_sortName, b->_sortName)<0);});
 
 }
+void guiBase::sortReverse() {
+	// TODO Auto-generated destructor stub
+	_lstWnd.sort([](const guiBase* a, const guiBase* b) {return (strcasecmp( a->_sortName, b->_sortName)>0);});
+
+}
 
 void guiBase::AddChild(guiBase * pWin) {
 	pWin->_pParent = this;
@@ -127,8 +132,8 @@ void guiBase::render() {
 
 	computeClipping();
 
-	boxRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
-	//rectangleRGBA(renderer, _absWndRect.x, _absWndRect.y,_absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF,0xFF, 0xFF, 0xFF);
+	//boxRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
+	SDL_RenderCopy(_renderer, _textWallPaper, NULL, NULL);
 
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);

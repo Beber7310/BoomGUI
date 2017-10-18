@@ -14,8 +14,9 @@
 #define ALBUM_DIR	  "album"
 #define PLAYLIST_DIR  "playlists"
 #else
-#define ALBUM_DIR	  "/mnt/usbdrive/album"
-#define PLAYLIST_DIR  "/mnt/usbdrive/playlists"
+#define ALBUM_DIR	  "/mnt/usbdrive/album/"
+#define PLAYLIST_DIR  "/mnt/usbdrive/playlists/"
+#define PODCAST_DIR  "/mnt/usbdrive/podcast/"
 #endif
 
 #endif /* SRC_CONFIGURATION_H_ */

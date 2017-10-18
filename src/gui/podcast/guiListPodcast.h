@@ -20,6 +20,7 @@ public:
 	virtual ~guiListPodcast();
 	void event(int x, int y, int button);
 	void parseGenre();
+	void update();
 
 	guiList* 		wndLstAlb;
 	guiButton* 		wndBtnBack;

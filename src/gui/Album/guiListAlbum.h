@@ -18,7 +18,7 @@ public:
 	virtual ~guiListAlbum();
 	void event(int x, int y, int button);
 	void parseGenre();
-	void render();
+	//void render();
 
 	guiList* 		wndLstAlb;
 	guiAlbumFilter* wndAlbFlt;

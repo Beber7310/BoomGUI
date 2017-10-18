@@ -37,6 +37,7 @@ public:
 	guiBase * GetFirstChild(std::list<guiBase*>::iterator* it);
 	guiBase * GetNextChild(std::list<guiBase*>::iterator* it);
 	void sort();
+	void sortReverse();
 	void computeClipping();
 	virtual void render();
 	virtual void event(int x, int y, int button);

@@ -14,14 +14,18 @@
 #include "guiListItem.h"
 #include "guiList.h"
 #include "guiAlbumFilter.h"
+#include "guiItemPodcastTracks.h"
+#include "guiListPodcastTracks.h"
 #include "SDL2_gfxPrimitives.h"
 
 class guiItemPodcast: public guiListItem {
 public:
 	guiItemPodcast();
-	guiItemPodcast(SDL_Renderer * renderer, char* htmlSource);
+	guiItemPodcast(char* title,peePodcast* pPodcast);
 	virtual
 	~guiItemPodcast();
+
+	guiItemPodcastTracks* GetTrackByTitle(const char* title);
 
 	void render();
 	void event(int x, int y, int button);
@@ -36,10 +40,12 @@ public:
 
 	char* 	_htmlSource;
 	char* 	_titleUTF8;
+	char* 	_directory;
 	char* 	_coverHtmplPath;
-
+	int 	_minLength;
 	guiList* 		_TrackList;
-	SDL_Texture * 	_textAlbum;
 	SDL_Rect  		_textSize;
+	guiListPodcastTracks* _wndPodcastTracks;
+
 };
 #endif /* SRC_guiItemPodcast_H_ */

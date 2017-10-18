@@ -98,7 +98,10 @@ void guiHome::event(int x, int y, int button) {
 		setActiveWindows(wndPlaylist);
 
 	if (butPodcast->isClicked())
-			setActiveWindows(wndPodcast);
+	{
+		wndPodcast->update();
+		setActiveWindows(wndPodcast);
+	}
 
 	if (butHomeControl->isClicked())
 		setActiveWindows(wndHomeControl);
