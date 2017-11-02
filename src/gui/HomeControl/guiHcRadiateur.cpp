@@ -12,6 +12,8 @@
 #include <SDL2_gfxPrimitives.h>
 #include "homeControl.h"
 
+#include "configuration.h"
+
 guiHcRadiateur::guiHcRadiateur( char* name, int index) {
 	// TODO Auto-generated constructor stub
 
@@ -21,14 +23,14 @@ guiHcRadiateur::guiHcRadiateur( char* name, int index) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 100;
 	_targetTemp = 0;
 
-	wndBtnPlus = new guiButton( 500, 10, 80, 80, "res/plus.png");
+	wndBtnPlus = new guiButton( SCREEN_WIDTH-100, 10, 80, 80, "res/plus.png");
 	AddChild(wndBtnPlus);
 
-	wndBtnMinus = new guiButton( 400, 10, 80, 80, "res/minus.png");
+	wndBtnMinus = new guiButton( SCREEN_WIDTH-200, 10, 80, 80, "res/minus.png");
 	AddChild(wndBtnMinus);
 
 }
@@ -56,12 +58,12 @@ void guiHcRadiateur::render() {
 	computeClipping();
 
 	sprintf(szTmp, "%3.1f", hcGetTemp(_index));
-	_font2->print(szTmp,300,_absWndRect.y);
+	_font2->print(szTmp,SCREEN_WIDTH-300,_absWndRect.y);
 
 
 	_targetTemp = hcGetTargetTemp(_index);
 	sprintf(szTmp, "%3.1f", _targetTemp);
-	_font2->print(szTmp,300,_absWndRect.y+30);
+	_font2->print(szTmp,SCREEN_WIDTH-300,_absWndRect.y+30);
 
 	_font2->print(_Name,25,_absWndRect.y);
 

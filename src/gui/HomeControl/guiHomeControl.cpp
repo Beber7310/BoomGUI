@@ -7,7 +7,7 @@
 
 #include <guiHomeControl.h>
 #include "homeControl.h"
-
+#include "configuration.h"
 
 
 
@@ -18,7 +18,7 @@ guiHomeControl::guiHomeControl() {
 
 	wndLstHc = new guiList();
 	AddChild(wndLstHc);
-	wndLstHc->setRect(0, 100, 600, 924);
+	wndLstHc->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 
 	wndLstHc->AddChild(new guiHcCurrent("Courant"));
 	wndLstHc->AddChild(new guiHcThermometre("Exterieur",HC_TEMP_EXTERIEUR));

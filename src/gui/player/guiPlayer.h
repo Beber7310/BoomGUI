@@ -14,8 +14,7 @@ class guiBase;
 //#ifdef __RASP__
 #include <pthread.h>
 #include <semaphore.h>
-#include <pthread.h>
-#include <semaphore.h>
+
 
 //#endif
 

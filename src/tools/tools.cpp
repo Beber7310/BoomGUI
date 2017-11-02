@@ -280,9 +280,10 @@ void toolsUpdateUserPodcastTracks(vector<peePodcastTrack*>* podcastList,peePodca
 		duration=podcastNode->FirstChildElement( "itunes:duration" )->FirstChild()->Value();
 		pubDate=podcastNode->FirstChildElement( "pubDate" )->FirstChild()->Value();
 
+		#ifdef __RASP__
 		strptime(duration, "%H:%M:%S", &tsDuration);
 		strptime(pubDate, "%a, %d %b %Y %H:%M:%S", &date);
-
+		#endif
 		if(((tsDuration.tm_hour*60)+tsDuration.tm_min)>pParent->_minLength)
 		{
 			if(pParent->GetTrackByTitle(title)==NULL)

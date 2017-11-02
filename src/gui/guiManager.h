@@ -9,5 +9,6 @@
 int rendertask () ;
 void setActiveWindows(guiBase* pWin);
 void popActiveWindows();
+int refresh(void);
 
 #endif

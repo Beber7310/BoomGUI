@@ -27,14 +27,19 @@ public:
 
 	guiButton* butAlbum;
 	guiButton* butplaylist;
+#ifdef _CONF_HOMECONTROL_EN
 	guiButton* butHomeControl;
+#endif
+
 	guiButton* butPlayer;
 	guiButton* butPodcast;
 
 	guiListAlbum* wndAlbum;
 	guiListPlaylist* wndPlaylist;
 	guiListPodcast* wndPodcast;
+#ifdef _CONF_HOMECONTROL_EN
 	guiHomeControl* wndHomeControl;
+#endif
 	guiPlayer* wndPlayer;
 
 

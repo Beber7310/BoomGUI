@@ -13,9 +13,8 @@
 
 SDL_Renderer *guiBase::_renderer;
 
-guiFont* guiBase::_font1=new guiFont();
-guiFont* guiBase::_font2=new guiFont();
-
+guiFont* guiBase::_font1 = new guiFont();
+guiFont* guiBase::_font2 = new guiFont();
 
 guiBase *guiBase::_gblPlayer;
 SDL_Texture * guiBase::_textWallPaper;
@@ -25,18 +24,18 @@ guiBase::guiBase() {
 
 	_relWndRect.x = 0;
 	_relWndRect.y = 0;
-	_relWndRect.w = 600;
-	_relWndRect.h = 1024;
+	_relWndRect.w = SCREEN_WIDTH;
+	_relWndRect.h = SCREEN_HEIGHT;
 
 	_absWndRect.x = 0;
 	_absWndRect.y = 0;
-	_absWndRect.w = 600;
-	_absWndRect.h = 1024;
+	_absWndRect.w = SCREEN_WIDTH;
+	_absWndRect.h = SCREEN_HEIGHT;
 
 	_clpWndRect.x = 0;
 	_clpWndRect.y = 0;
-	_clpWndRect.w = 600;
-	_clpWndRect.h = 1024;
+	_clpWndRect.w = SCREEN_WIDTH;
+	_clpWndRect.h = SCREEN_HEIGHT;
 
 	_sortName = NULL;
 }
@@ -57,31 +56,35 @@ guiBase::guiBase(int x, int y, int w, int h) {
 }
 
 void guiBase::staticInit(SDL_Renderer *renderer) {
-/*
-	_police1 = TTF_OpenFont("res/font1.otf", 65);
-	if (!_police1) {
-		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
+	/*
+	 _police1 = TTF_OpenFont("res/font1.otf", 65);
+	 if (!_police1) {
+	 printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
-	}
+	 }
 
-	_police2 = TTF_OpenFont("res/font2.otf", 30);
-	if (!_police2) {
-		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
+	 _police2 = TTF_OpenFont("res/font2.otf", 30);
+	 if (!_police2) {
+	 printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
-	}
+	 }
 
-	_police3 = TTF_OpenFont("res/font1.otf", 65);
-	if (!_police3) {
-		printf("TTF_OpenFont Error: %s\n", SDL_GetError());
+	 _police3 = TTF_OpenFont("res/font1.otf", 65);
+	 if (!_police3) {
+	 printf("TTF_OpenFont Error: %s\n", SDL_GetError());
 
-	}
-*/
+	 }
+	 */
 
 	_textWallPaper = IMG_LoadTexture(renderer, WALLPAPER);
+	if (!_textWallPaper) {
+		printf("Error catch in staticInit: %s\n", SDL_GetError());
+		SDL_ClearError();
+	}
 	_renderer = renderer;
 
 	//_font1=new guiFont(_renderer,"res/font2.otf");
-	_font2=new guiFont(_renderer,"res/Mermaid1001.ttf");
+	_font2 = new guiFont(_renderer, "res/Mermaid1001.ttf");
 //	_font3=new guiFont(_renderer,"res/font3.otf");
 
 }
@@ -178,5 +181,4 @@ void guiBase::computeClipping() {
 	if (res)
 		printf("%s", SDL_GetError());
 }
-
 

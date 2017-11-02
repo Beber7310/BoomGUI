@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "guiItemFilter.h"
+#include "configuration.h"
 
 guiItemFilter::guiItemFilter() {
 	// TODO Auto-generated constructor stub
@@ -24,7 +25,7 @@ guiItemFilter::guiItemFilter(SDL_Renderer *renderer, char* genre) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 100;
 
 	if (genre) {

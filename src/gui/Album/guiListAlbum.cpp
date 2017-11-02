@@ -10,12 +10,13 @@
 #include "guiItemAlbum.h"
 #include "guiManager.h"
 #include "tools.h"
+#include "configuration.h"
 
 guiListAlbum::guiListAlbum() {
 	// TODO Auto-generated constructor stub
 
 	wndLstAlb = new guiList();
-	wndLstAlb->setRect(0, 100, 600, 924);
+	wndLstAlb->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 	wndAlbFlt = new guiAlbumFilter();
 	toolsLoadAlbum(_renderer, wndLstAlb, wndAlbFlt);
 	wndLstAlb->sort();

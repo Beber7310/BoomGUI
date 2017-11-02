@@ -9,14 +9,14 @@
 #include <guiItemFilter.h>
 #include <string.h>
 
-
+#include "configuration.h"
 
 guiAlbumFilter::guiAlbumFilter() {
 	// TODO Auto-generated constructor stub
 
 
 	wndLstFlt = new guiList();
-	wndLstFlt->setRect(0, 100, 600, 924);
+	wndLstFlt->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 
 	wndBtnBack = new guiButton(0, 0, 100, 100, "res/back.png");
 

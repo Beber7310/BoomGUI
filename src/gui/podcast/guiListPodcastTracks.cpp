@@ -11,6 +11,7 @@
 #include "guiManager.h"
 #include "tools.h"
 #include "podcastManager.h"
+#include "configuration.h"
 
 guiListPodcastTracks::guiListPodcastTracks() {
 	// TODO Auto-generated constructor stub
@@ -18,7 +19,7 @@ guiListPodcastTracks::guiListPodcastTracks() {
 	std::list<guiBase*>::iterator it;
 
 	wndLstAlb = new guiList();
-	wndLstAlb->setRect(0, 100, 600, 924);
+	wndLstAlb->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 
 	wndBtnBack = new guiButton(0, 0, 100, 100, "res/back.png");
 
@@ -32,7 +33,7 @@ guiListPodcastTracks::guiListPodcastTracks(peePodcast* pPodcast,SDL_Texture * 	t
 	std::list<guiBase*>::iterator it;
 
 	wndLstAlb = new guiList();
-	wndLstAlb->setRect(0, 100, 600, 924);
+	wndLstAlb->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 
 	wndBtnBack = new guiButton(0, 0, 100, 100, "res/back.png");
 

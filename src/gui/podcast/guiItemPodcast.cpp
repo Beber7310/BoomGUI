@@ -29,7 +29,7 @@ guiItemPodcast::guiItemPodcast(char* title,peePodcast* pPodcast) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 200;
 
 	_TrackList = new guiList();

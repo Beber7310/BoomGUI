@@ -27,18 +27,14 @@ void guiList::render() {
 	guiBase * pTemp;
 	int lastAbsPosY = _offset1 + _offset2;
 
-	/*lastAbsPosY += dbg_pos;
-	 dbg_pos += dbg_spd;
-	 dbg_spd = -10;
-	 */
 	computeClipping();
 
-	//boxRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0x0, 0x0, 0x00, 0xFF);
 	rectangleRGBA(_renderer, _absWndRect.x, _absWndRect.y, _absWndRect.x + _absWndRect.w, _absWndRect.y + _absWndRect.h, 0xFF, 0xFF, 0xFF, 0xFF);
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
 	_contentHeight = 0;
 	SDL_RenderSetClipRect(_renderer, &_absWndRect);
+
 	while (pTemp) {
 
 		pTemp->_relWndRect.y = lastAbsPosY;
@@ -51,17 +47,9 @@ void guiList::render() {
 		_contentHeight += pTemp->_relWndRect.h;
 
 		bool skip = false;
-
-		if (pTemp->_absWndRect.y > (_absWndRect.y + _absWndRect.h)) {
-			skip = true;
-		}
-		if ((pTemp->_absWndRect.y + pTemp->_absWndRect.h) < (_absWndRect.y)) {
-			skip = true;
-		}
-
-		if (!skip) {
-			pTemp->render();
-		}
+		if (pTemp->_absWndRect.y > (_absWndRect.y + _absWndRect.h)) skip = true;
+		if ((pTemp->_absWndRect.y + pTemp->_absWndRect.h) < (_absWndRect.y)) skip = true;
+		if (!skip) pTemp->render();
 
 		pTemp = GetNextChild(&it);
 	}

@@ -20,9 +20,6 @@ public:
 	void event(int x, int y, int button);
 	char* 	_Name;
 
-
-	guiButton* 		wndBtnOn;
-	guiButton* 		wndBtnOff;
 };
 
 #endif /* SRC_GUI_HOMECONTROL_guiHcCurrent_H_ */

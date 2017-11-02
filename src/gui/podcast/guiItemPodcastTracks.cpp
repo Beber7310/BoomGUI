@@ -31,7 +31,7 @@ guiItemPodcastTracks::guiItemPodcastTracks(tm* date, const char* title, int size
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 100;
 
 	memcpy(&_date, date, sizeof(tm));
@@ -73,7 +73,9 @@ void guiItemPodcastTracks::render() {
 	coverRect.h = _absWndRect.h;
 
 	_font2->print(_title, 15, _absWndRect.y+20);
-	_font2->print(_strtime, 400, _absWndRect.y + 60);
+
+
+	_font2->print(_strtime, SCREEN_WIDTH-200, _absWndRect.y + 60);
 }
 
 void guiItemPodcastTracks::event(int x, int y, int button) {

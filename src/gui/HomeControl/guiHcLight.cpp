@@ -11,6 +11,7 @@
 #include <guiHcLight.h>
 #include <SDL2_gfxPrimitives.h>
 #include "homeControl.h"
+#include "configuration.h"
 
 guiHcLight::guiHcLight(char* name, int index) {
 	// TODO Auto-generated constructor stub
@@ -21,13 +22,13 @@ guiHcLight::guiHcLight(char* name, int index) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 100;
 
-	wndBtnOn = new guiButton( 500, 10, 80, 80, "res/on.png");
+	wndBtnOn = new guiButton( SCREEN_WIDTH-100, 10, 80, 80, "res/on.png");
 	AddChild(wndBtnOn);
 
-	wndBtnOff = new guiButton( 400, 10, 80, 80, "res/off.png");
+	wndBtnOff = new guiButton( SCREEN_WIDTH-200, 10, 80, 80, "res/off.png");
 	AddChild(wndBtnOff);
 
 }

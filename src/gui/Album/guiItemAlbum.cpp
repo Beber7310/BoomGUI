@@ -30,7 +30,7 @@ guiItemAlbum::guiItemAlbum(char* fileName, guiAlbumFilter* wndFilter) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 200;
 
 	_pGenre = NULL;
@@ -55,11 +55,11 @@ guiItemAlbum::guiItemAlbum(char* fileName, guiAlbumFilter* wndFilter) {
 			_AlbumName = (char*) malloc(strlen(str_album) + 1);
 			strcpy(_AlbumName, str_album);
 		} else if (strstr(str, "<GENRE>") != NULL) {
-
 			strcpy(str_genre, &str[strlen("<GENRE>")]);
 			_pGenre = wndFilter->AddFilter(str_genre);
 		} else if (strstr(str, "<COVER>") != NULL) {
-			strcpy(str_cover, &str[strlen("<COVER>")]);
+			//strcpy(str_cover, &str[strlen("<COVER>")]);
+			sprintf(str_cover,"%s/%s",BASE_DIR,&str[strlen("<COVER>")]);
 			SDL_Surface * image = IMG_Load(str_cover);
 			_texCover = SDL_CreateTextureFromSurface(_renderer, image);
 			SDL_FreeSurface(image);

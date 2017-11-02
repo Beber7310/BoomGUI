@@ -9,6 +9,8 @@
 #include <guiButton.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "guiManager.h"
+#include "configuration.h"
 
 void* guiPLayerThread(void * p) {
 	FILE *in;
@@ -39,6 +41,7 @@ void* guiPLayerThread(void * p) {
 			pthread_mutex_unlock(&pPlay->my_mutex);
 		}
 		pclose(in);
+		refresh();
 		sleep(1);
 	}
 }
@@ -53,20 +56,20 @@ guiPlayer::guiPlayer() {
 	wndBtnBack = new guiButton(0, 0, 100, 100, "res/back.png");
 	AddChild(wndBtnBack);
 
-	wndBtnPrev = new guiButton(125, 924, 100, 100, "res/prev.png");
+	wndBtnPrev = new guiButton(125, SCREEN_HEIGHT-100, 100, 100, "res/prev.png");
 	AddChild(wndBtnPrev);
 
-	wndBtnPlay = new guiButton(250, 924, 100, 100, "res/play.png");
+	wndBtnPlay = new guiButton(250, SCREEN_HEIGHT-100, 100, 100, "res/play.png");
 	AddChild(wndBtnPlay);
 
-	wndBtnNext = new guiButton(375, 924, 100, 100, "res/next.png");
+	wndBtnNext = new guiButton(375, SCREEN_HEIGHT-100, 100, 100, "res/next.png");
 	AddChild(wndBtnNext);
 
-	wndBtnRandom = new guiButton(0, 854, 100, 100, "res/shuffle.png");
+	wndBtnRandom = new guiButton(0, SCREEN_HEIGHT-200, 100, 100, "res/shuffle.png");
 	AddChild(wndBtnRandom);
 	wndBtnRandom->enable(false);
 
-	wndBtnNoRandom = new guiButton(0, 854, 100, 100, "res/shuffle_no.png");
+	wndBtnNoRandom = new guiButton(0, SCREEN_HEIGHT-200, 100, 100, "res/shuffle_no.png");
 	AddChild(wndBtnNoRandom);
 
 	_texCover = NULL;

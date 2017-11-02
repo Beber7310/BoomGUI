@@ -11,6 +11,7 @@
 #include <guiHcCurrent.h>
 #include <SDL2_gfxPrimitives.h>
 #include "homeControl.h"
+#include "configuration.h"
 
 guiHcCurrent::guiHcCurrent(char* name) {
 	// TODO Auto-generated constructor stub
@@ -20,14 +21,9 @@ guiHcCurrent::guiHcCurrent(char* name) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 100;
 
-	wndBtnOn = new guiButton(200, 100, 100, 100, "res/back.png");
-	AddChild(wndBtnOn);
-
-	wndBtnOff = new guiButton(0, 100, 100, 100, "res/back.png");
-	AddChild(wndBtnOff);
 
 }
 
@@ -44,7 +40,7 @@ void guiHcCurrent::render() {
 	//stringRGBA(_renderer, 500, _absWndRect.y + 20, szTmp, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	_font2->print(_Name,25,_absWndRect.y);
-	_font2->print(szTmp,500,_absWndRect.y + 20);
+	_font2->print(szTmp,SCREEN_WIDTH-100,_absWndRect.y + 20);
 }
 
 void guiHcCurrent::event(int x, int y, int button) {

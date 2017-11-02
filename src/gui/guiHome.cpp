@@ -14,35 +14,50 @@
 
 guiHome::guiHome() {
 
+	int	stdwidth=SCREEN_WIDTH/4;
+	int	stdspace=SCREEN_WIDTH/8;
+
+
 	// TODO Auto-generated constructor stub
-	butAlbum = new guiButton( 75, 75, 150, 150, "res/album.png");
-	butplaylist = new guiButton( 375, 75, 150, 150, "res/playlist.png");
-	butPlayer = new guiButton( 75, 375, 150, 150, "res/player.png");
-	butPodcast = new guiButton( 375, 375, 150, 150, "res/podcast.png");
-	butHomeControl = new guiButton( 75, 800, 150, 150, "res/homecontrol.png");
+	butAlbum = new guiButton( stdspace, stdspace, stdwidth, stdwidth, "res/album.png");
+	butplaylist = new guiButton( 2*stdwidth + stdspace, stdspace, stdwidth, stdwidth, "res/playlist.png");
+	butPlayer = new guiButton( stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/player.png");
+
+#ifdef	_CONF_PODCAST_EN
+	butPodcast = new guiButton( 2*stdwidth + stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/podcast.png");
+	AddChild(butPodcast);
+#endif
+
+#ifdef _CONF_HOMECONTROL_EN
+	butHomeControl = new guiButton( stdspace, SCREEN_HEIGHT-(stdspace+stdwidth), stdwidth, stdwidth, "res/homecontrol.png");
+	AddChild(butHomeControl);
+#endif
 
 	AddChild(butAlbum);
 	AddChild(butplaylist);
 	AddChild(butPlayer);
-	AddChild(butPodcast);
 
-	AddChild(butHomeControl);
+
+
 
 	wndAlbum = new guiListAlbum();
-	wndAlbum->setRect(0, 0, 600, 1024);
+	wndAlbum->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	wndPlaylist = new guiListPlaylist();
-	wndPlaylist->setRect(0, 0, 600, 1024);
+	wndPlaylist->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+#ifdef	_CONF_PODCAST_EN
 	wndPodcast = new guiListPodcast();
-	wndPodcast->setRect(0, 0, 600, 1024);
+	wndPodcast->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+#endif
 
-
+#ifdef _CONF_HOMECONTROL_EN
 	wndHomeControl = new guiHomeControl();
-	wndHomeControl->setRect(0, 0, 600, 1024);
+	wndHomeControl->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+#endif
 
 	wndPlayer = new guiPlayer();
-	wndPlayer->setRect(0, 0, 600, 1024);
+	wndPlayer->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	_gblPlayer = wndPlayer;
 
@@ -97,14 +112,19 @@ void guiHome::event(int x, int y, int button) {
 	if (butplaylist->isClicked())
 		setActiveWindows(wndPlaylist);
 
+
+#ifdef _CONF_PODCAST_EN
 	if (butPodcast->isClicked())
 	{
 		wndPodcast->update();
 		setActiveWindows(wndPodcast);
 	}
+#endif
 
+#ifdef _CONF_HOMECONTROL_EN
 	if (butHomeControl->isClicked())
 		setActiveWindows(wndHomeControl);
+#endif
 
 	if (butPlayer->isClicked())
 		setActiveWindows(wndPlayer);

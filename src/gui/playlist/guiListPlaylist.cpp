@@ -10,12 +10,13 @@
 #include "guiAlbumFilter.h"
 #include "guiManager.h"
 #include "tools.h"
+#include "configuration.h"
 
 guiListPlaylist::guiListPlaylist() {
 	// TODO Auto-generated constructor stub
 
 	wndLstPlaylist = new guiList();
-	wndLstPlaylist->setRect(0, 100, 600, 924);
+	wndLstPlaylist->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 	toolsLoadPlaylist(_renderer, wndLstPlaylist);
 	wndLstPlaylist->sort();
 

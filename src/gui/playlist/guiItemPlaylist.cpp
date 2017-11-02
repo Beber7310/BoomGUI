@@ -33,7 +33,7 @@ guiItemPlaylist::guiItemPlaylist(char* fileName) {
 
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
-	_relWndRect.w = 600;
+	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 200;
 
 	_TrackList = new guiList();
@@ -52,7 +52,11 @@ guiItemPlaylist::guiItemPlaylist(char* fileName) {
 			_PlaylistName = (char*) malloc(strlen(str_artiste) + 1);
 			strcpy(_PlaylistName, str_artiste);
 		} else if (strstr(str, "<COVER>") != NULL) {
-			strcpy(str_cover, &str[strlen("<COVER>")]);
+			//strcpy(str_cover, &str[strlen("<COVER>")]);
+			sprintf(str_cover,"%s/%s",BASE_DIR,&str[strlen("<COVER>")]);
+
+			printf("%s\n",str_cover);//TBR
+
 			SDL_Surface * image = IMG_Load(str_cover);
 			_texCover = SDL_CreateTextureFromSurface(_renderer, image);
 			SDL_FreeSurface(image);
