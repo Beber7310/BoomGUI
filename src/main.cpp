@@ -22,6 +22,7 @@ int main (int argc, char* argv[]) {
 		return mp3export(argv[1]);
 
 	}
+	system("mpc update");
 #ifdef _CONF_PODCAST_EN
 	podcastTask();
 #endif

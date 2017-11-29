@@ -88,10 +88,12 @@ void homeControl::refreshData(void) {
 		_HomeSensor[ii].temp = readTempfromRPI(_HomeSensor[ii].httpName);
 	}
 	for (int ii = 0; ii < HC_LAST_HEATER; ii++) {
-		_HomeSensor[ii].targetTemp = readTargetTempfromRPI(_HomeSensor[ii].httpName);
+		_HomeSensor[ii].targetTemp = readTargetTempfromRPI(
+				_HomeSensor[ii].httpName);
 	}
 	for (int ii = 0; ii < HC_LAST_HEATER; ii++) {
-		_HomeSensor[ii].heating = readCurrentHeatingfromRPI(_HomeSensor[ii].httpName);
+		_HomeSensor[ii].heating = readCurrentHeatingfromRPI(
+				_HomeSensor[ii].httpName);
 	}
 
 	_current = readCurrentfromRPI();
@@ -119,7 +121,8 @@ float hcGetHeating(int ii) {
 void hcSetTargetTemp(int ii, float target) {
 	if (ii < HC_LAST) {
 		hc.writreTargetTempfromRPI(hc._HomeSensor[ii].httpName, target);
-		hc._HomeSensor[ii].targetTemp = hc.readTargetTempfromRPI(hc._HomeSensor[ii].httpName);
+		hc._HomeSensor[ii].targetTemp = hc.readTargetTempfromRPI(
+				hc._HomeSensor[ii].httpName);
 	}
 }
 
@@ -148,33 +151,32 @@ void hcSetLight(int ii, bool state) {
 }
 
 float homeControl::readTempfromRPI(char* name) {
-	char* szResultat;
+	char* szResultat = NULL;
 	char* pch;
 	char szCmd[512];
 	float temp = 0.0;
 
 	sprintf(szCmd, "http://%s/hc_tmp?%s/value", HOMECONTROL_IP, name);
 	//printf(szCmd);
-	http_fetch(szCmd, &szResultat);
-	if (szResultat) {
-		pch = strtok(szResultat, ":");
-		if (!pch) {
-			printf("Error in readTempfromRPI");
-			return -100;
-		}
-		pch = strtok(NULL, ":");
-		if (!pch) {
-			printf("Error in readTempfromRPI");
-			return -100;
-		}
-		temp = atof(pch);
+	if (http_fetch(szCmd, &szResultat) > 0)
+		if (szResultat) {
+			pch = strtok(szResultat, ":");
+			if (!pch) {
+				printf("Error in readTempfromRPI");
+				return -100;
+			}
+			pch = strtok(NULL, ":");
+			if (!pch) {
+				printf("Error in readTempfromRPI");
+				return -100;
+			}
+			temp = atof(pch);
 
-		if (szResultat)
 			free(szResultat);
 
-		return temp;
-	} else
-		return 18;
+			return temp;
+		} else
+			return 18;
 }
 
 float homeControl::readTargetTempfromRPI(char* name) {
@@ -261,7 +263,8 @@ float homeControl::writreTargetTempfromRPI(char* name, float target) {
 	char szCmd[512];
 	float temp = 0.0;
 
-	sprintf(szCmd, "http://%s/hc_thermostat?%s/cmd/%2.2f", HOMECONTROL_IP, name, target);
+	sprintf(szCmd, "http://%s/hc_thermostat?%s/cmd/%2.2f", HOMECONTROL_IP, name,
+			target);
 	//printf("%s\n",szCmd);
 	http_fetch(szCmd, &szResultat);
 
