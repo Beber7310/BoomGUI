@@ -32,6 +32,7 @@ public:
 	guiButton* wndBtnPrev;
 	guiButton* wndBtnNext;
 	guiButton* wndBtnPlay;
+	guiButton* wndBtnPause;
 	guiButton* wndBtnRandom;
 	guiButton* wndBtnNoRandom;
 

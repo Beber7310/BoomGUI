@@ -33,6 +33,7 @@ public:
 
 	guiButton* butPlayer;
 	guiButton* butPodcast;
+	guiButton* butRadio;
 
 	guiListAlbum* wndAlbum;
 	guiListPlaylist* wndPlaylist;

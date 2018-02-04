@@ -21,7 +21,8 @@ guiHome::guiHome() {
 	// TODO Auto-generated constructor stub
 	butAlbum = new guiButton( stdspace, stdspace, stdwidth, stdwidth, "res/album.png");
 	butplaylist = new guiButton( 2*stdwidth + stdspace, stdspace, stdwidth, stdwidth, "res/playlist.png");
-	butPlayer = new guiButton( stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/player.png");
+	//butRadio = new guiButton( stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/radio.png");
+	butPlayer = new guiButton(  2*stdwidth + stdspace, SCREEN_HEIGHT-(stdspace+stdwidth), stdwidth, stdwidth, "res/player.png");
 
 #ifdef	_CONF_PODCAST_EN
 	butPodcast = new guiButton( 2*stdwidth + stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/podcast.png");
@@ -36,7 +37,7 @@ guiHome::guiHome() {
 	AddChild(butAlbum);
 	AddChild(butplaylist);
 	AddChild(butPlayer);
-
+	//AddChild(butRadio);
 
 
 

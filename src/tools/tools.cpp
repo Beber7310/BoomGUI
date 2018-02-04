@@ -237,6 +237,10 @@ std::vector<peePodcast*>*  toolsGetPodcast(void)
 
 				}
 
+
+void toolsLoadRadio(SDL_Renderer *renderer, guiList* mainWin) {
+
+}
 void toolsUpdateUserPodcastTracks(vector<peePodcastTrack*>* podcastList,peePodcast* pParent,char* htmlSource)
 {
 	XMLDocument xmlDoc;

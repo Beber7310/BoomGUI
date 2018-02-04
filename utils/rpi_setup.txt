@@ -40,3 +40,7 @@ vncserver -screen  1 1920x1080x16
 
 
 https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work
+ 
+ 
+ kill `ps aux |grep Baemon |cut -c 9-15`
+ 

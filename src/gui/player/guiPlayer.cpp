@@ -62,6 +62,10 @@ guiPlayer::guiPlayer() {
 	wndBtnPlay = new guiButton(250, SCREEN_HEIGHT-100, 100, 100, "res/play.png");
 	AddChild(wndBtnPlay);
 
+	wndBtnPause = new guiButton(250, SCREEN_HEIGHT-100, 100, 100, "res/play.png");
+	AddChild(wndBtnPause);
+	wndBtnPause->enable(false);
+
 	wndBtnNext = new guiButton(375, SCREEN_HEIGHT-100, 100, 100, "res/next.png");
 	AddChild(wndBtnNext);
 
@@ -148,7 +152,19 @@ void guiPlayer::event(int x, int y, int button) {
 		system("mpc prev");
 
 	if (wndBtnPlay->isClicked())
+	{
 		system("mpc play");
+		wndBtnPlay->enable(false);
+		wndBtnPause->enable(true);
+	}
+
+	if (wndBtnPause->isClicked())
+	{
+		system("mpc pause");
+		wndBtnPause->enable(false);
+		wndBtnPlay->enable(true);
+	}
+
 
 	if (wndBtnNext->isClicked())
 		system("mpc next");
