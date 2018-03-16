@@ -7,7 +7,6 @@
 
 #include <configuration.h>
 #include <guiHome.h>
-#include <guiListAlbum.h>
 #include "tools.h"
 
 
@@ -20,9 +19,9 @@ guiHome::guiHome() {
 
 	// TODO Auto-generated constructor stub
 	butAlbum = new guiButton( stdspace, stdspace, stdwidth, stdwidth, "res/album.png");
-	butplaylist = new guiButton( 2*stdwidth + stdspace, stdspace, stdwidth, stdwidth, "res/playlist.png");
-	//butRadio = new guiButton( stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/radio.png");
+	butplaylist = new guiButton( 2*stdwidth + stdspace, stdspace             , stdwidth, stdwidth , "res/playlist.png");
 	butPlayer = new guiButton(  2*stdwidth + stdspace, SCREEN_HEIGHT-(stdspace+stdwidth), stdwidth, stdwidth, "res/player.png");
+	butRadio = new guiButton   ( stdspace             , 2*stdwidth + stdspace, stdwidth, stdwidth , "res/radio.png");
 
 #ifdef	_CONF_PODCAST_EN
 	butPodcast = new guiButton( 2*stdwidth + stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/podcast.png");
@@ -37,7 +36,7 @@ guiHome::guiHome() {
 	AddChild(butAlbum);
 	AddChild(butplaylist);
 	AddChild(butPlayer);
-	//AddChild(butRadio);
+	AddChild(butRadio);
 
 
 
@@ -60,6 +59,9 @@ guiHome::guiHome() {
 	wndPlayer = new guiPlayer();
 	wndPlayer->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+
+	wndRadio = new guiListRadio();
+	wndRadio ->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	_gblPlayer = wndPlayer;
 
 
@@ -112,6 +114,9 @@ void guiHome::event(int x, int y, int button) {
 
 	if (butplaylist->isClicked())
 		setActiveWindows(wndPlaylist);
+
+	if (butRadio->isClicked())
+			setActiveWindows(wndRadio);
 
 
 #ifdef _CONF_PODCAST_EN

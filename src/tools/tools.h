@@ -19,6 +19,7 @@
 
 void toolsLoadAlbum (SDL_Renderer *renderer,guiList* mainWin,guiAlbumFilter* wndFilter);
 void toolsLoadPlaylist (SDL_Renderer *renderer,guiList* mainWin);
+void toolsLoadRadio(SDL_Renderer *renderer, guiList* mainWin);
 
 int toolsCleanUTF8(char* szString);
 bool  toolsDownloadExist(char * localPath);

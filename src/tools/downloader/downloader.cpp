@@ -88,7 +88,8 @@ void* toolsDownloadPodcastThread(void * p)
 			strcpy(szPath,PODCAST_DIR);
 			strcat(szPath,pPodcast->_localPath);
 
-			sprintf(szCmd,"wget \"%s\" -O \"%s\" -q --limit-rate=100k",pPodcast->_htmlPath,szPath);
+			//sprintf(szCmd,"wget \"%s\" -O \"%s\" -q --limit-rate=100k",pPodcast->_htmlPath,szPath);
+			sprintf(szCmd,"wget \"%s\" -O \"%s\" -q ",pPodcast->_htmlPath,szPath);
 			system(szCmd);
 			printf("%s\n",szCmd);
 			system("mpc update");

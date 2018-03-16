@@ -18,14 +18,13 @@ guiListRadio::guiListRadio() {
 	wndLstAlb = new guiList();
 	wndLstAlb->setRect(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT-100);
 	//toolsLoadAlbum(_renderer, wndLstAlb, wndAlbFlt);
-	//toolsLoadRadio(_renderer, wndLstAlb);
+	toolsLoadRadio(_renderer, wndLstAlb);
 	wndLstAlb->sort();
 
 	wndBtnBack = new guiButton( 0, 0, 100, 100, "res/back.png");
 
 	AddChild(wndBtnBack);
 	AddChild(wndLstAlb);
-
 }
 
 guiListRadio::~guiListRadio() {

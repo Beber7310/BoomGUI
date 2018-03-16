@@ -19,6 +19,7 @@
 #include "guiItemPlaylist.h"
 #include "guiListPodcast.h"
 #include "guiItemPodcast.h"
+#include "guiItemRadio.h"
 #include "configuration.h"
 #include "unistd.h"
 
@@ -103,7 +104,7 @@ void toolsLoadPlaylist(SDL_Renderer *renderer, guiList* mainWin) {
 			ii++;
 			if (dir->d_type == DT_REG) {
 				if (strstr(dir->d_name, ".piz") != NULL) {
-					printf("Opening %s\n", dir->d_name);
+					//printf("Opening %s\n", dir->d_name);
 					mainWin->AddChild(new guiItemPlaylist(dir->d_name));
 
 				}
@@ -141,18 +142,32 @@ int toolsCleanUTF8(char* szString)
 			{
 				szString[dst]='o';
 			}
+			else if((szString[i]==0x93))
+			{
+				szString[dst]='o';
+			}
 			else if((szString[i]==0xaf))
 			{
 				szString[dst]='i';
+			}
+			else if((szString[i]==0xb9))
+			{
+				szString[dst]='u';
 			}
 			else if((szString[i]==0xbb)||(szString[i]==0x80)||(szString[i]==0xae))
 			{
 				szString[dst]=' ';
 			}
+			else if((szString[i]==0x89))
+			{
+				szString[dst]='E';
+			}
+
 			else
 			{
+
+				printf("\n\nMissed! 0x%x : %s\n\n\n",szString[i],szString);
 				i++;
-				//printf("Missed! 0x%x : %s\n",szString[i],szString);
 			}
 		}
 		else if((szString[i]&0xF0)==0xE0)
@@ -198,7 +213,7 @@ int toolsCleanUTF8(char* szString)
 }
 
 std::vector<peePodcast*>*  toolsGetPodcast(void)
-				{
+{
 	FILE *stream;
 	char *line = NULL;
 	char* podCast;
@@ -235,12 +250,54 @@ std::vector<peePodcast*>*  toolsGetPodcast(void)
 
 	return retPodcast;
 
-				}
+}
 
 
 void toolsLoadRadio(SDL_Renderer *renderer, guiList* mainWin) {
 
+	FILE *stream;
+	char *line = NULL;
+	char* radio;
+	size_t len = 0;
+	ssize_t read;
+	char* pchMp3;
+	char* pchNiceName;
+	char* pchCover;
+
+	stream = fopen("/home/pi/projects/res/radio.conf", "r");
+	if (stream == NULL)
+	{
+		printf("Unable to open /home/pi/projects/res/radio.conf\n");
+		exit(EXIT_FAILURE);
+	}
+	while ((read = getline(&line, &len, stream)) != -1) {
+		if(strncmp("radio;",line,strlen("radio;"))==0)
+		{
+			radio=&line[strlen("radio:")];
+			radio[strlen(radio)-1]=0;// remove last char as it is a \n
+			printf("radio: %s\n",radio);
+
+			pchMp3 = strtok (radio,";"); //path mp3
+			printf("	%s\n",pchMp3);
+
+			pchNiceName = strtok (NULL,";"); // nice name
+			printf("	%s\n",pchNiceName);
+
+			pchCover = strtok (NULL,";"); // jpeg
+			printf("	%s\n",pchCover);
+
+			mainWin->AddChild(new guiItemRadio(pchMp3,pchNiceName,pchCover));
+
+		}
+	}
+
+	free(line);
+	fclose(stream);
+
+	return ;
+
 }
+
 void toolsUpdateUserPodcastTracks(vector<peePodcastTrack*>* podcastList,peePodcast* pParent,char* htmlSource)
 {
 	XMLDocument xmlDoc;

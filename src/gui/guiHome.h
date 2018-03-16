@@ -14,6 +14,7 @@
 #include <guiListAlbum.h>
 #include <guiListPlaylist.h>
 #include <guiListPodcast.h>
+#include <guiListRadio.h>
 #include <guiHomeControl.h>
 #include <guiPlayer.h>
 
@@ -38,6 +39,7 @@ public:
 	guiListAlbum* wndAlbum;
 	guiListPlaylist* wndPlaylist;
 	guiListPodcast* wndPodcast;
+	guiListRadio* wndRadio;
 #ifdef _CONF_HOMECONTROL_EN
 	guiHomeControl* wndHomeControl;
 #endif

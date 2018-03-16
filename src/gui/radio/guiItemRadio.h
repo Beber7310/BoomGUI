@@ -17,7 +17,8 @@
 
 class guiItemRadio: public guiListItem {
 public:
-	guiItemRadio(char* fileName);
+	guiItemRadio(char* mp3,char* NiceName,char* cover);
+
 	virtual
 	~guiItemRadio();
 
@@ -27,8 +28,10 @@ public:
 	void play();
 
 	SDL_Texture * _texCover;
-	char* _Artiste;
-	char* _AlbumName;
+	char* _mp3;
+	char* _NiceName;
+	char* _cover;
+
 
 };
 #endif /* SRC_guiItemRadio_H_ */

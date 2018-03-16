@@ -55,7 +55,6 @@ guiItemPlaylist::guiItemPlaylist(char* fileName) {
 			//strcpy(str_cover, &str[strlen("<COVER>")]);
 			sprintf(str_cover,"%s/%s",BASE_DIR,&str[strlen("<COVER>")]);
 
-			printf("%s\n",str_cover);//TBR
 
 			SDL_Surface * image = IMG_Load(str_cover);
 			_texCover = SDL_CreateTextureFromSurface(_renderer, image);
@@ -102,7 +101,7 @@ void guiItemPlaylist::play() {
 	pTemp = _TrackList->GetFirstChild(&it);
 	while (pTemp) {
 		sprintf(szCmd, "mpc add %s", ((guiItemTrack*) pTemp)->_szPath);
-		printf("%s\n", szCmd);
+
 		system(szCmd);
 		pTemp = _TrackList->GetNextChild(&it);
 	}
