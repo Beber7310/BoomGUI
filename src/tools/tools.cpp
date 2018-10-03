@@ -116,132 +116,98 @@ void toolsLoadPlaylist(SDL_Renderer *renderer, guiList* mainWin) {
 }
 /* Returns a list of files in a directory (except the ones that begin with a dot) */
 
-int toolsCleanUTF8(char* szString)
-{
-	int len=strlen(szString);
-	int dst=0;
-	for(int i=0;i<len;i++)
-	{
-		if((szString[i]&0xF0)==0xC0)
-		{
+int toolsCleanUTF8(char* szString) {
+	int len = strlen(szString);
+	int dst = 0;
+	for (int i = 0; i < len; i++) {
+		if ((szString[i] & 0xF0) == 0xC0) {
 			i++;
 
-			if((szString[i]==0xa8)||(szString[i]==0xa9)||(szString[i]==0xaa)||(szString[i]==0xab) ) //223 -> é  //232 -> è
+			if ((szString[i] == 0xa8) || (szString[i] == 0xa9) || (szString[i] == 0xaa) || (szString[i] == 0xab)) //223 -> é  //232 -> è
+					{
+				szString[dst] = 'e';
+			} else if ((szString[i] == 0xa7)) //221 -> ç
 			{
-				szString[dst]='e';
-			}
-			else if((szString[i]==0xa7)) //221 -> ç
-			{
-				szString[dst]='c';
-			}
-			else if((szString[i]==0xa0)||(szString[i]==0xa1)||(szString[i]==0xa2))
-			{
-				szString[dst]='a';
-			}
-			else if((szString[i]==0xb2)||(szString[i]==0xb3)||(szString[i]==0xb4))
-			{
-				szString[dst]='o';
-			}
-			else if((szString[i]==0x93))
-			{
-				szString[dst]='o';
-			}
-			else if((szString[i]==0xaf))
-			{
-				szString[dst]='i';
-			}
-			else if((szString[i]==0xb9))
-			{
-				szString[dst]='u';
-			}
-			else if((szString[i]==0xbb)||(szString[i]==0x80)||(szString[i]==0xae))
-			{
-				szString[dst]=' ';
-			}
-			else if((szString[i]==0x89))
-			{
-				szString[dst]='E';
+				szString[dst] = 'c';
+			} else if ((szString[i] == 0xa0) || (szString[i] == 0xa1) || (szString[i] == 0xa2)) {
+				szString[dst] = 'a';
+			} else if ((szString[i] == 0xb2) || (szString[i] == 0xb3) || (szString[i] == 0xb4)) {
+				szString[dst] = 'o';
+			} else if ((szString[i] == 0x93)) {
+				szString[dst] = 'o';
+			} else if ((szString[i] == 0xaf)) {
+				szString[dst] = 'i';
+			} else if ((szString[i] == 0xb9)) {
+				szString[dst] = 'u';
+			} else if ((szString[i] == 0xbb) || (szString[i] == 0x80) || (szString[i] == 0xae)) {
+				szString[dst] = ' ';
+			} else if ((szString[i] == 0x89)) {
+				szString[dst] = 'E';
 			}
 
-			else
-			{
+			else {
 
-				printf("\n\nMissed! 0x%x : %s\n\n\n",szString[i],szString);
+				printf("\n\nMissed! 0x%x : %s\n\n\n", szString[i], szString);
 				i++;
 			}
-		}
-		else if((szString[i]&0xF0)==0xE0)
-		{
-			i+=3;
-			szString[dst]=' ';
-		}
-		else if((szString[i]&0xF0)==0xF0)
-		{
-			i+=4;
-			szString[dst]=' ';
+		} else if ((szString[i] & 0xF0) == 0xE0) {
+			i += 3;
+			szString[dst] = ' ';
+		} else if ((szString[i] & 0xF0) == 0xF0) {
+			i += 4;
+			szString[dst] = ' ';
 		}
 
-		else if(isalnum(szString[i]) || szString[i]==' '|| szString[i]=='/'|| szString[i]=='.')
-		{
-			szString[dst]=szString[i];
+		else if (isalnum(szString[i]) || szString[i] == ' ' || szString[i] == '/' || szString[i] == '.') {
+			szString[dst] = szString[i];
+		} else {
+			szString[dst] = ' ';
 		}
-		else
-		{
-			szString[dst]=' ';
-		}
-
 
 		dst++;
 	}
-	szString[dst]=0;
+	szString[dst] = 0;
 
-	while(szString[strlen(szString)-1]==' ')
-		szString[strlen(szString)-1]=0;
+	while (szString[strlen(szString) - 1] == ' ')
+		szString[strlen(szString) - 1] = 0;
 
-	dst=0;
-	for(unsigned int ii=0;ii<strlen(szString)-1;ii++)
-	{
-		if(szString[ii] ==' ' && szString[ii+1] == '/')
-		{
+	dst = 0;
+	for (unsigned int ii = 0; ii < strlen(szString) - 1; ii++) {
+		if (szString[ii] == ' ' && szString[ii + 1] == '/') {
 			ii++;
 		}
-		szString[dst]=szString[ii];
+		szString[dst] = szString[ii];
 		dst++;
 	}
 
 	return 0;
 }
 
-std::vector<peePodcast*>*  toolsGetPodcast(void)
-{
+std::vector<peePodcast*>* toolsGetPodcast(void) {
 	FILE *stream;
 	char *line = NULL;
 	char* podCast;
 	size_t len = 0;
 	ssize_t read;
-	std::vector<peePodcast*>*retPodcast =new std::vector<peePodcast*>();
-
+	std::vector<peePodcast*>*retPodcast = new std::vector<peePodcast*>();
 
 	stream = fopen("/home/pi/projects/res/podcast.conf", "r");
-	if (stream == NULL)
-	{
+	if (stream == NULL) {
 		printf("Unable to open /home/pi/projects/res/podcast.conf\n");
 		exit(EXIT_FAILURE);
 	}
 	while ((read = getline(&line, &len, stream)) != -1) {
-		if(strncmp("lpodcast:",line,strlen("lpodcast:"))==0)
-		{
-			podCast=&line[strlen("lpodcast:")];
-			podCast[strlen(podCast)-1]=0;// remove last char as it is a \n
+		if (strncmp("lpodcast:", line, strlen("lpodcast:")) == 0) {
+			podCast = &line[strlen("lpodcast:")];
+			podCast[strlen(podCast) - 1] = 0; // remove last char as it is a \n
 
-			retPodcast->push_back(new peePodcast(podCast,100,10));
+			retPodcast->push_back(new peePodcast(podCast, 100, 10));
 		}
-		if(strncmp("spodcast:",line,strlen("spodcast:"))==0)
-		{
-			podCast=&line[strlen("spodcast:")];
-			podCast[strlen(podCast)-1]=0;// remove last char as it is a \n
+		if (strncmp("spodcast:", line, strlen("spodcast:")) == 0) {
+			podCast = &line[strlen("spodcast:")];
+			podCast[strlen(podCast) - 1] = 0; // remove last char as it is a \n
 
-			retPodcast->push_back(new peePodcast(podCast,100,1));
+			retPodcast->push_back(new peePodcast(podCast, 100, 1));
 		}
 	}
 
@@ -251,7 +217,6 @@ std::vector<peePodcast*>*  toolsGetPodcast(void)
 	return retPodcast;
 
 }
-
 
 void toolsLoadRadio(SDL_Renderer *renderer, guiList* mainWin) {
 
@@ -265,28 +230,26 @@ void toolsLoadRadio(SDL_Renderer *renderer, guiList* mainWin) {
 	char* pchCover;
 
 	stream = fopen("/home/pi/projects/res/radio.conf", "r");
-	if (stream == NULL)
-	{
+	if (stream == NULL) {
 		printf("Unable to open /home/pi/projects/res/radio.conf\n");
 		exit(EXIT_FAILURE);
 	}
 	while ((read = getline(&line, &len, stream)) != -1) {
-		if(strncmp("radio;",line,strlen("radio;"))==0)
-		{
-			radio=&line[strlen("radio:")];
-			radio[strlen(radio)-1]=0;// remove last char as it is a \n
-			printf("radio: %s\n",radio);
+		if (strncmp("radio;", line, strlen("radio;")) == 0) {
+			radio = &line[strlen("radio:")];
+			radio[strlen(radio) - 1] = 0; // remove last char as it is a \n
+			printf("radio: %s\n", radio);
 
-			pchMp3 = strtok (radio,";"); //path mp3
-			printf("	%s\n",pchMp3);
+			pchMp3 = strtok(radio, ";"); //path mp3
+			printf("	%s\n", pchMp3);
 
-			pchNiceName = strtok (NULL,";"); // nice name
-			printf("	%s\n",pchNiceName);
+			pchNiceName = strtok(NULL, ";"); // nice name
+			printf("	%s\n", pchNiceName);
 
-			pchCover = strtok (NULL,";"); // jpeg
-			printf("	%s\n",pchCover);
+			pchCover = strtok(NULL, ";"); // jpeg
+			printf("	%s\n", pchCover);
 
-			mainWin->AddChild(new guiItemRadio(pchMp3,pchNiceName,pchCover));
+			mainWin->AddChild(new guiItemRadio(pchMp3, pchNiceName, pchCover));
 
 		}
 	}
@@ -294,65 +257,62 @@ void toolsLoadRadio(SDL_Renderer *renderer, guiList* mainWin) {
 	free(line);
 	fclose(stream);
 
-	return ;
+	return;
 
 }
 
-void toolsUpdateUserPodcastTracks(vector<peePodcastTrack*>* podcastList,peePodcast* pParent,char* htmlSource)
-{
+void toolsUpdateUserPodcastTracks(vector<peePodcastTrack*>* podcastList, peePodcast* pParent, char* htmlSource) {
 	XMLDocument xmlDoc;
-	char *fileBuf=NULL;
+	char *fileBuf = NULL;
 	fileBuf = toolsGetHtml(htmlSource);
-	if(fileBuf==NULL)
+	if (fileBuf == NULL)
 		return;
 
-	xmlDoc.Parse( fileBuf, strlen(fileBuf));
+	xmlDoc.Parse(fileBuf, strlen(fileBuf));
 	free(fileBuf);
 	XMLNode* podcastNode;
-	podcastNode = xmlDoc.FirstChildElement( "rss" );
-	if(!podcastNode)
+	podcastNode = xmlDoc.FirstChildElement("rss");
+	if (!podcastNode)
 		return;
 
-	podcastNode = podcastNode->FirstChildElement( "channel" );
+	podcastNode = podcastNode->FirstChildElement("channel");
 
-	pParent->setTitle(podcastNode->FirstChildElement( "title")->FirstChild()->Value());
-	pParent->setImage(podcastNode->FirstChildElement( "image")->FirstChildElement( "url")->FirstChild()->Value());
+	pParent->setTitle(podcastNode->FirstChildElement("title")->FirstChild()->Value());
+	pParent->setImage(podcastNode->FirstChildElement("image")->FirstChildElement("url")->FirstChild()->Value());
 
-	podcastNode = podcastNode->FirstChildElement( "item");
+	podcastNode = podcastNode->FirstChildElement("item");
 
 	char szCmd[512];
-	sprintf(szCmd,"mkdir -p \"%s/%s\"",PODCAST_DIR,pParent->_directory);
+	sprintf(szCmd, "mkdir -p \"%s/%s\"", PODCAST_DIR, pParent->_directory);
 	system(szCmd);
 
-	while(podcastNode!=NULL)
-	{
+	while (podcastNode != NULL) {
 		tm tsDuration;
-		tm	date;
+		tm date;
 		int size;
-		const char*	title;
-		const char*	htmlMp3;
+		const char* title;
+		const char* htmlMp3;
 		const char* duration;
 		const char* pubDate;
 
 		//deprecated, to be updated with the new xml
-		title=podcastNode->FirstChildElement("title")->FirstChild()->Value();
-		htmlMp3=podcastNode->FirstChildElement( "enclosure" )->Attribute( "url");
-		size=atoi(podcastNode->FirstChildElement( "enclosure" )->Attribute( "length"));
-		duration=podcastNode->FirstChildElement( "itunes:duration" )->FirstChild()->Value();
-		pubDate=podcastNode->FirstChildElement( "pubDate" )->FirstChild()->Value();
-
-		#ifdef __RASP__
+		if (podcastNode->FirstChildElement("title")) {
+			title = podcastNode->FirstChildElement("title")->FirstChild()->Value();
+			htmlMp3 = podcastNode->FirstChildElement("enclosure")->Attribute("url");
+			size = atoi(podcastNode->FirstChildElement("enclosure")->Attribute("length"));
+			duration = podcastNode->FirstChildElement("itunes:duration")->FirstChild()->Value();
+			pubDate = podcastNode->FirstChildElement("pubDate")->FirstChild()->Value();
+		}
+#ifdef __RASP__
 		strptime(duration, "%H:%M:%S", &tsDuration);
 		strptime(pubDate, "%a, %d %b %Y %H:%M:%S", &date);
-		#endif
-		if(((tsDuration.tm_hour*60)+tsDuration.tm_min)>pParent->_minLength)
-		{
-			if(pParent->GetTrackByTitle(title)==NULL)
-			{
-				podcastList->push_back(new peePodcastTrack(pParent,&date,title,htmlMp3,size));
+#endif
+		if (((tsDuration.tm_hour * 60) + tsDuration.tm_min) > pParent->_minLength) {
+			if (pParent->GetTrackByTitle(title) == NULL) {
+				podcastList->push_back(new peePodcastTrack(pParent, &date, title, htmlMp3, size));
 			}
 		}
-		podcastNode=podcastNode->NextSibling();
+		podcastNode = podcastNode->NextSibling();
 	}
 	return;
 }

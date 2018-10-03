@@ -71,7 +71,7 @@ void* toolsDownloadPodcastThread(void * p)
 {
 	char szCmd[1024];
 	char szPath[1024];
-
+	int trial=0;
 	peePodcastTrack* pPodcast;
 
 	while(1)
@@ -82,15 +82,19 @@ void* toolsDownloadPodcastThread(void * p)
 		podcastDownloadList->pop_front();
 		pthread_mutex_unlock(&downloadMutex);
 
+		trial=0;
+
 		pPodcast->checkDownload();
-		if(pPodcast->_downloaded==false)
+		while((pPodcast->_downloaded==false) && (trial<5))
 		{
+			trial++;
 			strcpy(szPath,PODCAST_DIR);
 			strcat(szPath,pPodcast->_localPath);
 
-			//sprintf(szCmd,"wget \"%s\" -O \"%s\" -q --limit-rate=100k",pPodcast->_htmlPath,szPath);
-			sprintf(szCmd,"wget \"%s\" -O \"%s\" -q ",pPodcast->_htmlPath,szPath);
+			//sprintf(szCmd,"wget \"%s\" -O \"%s\" -q ",pPodcast->_htmlPath,szPath);
+			sprintf(szCmd,"wget \"%s\" -O \"%s\"  ",pPodcast->_htmlPath,szPath);
 			system(szCmd);
+			sleep(10);
 			printf("%s\n",szCmd);
 			system("mpc update");
 			pPodcast->checkDownload();

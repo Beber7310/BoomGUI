@@ -20,15 +20,10 @@
 #include "guiPlayer.h"
 
 guiItemRadio::guiItemRadio(char* mp3, char* NiceName, char* cover) {
-	char filePath[512];
-	char str[512];
-
 	_relWndRect.x = 10;
 	_relWndRect.y = 10;
 	_relWndRect.w = SCREEN_WIDTH;
 	_relWndRect.h = 200;
-
-
 
 	_mp3 = (char*) malloc(strlen(mp3) + 1);
 	strcpy(_mp3, mp3);
@@ -39,11 +34,14 @@ guiItemRadio::guiItemRadio(char* mp3, char* NiceName, char* cover) {
 	_cover = (char*) malloc(strlen(cover) + 1);
 	strcpy(_cover, cover);
 
-
 	_sortName = (char*) malloc(strlen(NiceName) + 10);
 	sprintf(_sortName, "%s", NiceName);
 
-	//strcpy(str_cover, &str[strlen("<COVER>")]);
+	printf(">%s<\n",_mp3);
+	printf(">%s<\n",_NiceName);
+	printf(">%s<\n",_cover);
+	printf(">%s<\n",_sortName);
+
 	SDL_Surface * image = IMG_Load(_cover);
 	_texCover = SDL_CreateTextureFromSurface(_renderer, image);
 	SDL_FreeSurface(image);
