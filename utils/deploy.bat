@@ -17,17 +17,18 @@ IF "%2"=="" (
 
  
 
-SET PUTTYSCP_BIN="C:\Program Files (x86)\WinSCP\pscp.exe"
+SET PUTTYSCP_BIN="C:\Program Files\PuTTY\pscp.exe"
 SET PUTTY_BIN="C:\Program Files (x86)\WinSCP\putty.exe"
 
-rem SET RASPBERRYPI_ADDR=BoomV
-rem SET RASPBERRYPI_ADDR=BoomD
+rem SET RASPBERRYPI_ADDR=BoomV-1
+SET RASPBERRYPI_ADDR=BoomD-1
 rem SET RASPBERRYPI_ADDR=BoomB
-SET RASPBERRYPI_ADDR=Peezer
+rem SET RASPBERRYPI_ADDR=Peezer
 rem SET RASPBERRYPI_ADDR=BoomM
 SET USERNAME=pi
 
-SET PASSWORD=raspberry
+SET PASSWORD=Savoie73
+rem SET PASSWORD=raspberry
 SET CMD_FILENAME=commands.sh
 
 rem Upload the file to raspberry pi

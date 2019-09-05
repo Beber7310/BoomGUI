@@ -39,8 +39,9 @@ guiBase *pActiveWnd;
 std::list<guiBase*> lstWnd;
 
 #ifdef __RASP__
-static sem_t 			guiSemEvent;
-void* guiMouseThread(void * p) {
+static sem_t guiSemEvent;
+void* guiMouseThread(void * p)
+{
 	int x = 0, y = 0, t = 0;
 	int rx = 0, ry = 0, rt = 0;
 	int error_read = 0;
@@ -51,7 +52,8 @@ void* guiMouseThread(void * p) {
 
 	/* Open Device */
 	fd = open(EVENT_DEVICE, O_RDONLY);
-	if (fd == -1) {
+	if (fd == -1)
+	{
 		fprintf(stderr, "%s is not a vaild device\n", EVENT_DEVICE);
 		pthread_exit(NULL);
 		return 0;
@@ -63,45 +65,56 @@ void* guiMouseThread(void * p) {
 	printf("device file = %s\n", EVENT_DEVICE);
 	printf("device name = %s\n", name);
 
-	for (;;) {
+	for (;;)
+	{
 		const ssize_t ev_size = sizeof(struct input_event);
 		ssize_t size;
 
 		/* TODO: use select() */
 
 		size = read(fd, &ev, ev_size);
-		if (size < ev_size) {
+		if (size < ev_size)
+		{
 			fprintf(stderr, "Error size when reading\n");
 			close(fd);
 			sleep(1);
 			fd = open(EVENT_DEVICE, O_RDONLY);
 			error_read++;
 			if (error_read > 10)
-				goto err;
-		} else {
+			goto err;
+		}
+		else
+		{
 			error_read = 0;
-			if (ev.type == EV_ABS && ev.code == ABS_X) {
+			if (ev.type == EV_ABS && ev.code == ABS_X)
+			{
 				/* TODO: convert value to pixels */
 				//printf("X = %d\n", ev.value);
 				x = ev.value;
 				//update=true;
 			}
-			if (ev.type == EV_ABS && ev.code == ABS_Y) {
+			if (ev.type == EV_ABS && ev.code == ABS_Y)
+			{
 				/* TODO: convert value to pixels */
 				//printf("Y = %d\n", ev.value);
 				y = ev.value;
 				update = true;
-			} else if (ev.type == EV_KEY && (ev.code == BTN_TOUCH)) {
+			}
+			else if (ev.type == EV_KEY && (ev.code == BTN_TOUCH))
+			{
 				//printf("touch: %i\n", ev.value);
 				t = ev.value;
 				if (!t)
-					update = true;
-			} else {
+				update = true;
+			}
+			else
+			{
 				//printf("%x %x %x\n",ev.type, ev.code,ev.value);
 			}
 		}
 
-		if (update) {
+		if (update)
+		{
 			update = false;
 #ifdef SCREEN_7P
 			rx=600-y; // swap on purpose !!!
@@ -111,7 +124,7 @@ void* guiMouseThread(void * p) {
 
 #ifdef SCREEN_5P
 			rx = 480.0f * (y - 250.0f) / 3600.0f; // swap on purpose !!!
-			ry = 800 - (800.0f * (x - 154.0f) / 3800.0f); // swap on purpose !!!
+			ry = 800 - (800.0f * (x - 154.0f) / 3800.0f);// swap on purpose !!!
 #endif
 			SDL_Event e;
 
@@ -143,56 +156,74 @@ void* guiMouseThread(void * p) {
 }
 #endif
 
-int mousseMgt(guiBase* mainWin) {
+int mousseMgt(guiBase* mainWin)
+{
 	SDL_Event e;
 	static int firstX, firstY;
 
-	if (SDL_PollEvent(&e)) {
+	if (SDL_PollEvent(&e))
+	{
+		while (SDL_PollEvent(&e));
+
 		if (e.type == SDL_QUIT)
 			return -1;
 
-		if ((e.type == SDL_MOUSEMOTION) || (e.type == SDL_MOUSEBUTTONDOWN) || (e.type == SDL_MOUSEBUTTONUP)) {
-			if (e.motion.state > 0 && lastButton > 0) {
-				mainWin->event(e.motion.x, e.motion.y, 2);
-				while (SDL_PollEvent(&e))
-					;
-			}
-			if (e.motion.state > 0 && lastButton == 0) {
-				mainWin->event(e.motion.x, e.motion.y, 1);
-				firstX = e.motion.x;
-				firstY = e.motion.y;
-			}
+		if ((e.type == SDL_MOUSEMOTION) || (e.type == SDL_MOUSEBUTTONDOWN) || (e.type == SDL_MOUSEBUTTONUP))
+		{
+			//printf("1Mousse which:%u ID:%u\n", e.motion.which, e.motion.windowID);
 
-			if (e.motion.state == 0 && lastButton > 0) {
-				mainWin->event(e.motion.x, e.motion.y, 3);
-				if ((abs(firstX - e.motion.x) < 100) && (abs(firstY - e.motion.y) < 100)) {
-					mainWin->event(e.motion.x, e.motion.y, 4);
+			if (e.motion.windowID == 0)// since RPI4 is out, it seems there is some change in touch screen mgt
+			{
+
+				printf("Mousse type:%i state:%i ID:%i which:%u\n", e.type, e.motion.state, e.motion.windowID, e.motion.which);
+
+				if (e.motion.state > 0 && lastButton > 0)
+				{
+					mainWin->event(e.motion.x, e.motion.y, 2);
+					//while (SDL_PollEvent(&e));
 				}
-			}
+				if (e.motion.state > 0 && lastButton == 0)
+				{
+					mainWin->event(e.motion.x, e.motion.y, 1);
+					firstX = e.motion.x;
+					firstY = e.motion.y;
+				}
 
-			lastButton = e.motion.state;
+				if (e.motion.state == 0 && lastButton > 0)
+				{
+					mainWin->event(e.motion.x, e.motion.y, 3);
+					if ((abs(firstX - e.motion.x) < 100) && (abs(firstY - e.motion.y) < 100))
+					{
+						mainWin->event(e.motion.x, e.motion.y, 4);
+						printf("Click!");
+					}
+				}
+
+				lastButton = e.motion.state;
 #ifdef __RASP__
-			SDL_WarpMouseInWindow(NULL, e.motion.x, e.motion.y);
+				SDL_WarpMouseInWindow(NULL, e.motion.x, e.motion.y);
 #endif
-
+			}
 		}
-
 	}
 	return 0;
 }
 
-void setActiveWindows(guiBase* pWin) {
+void setActiveWindows(guiBase* pWin)
+{
 	pActiveWnd = pWin;
 	lstWnd.push_front(pActiveWnd);
 }
 
-void popActiveWindows() {
+void popActiveWindows()
+{
 	lstWnd.pop_front();
 	pActiveWnd = lstWnd.front();
 
 }
 
-int rendertask() {
+int rendertask()
+{
 
 #ifdef __RASP__
 	pthread_t my_mouseThread;
@@ -202,7 +233,8 @@ int rendertask() {
 
 	system("mpc random off");
 
-	if (SDL_Init(SDL_INIT_VIDEO)) {
+	if (SDL_Init(SDL_INIT_VIDEO))
+	{
 		printf("SDL_Init Error: %s", SDL_GetError());
 		return 1;
 	}
@@ -210,14 +242,16 @@ int rendertask() {
 	//SDL_Window *window = SDL_CreateWindow("SDL2_gfx test", 100, 100, SCREEN_WIDTH,SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 	SDL_Window *window = SDL_CreateWindow("SDL2_gfx test", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN);
 
-	if (window == NULL) {
+	if (window == NULL)
+	{
 		printf("SDL_CreateWindow Error: %s", SDL_GetError());
 		SDL_Quit();
 		return 2;
 	}
 
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (renderer == NULL) {
+	if (renderer == NULL)
+	{
 		SDL_DestroyWindow(window);
 		printf("SDL_CreateRenderer Error: %s", SDL_GetError());
 		SDL_Quit();
@@ -226,21 +260,24 @@ int rendertask() {
 
 	printf("%s\n", SDL_GetCurrentVideoDriver());
 
-	if (TTF_Init()) {
+	if (TTF_Init())
+	{
 		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
 		exit(EXIT_FAILURE);
 	}
 
 	int flags = IMG_INIT_JPG | IMG_INIT_PNG;
 	int initted = IMG_Init(flags);
-	if (initted & flags != flags) {
+	if (initted & flags != flags)
+	{
 		printf("could not init SDL_Image");
 		printf("Reason: %s \n", IMG_GetError());
 	}
 
 #ifdef __RASP__
 	int ret = pthread_create(&my_mouseThread, NULL, &guiMouseThread, NULL);
-	if (ret != 0) {
+	if (ret != 0)
+	{
 		printf("Error: pthread_create() failed\n");
 	}
 #endif
@@ -253,14 +290,16 @@ int rendertask() {
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	guiBase *localpActiveWnd = pActiveWnd;
-	while (!mousseMgt(localpActiveWnd)) {
+	while (!mousseMgt(localpActiveWnd))
+	{
 		localpActiveWnd = pActiveWnd;
-		if (strlen(SDL_GetError()) > 3) {
+		if (strlen(SDL_GetError()) > 3)
+		{
 			printf("Error catch in main loop: %s\n", SDL_GetError());
 			SDL_ClearError();
 		}
 
-		sem_wait(&guiSemEvent);
+		sem_wait (&guiSemEvent);
 
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
 		SDL_RenderClear(renderer);
@@ -280,5 +319,5 @@ int rendertask() {
 
 int refresh(void)
 {
-	sem_post(&guiSemEvent);
+	sem_post (&guiSemEvent);
 }

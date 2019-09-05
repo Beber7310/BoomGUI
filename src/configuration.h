@@ -11,10 +11,10 @@
 #define WALLPAPER	"res/wallpaper2.jpg"
 
 
- #define SALON
-//#define CHAMBRE_B
-//#define CHAMBRE_D
-// #define CHAMBRE_V
+// #define SALON
+// #define CHAMBRE_B
+// #define CHAMBRE_D
+ #define CHAMBRE_V
 // #define MAMIE
 
 #ifdef SALON
@@ -29,10 +29,13 @@
 #endif
 #ifdef CHAMBRE_V
 	#define SCREEN_5P
+	#define _CONF_PODCAST_EN
+	#define _CONF_DEEZER_EN
 #endif
 #ifdef CHAMBRE_D
 	#define SCREEN_5P
 	#define _CONF_PODCAST_EN
+	#define _CONF_DEEZER_EN
 #endif
 #ifdef MAMIE
 	#define SCREEN_7P

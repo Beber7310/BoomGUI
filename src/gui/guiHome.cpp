@@ -5,26 +5,25 @@
  *      Author: dosdab
  */
 
+#include <stdlib.h>
 #include <configuration.h>
 #include <guiHome.h>
 #include "tools.h"
 
+guiHome::guiHome()
+{
 
-
-guiHome::guiHome() {
-
-	int	stdwidth=SCREEN_WIDTH/4;
-	int	stdspace=SCREEN_WIDTH/8;
-
+	int stdwidth = SCREEN_WIDTH / 4;
+	int stdspace = SCREEN_WIDTH / 8;
 
 	// TODO Auto-generated constructor stub
-	butAlbum = new guiButton( stdspace, stdspace, stdwidth, stdwidth, "res/album.png");
-	butplaylist = new guiButton( 2*stdwidth + stdspace, stdspace             , stdwidth, stdwidth , "res/playlist.png");
-	butPlayer = new guiButton(  2*stdwidth + stdspace, SCREEN_HEIGHT-(stdspace+stdwidth), stdwidth, stdwidth, "res/player.png");
-	butRadio = new guiButton   ( stdspace             , 2*stdwidth + stdspace, stdwidth, stdwidth , "res/radio.png");
+	butAlbum = new guiButton(stdspace, stdspace, stdwidth, stdwidth, "res/album.png");
+	butplaylist = new guiButton(2 * stdwidth + stdspace, stdspace, stdwidth, stdwidth, "res/playlist.png");
+	butPlayer = new guiButton(2 * stdwidth + stdspace, SCREEN_HEIGHT - (stdspace + stdwidth), stdwidth, stdwidth, "res/player.png");
+	butRadio = new guiButton(stdspace, 2 * stdwidth + stdspace, stdwidth, stdwidth, "res/radio.png");
 
 #ifdef	_CONF_PODCAST_EN
-	butPodcast = new guiButton( 2*stdwidth + stdspace, 2*stdwidth + stdspace, stdwidth, stdwidth, "res/podcast.png");
+	butPodcast = new guiButton(2 * stdwidth + stdspace, 2 * stdwidth + stdspace, stdwidth, stdwidth, "res/podcast.png");
 	AddChild(butPodcast);
 #endif
 
@@ -33,12 +32,18 @@ guiHome::guiHome() {
 	AddChild(butHomeControl);
 #endif
 
+#ifdef _CONF_DEEZER_EN
+	butDeezer = new guiButton(stdspace, SCREEN_HEIGHT - (stdspace + stdwidth), stdwidth, stdwidth, "res/deezer.png");
+	AddChild(butDeezer);
+
+	wndPee = new guiPee();
+	wndPee->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+#endif
+
 	AddChild(butAlbum);
 	AddChild(butplaylist);
 	AddChild(butPlayer);
 	AddChild(butRadio);
-
-
 
 	wndAlbum = new guiListAlbum();
 	wndAlbum->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -59,12 +64,9 @@ guiHome::guiHome() {
 	wndPlayer = new guiPlayer();
 	wndPlayer->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
 	wndRadio = new guiListRadio();
-	wndRadio ->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	wndRadio->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	_gblPlayer = wndPlayer;
-
-
 
 	SDL_QueryTexture(_textWallPaper, NULL, NULL, &_texSize.w, &_texSize.h);
 
@@ -72,8 +74,8 @@ guiHome::guiHome() {
 
 }
 
-void guiHome::render() {
-
+void guiHome::render()
+{
 
 	guiBase * pTemp;
 
@@ -86,10 +88,10 @@ void guiHome::render() {
 
 	SDL_RenderCopy(_renderer, _textWallPaper, NULL, NULL);
 
-
 	std::list<guiBase*>::iterator it;
 	pTemp = GetFirstChild(&it);
-	while (pTemp) {
+	while (pTemp)
+	{
 		pTemp->_absWndRect.x = _absWndRect.x + pTemp->_relWndRect.x;
 		pTemp->_absWndRect.y = _absWndRect.y + pTemp->_relWndRect.y;
 		pTemp->_absWndRect.w = pTemp->_relWndRect.w;
@@ -102,11 +104,13 @@ void guiHome::render() {
 	SDL_RenderSetClipRect(_renderer, NULL);
 }
 
-guiHome::~guiHome() {
+guiHome::~guiHome()
+{
 	// TODO Auto-generated destructor stub
 }
 
-void guiHome::event(int x, int y, int button) {
+void guiHome::event(int x, int y, int button)
+{
 	guiBase::event(x, y, button);
 
 	if (butAlbum->isClicked())
@@ -116,8 +120,7 @@ void guiHome::event(int x, int y, int button) {
 		setActiveWindows(wndPlaylist);
 
 	if (butRadio->isClicked())
-			setActiveWindows(wndRadio);
-
+		setActiveWindows(wndRadio);
 
 #ifdef _CONF_PODCAST_EN
 	if (butPodcast->isClicked())
@@ -130,6 +133,13 @@ void guiHome::event(int x, int y, int button) {
 #ifdef _CONF_HOMECONTROL_EN
 	if (butHomeControl->isClicked())
 		setActiveWindows(wndHomeControl);
+#endif
+
+#ifdef _CONF_DEEZER_EN
+	if (butDeezer->isClicked())
+	{
+		setActiveWindows(wndPee);
+	}
 #endif
 
 	if (butPlayer->isClicked())

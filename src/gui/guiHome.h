@@ -17,6 +17,7 @@
 #include <guiListRadio.h>
 #include <guiHomeControl.h>
 #include <guiPlayer.h>
+#include <guiPee.h>
 
 class guiHome: public guiBase {
 public:
@@ -30,6 +31,9 @@ public:
 	guiButton* butplaylist;
 #ifdef _CONF_HOMECONTROL_EN
 	guiButton* butHomeControl;
+#else
+	guiButton* butDeezer;
+	guiPee* wndPee;
 #endif
 
 	guiButton* butPlayer;
