@@ -4,7 +4,6 @@
  *  Created on: 20 sept. 2017
  *      Author: Bertrand
  */
-
 #include <guiHomeControl.h>
 #include "homeControl.h"
 #include "configuration.h"
@@ -27,7 +26,8 @@ guiHomeControl::guiHomeControl() {
 	wndLstHc->AddChild(new guiHcRadiateur("Salon",HC_HEATER_SALON));
 	wndLstHc->AddChild(new guiHcRadiateur("Barnabé",HC_HEATER_BARNABE));
 	wndLstHc->AddChild(new guiHcRadiateur("Daphnée",HC_HEATER_DAPHNEE));
-	wndLstHc->AddChild(new guiHcThermometre("Victor",HC_TEMP_VICTOR));
+	wndLstHc->AddChild(new guiHcRadiateur("Victor",HC_HEATER_VICTOR));
+	wndLstHc->AddChild(new guiHcRadiateur("Sofia",HC_HEATER_SOFIA));
 	wndLstHc->AddChild(new guiHcRadiateur("HomeCinema",HC_HEATER_HOMECINEMA));
 
 

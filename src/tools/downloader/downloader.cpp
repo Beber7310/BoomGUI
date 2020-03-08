@@ -92,7 +92,7 @@ void* toolsDownloadPodcastThread(void * p)
 			strcat(szPath,pPodcast->_localPath);
 
 			//sprintf(szCmd,"wget \"%s\" -O \"%s\" -q ",pPodcast->_htmlPath,szPath);
-			sprintf(szCmd,"wget \"%s\" -O \"%s\"  ",pPodcast->_htmlPath,szPath);
+			sprintf(szCmd,"wget --no-check-certificate \"%s\" -O \"%s\"  ",pPodcast->_htmlPath,szPath);
 			system(szCmd);
 			sleep(10);
 			printf("%s\n",szCmd);

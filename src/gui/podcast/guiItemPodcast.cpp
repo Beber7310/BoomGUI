@@ -97,7 +97,7 @@ void guiItemPodcast::setImage(const char* img) {
 	sprintf(szPath, "%s/coverOrig.jpg", _directory);
 
 	if (!toolsDownloadExist(szPath)) {
-		sprintf(szTemp, "wget \"%s\" -O \"%s/%s\" -q --limit-rate=100k", _coverHtmplPath,PODCAST_DIR, szPath);
+		sprintf(szTemp, "wget --no-check-certificate \"%s\" -O \"%s/%s\" -q --limit-rate=100k", _coverHtmplPath,PODCAST_DIR, szPath);
 		printf("%s\n", szTemp);
 		system(szTemp);
 	}

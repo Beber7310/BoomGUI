@@ -18,8 +18,9 @@
 #define HC_LAST_HEATER			5
 #define HC_TEMP_EXTERIEUR		5
 #define HC_TEMP_GARAGE			6
-#define HC_TEMP_VICTOR			7
+#define HC_HEATER_VICTOR		7
 #define HC_TEMP_PARENT			8
+#define HC_HEATER_SOFIA			9
 #define HC_LAST					10
 
 

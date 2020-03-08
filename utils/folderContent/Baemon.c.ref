@@ -1,0 +1,20 @@
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+
+int main()
+{
+	int ret;
+	while(1)
+	{
+//		system("sleep 5");
+		sleep(5);
+		printf(" \n\n\n=========== RUN BOOM ================\n\n\n");
+		ret=system("./BoomGUI");		
+		printf("\n\n\n\nerror code %u\n\n\n\n",ret);
+		if(ret==(33*256))
+		{			
+			system("./PeeDump");
+		}
+	}
+}

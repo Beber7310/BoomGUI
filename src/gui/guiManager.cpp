@@ -163,7 +163,8 @@ int mousseMgt(guiBase* mainWin)
 
 	if (SDL_PollEvent(&e))
 	{
-		while (SDL_PollEvent(&e));
+		while (SDL_PollEvent(&e))
+			;
 
 		if (e.type == SDL_QUIT)
 			return -1;
@@ -172,7 +173,7 @@ int mousseMgt(guiBase* mainWin)
 		{
 			//printf("1Mousse which:%u ID:%u\n", e.motion.which, e.motion.windowID);
 
-			if (e.motion.windowID == 0)// since RPI4 is out, it seems there is some change in touch screen mgt
+			if (e.motion.windowID == 0) // since RPI4 is out, it seems there is some change in touch screen mgt
 			{
 
 				printf("Mousse type:%i state:%i ID:%i which:%u\n", e.type, e.motion.state, e.motion.windowID, e.motion.which);
@@ -203,6 +204,41 @@ int mousseMgt(guiBase* mainWin)
 #ifdef __RASP__
 				SDL_WarpMouseInWindow(NULL, e.motion.x, e.motion.y);
 #endif
+			}
+		}
+
+		if ((e.type == SDL_FINGERDOWN))
+		{
+			int x = 600 - (600 * e.tfinger.y);
+			int y = 1024 * e.tfinger.x;
+
+			printf("SDL_FINGERDOWN %i %i\n", x, y);
+			mainWin->event(x, y, 1);
+
+			firstX = x;	//e.tfinger.x;
+			firstY = y;	//e.tfinger.y;
+		}
+
+		if ((e.type == SDL_FINGERMOTION))
+		{
+			int x = 600 - (600 * e.tfinger.y);
+			int y = 1024 * e.tfinger.x;
+
+			printf("SDL_FINGERMOTION %i %i\n", x, y);
+			mainWin->event(x, y, 2);
+		}
+
+		if ((e.type == SDL_FINGERUP))
+		{
+			int x = 600 - (600 * e.tfinger.y);
+			int y = 1024 * e.tfinger.x;
+
+			printf("SDL_FINGERUP %i %i\n", x, y);
+			mainWin->event(x, y, 3);
+			if ((abs(firstX - x) < 100) && (abs(firstY - y) < 100))
+			{
+				mainWin->event(x, y, 4);
+				printf("Click!");
 			}
 		}
 	}

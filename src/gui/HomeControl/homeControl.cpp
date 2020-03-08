@@ -53,9 +53,15 @@ homeControl::homeControl() {
 	_HomeSensor[HC_TEMP_GARAGE].niceName = "Garage";
 	_HomeSensor[HC_TEMP_GARAGE].temp = 0.0f;
 
-	_HomeSensor[HC_TEMP_VICTOR].httpName = "Victor";
-	_HomeSensor[HC_TEMP_VICTOR].niceName = "Victor";
-	_HomeSensor[HC_TEMP_VICTOR].temp = 0.0f;
+	_HomeSensor[HC_HEATER_VICTOR].httpName = "Victor";
+	_HomeSensor[HC_HEATER_VICTOR].niceName = "Victor";
+	_HomeSensor[HC_HEATER_VICTOR].temp = 0.0f;
+
+	_HomeSensor[HC_HEATER_SOFIA].httpName = "Sofia";
+	_HomeSensor[HC_HEATER_SOFIA].niceName = "Sofia";
+	_HomeSensor[HC_HEATER_SOFIA].temp = 0.0f;
+
+
 
 	_HomeSensor[HC_TEMP_PARENT].httpName = "Parent";
 	_HomeSensor[HC_TEMP_PARENT].niceName = "Parent";

@@ -48,10 +48,16 @@ sudo apt-get install mpd
 sudo apt-get install pulseaudio pulseaudio-module-zeroconf alsa-utils avahi-daemon
 sudo apt-get install pavucontrol
 sudo apt-get install lame
+sudo apt-get install imagemagick -y
+
+ convert coverOrig.jpg  -resize 200x200\> cover.jpg
 
 sudo modprobe snd-bcm2835 
 
+mkdir /home/pi/projects/mpd/
+sudo systemctl stop mpd
 mpd --no-daemon --stdout --verbose
+
 
 vncserver -screen  1 1920x1080x16
 
@@ -62,8 +68,9 @@ https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work
 kill `ps aux |grep Baemon |grep -v grep |cut -c 9-15`
 kill `ps aux |grep Boom  |grep -v grep|cut -c 9-15`
  
+sudo ln -s /usr/lib/arm-linux-gnueabihf/libsndio.so.7.0 /usr/lib/arm-linux-gnueabihf/libsndio.so.6.1
   
  
  https://connect.deezer.com/oauth/auth.php?app_id=302584&redirect_uri=http://www.example.com&perms=basic_access,email,offline_access
- https://connect.deezer.com/oauth/access_token.php?app_id=302584&secret=fe1e85c70abd04995690173612c93757&code=fr2417f50e8564dacf2dd721b783f594
+ https://connect.deezer.com/oauth/access_token.php?app_id=302584&secret=fe1e85c70abd04995690173612c93757&code=fra9d00d760a345bffd171b422b93012
  
