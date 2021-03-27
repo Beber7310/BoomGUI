@@ -5,6 +5,7 @@
  *      Author: dosdab
  */
 #include <stdio.h>
+#include <string.h>
 #include <guiButton.h>
 
 guiButton::guiButton() {
@@ -12,7 +13,7 @@ guiButton::guiButton() {
 
 }
 
-guiButton::guiButton(int x, int y, int w, int h, char* szImg) {
+guiButton::guiButton(int x, int y, int w, int h, char *szImg) {
 	// TODO Auto-generated constructor stub
 	/*
 	 SDL_Surface * image = IMG_Load(szImg);
@@ -22,7 +23,10 @@ guiButton::guiButton(int x, int y, int w, int h, char* szImg) {
 	_texButton = IMG_LoadTexture(_renderer, szImg);
 
 	SDL_SetTextureBlendMode(_texButton, SDL_BLENDMODE_BLEND);
-
+	if (strlen(SDL_GetError()) > 3) {
+		printf("Error catch in guiButton: %s\n", SDL_GetError());
+		SDL_ClearError();
+	}
 	_relWndRect.x = x;
 	_relWndRect.y = y;
 	_relWndRect.w = w;

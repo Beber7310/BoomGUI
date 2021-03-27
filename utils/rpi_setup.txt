@@ -7,20 +7,30 @@ sudo ./LCD5-show
 
 in config.txt==> display_rotate=1
  
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/pi/projects
-cd /home/pi/projects/
-/home/pi/projects/Baemon
 
+-- .bashrc --
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/pi/projects
+
+ps aux|grep Baemon|grep -v grep
+
+if [ $? -eq 0 ]; then
+    echo Baemon already running
+else
+    echo Baemon not detected
+    cd /home/pi/projects
+#    /home/pi/projects/Baemon&
+fi
 
 
 
 -- sdl --
 cd
 wget https://www.libsdl.org/release/SDL2-2.0.7.tar.gz
+wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
 tar zxvf SDL2-2.0.7.tar.gz SDL2-2.0.7/
 cd SDL2-2.0.7/
 mkdir build && cd build
-../configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl
+../configure --host=armv7l-raspberry-linux-gnueabihf   --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl
 
 make -j 4
 sudo make install
@@ -28,6 +38,7 @@ sudo make install
 -- sdl image --
 cd
 wget https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.2.zip
+wget https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.zip
 unzip SDL2_image-2.0.2.zip
 cd SDL2_image-2.0.2/
 mkdir build && cd build
@@ -45,6 +56,7 @@ sudo apt-get install libjpeg8
 sudo apt-get install mpc
 sudo apt-get install mpd
 
+sudo apt-get install mpd mpc libjpeg8
 sudo apt-get install pulseaudio pulseaudio-module-zeroconf alsa-utils avahi-daemon
 sudo apt-get install pavucontrol
 sudo apt-get install lame

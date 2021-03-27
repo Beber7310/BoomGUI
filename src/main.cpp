@@ -24,7 +24,7 @@ int main (int argc, char* argv[]) {
 	}
 	system("mpc update");
 #ifdef _CONF_PODCAST_EN
-	podcastTask();
+	// podcastTask();
 #endif
 	rendertask();
 

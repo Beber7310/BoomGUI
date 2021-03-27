@@ -22,18 +22,18 @@ SET PUTTY_BIN="C:\Program Files (x86)\WinSCP\putty.exe"
 
 rem SET RASPBERRYPI_ADDR=192.168.1.39
 rem SET RASPBERRYPI_ADDR=BoomD-1
-SET RASPBERRYPI_ADDR=BoomB
-rem SET RASPBERRYPI_ADDR=Peezer
+rem SET RASPBERRYPI_ADDR=BoomB
+SET RASPBERRYPI_ADDR=HPSalon
 rem SET RASPBERRYPI_ADDR=BoomM
  
 SET USERNAME=pi
 
-SET PASSWORD=Savoie73
-rem SET PASSWORD=raspberry
+rem SET PASSWORD=Savoie73
+SET PASSWORD=raspberry
 SET CMD_FILENAME=commands.sh
 
 rem Upload the file to raspberry pi
-%PUTTYSCP_BIN% -pw %PASSWORD% "%1" %USERNAME%@%RASPBERRYPI_ADDR%:"%2"
+%PUTTYSCP_BIN% -P 22 -pw %PASSWORD% "%1" %USERNAME%@%RASPBERRYPI_ADDR%:"%2"
 
 rem Build a list of actions to do on the pi (chmod, execute GDB server)
 rem if exist %~dp0%CMD_FILENAME% del %~dp0%CMD_FILENAME%

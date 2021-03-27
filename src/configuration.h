@@ -12,8 +12,8 @@
 
 
 // #define SALON
-#define CHAMBRE_B
-// #define CHAMBRE_D
+// #define CHAMBRE_B
+ #define CHAMBRE_D
 // #define CHAMBRE_V
 // #define MAMIE
 

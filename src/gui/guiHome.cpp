@@ -6,6 +6,8 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <configuration.h>
 #include <guiHome.h>
 #include "tools.h"
@@ -15,6 +17,10 @@ guiHome::guiHome()
 
 	int stdwidth = SCREEN_WIDTH / 4;
 	int stdspace = SCREEN_WIDTH / 8;
+
+
+
+
 
 	// TODO Auto-generated constructor stub
 	butAlbum = new guiButton(stdspace, stdspace, stdwidth, stdwidth, "res/album.png");
@@ -68,7 +74,20 @@ guiHome::guiHome()
 	wndRadio->setRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	_gblPlayer = wndPlayer;
 
+
+	if (strlen(SDL_GetError()) > 3) {
+				printf("Error catch in main loop: %s\n", SDL_GetError());
+				SDL_ClearError();
+			}
+
+
 	SDL_QueryTexture(_textWallPaper, NULL, NULL, &_texSize.w, &_texSize.h);
+
+	if (strlen(SDL_GetError()) > 3) {
+				printf("Error catch in main loop: %s\n", SDL_GetError());
+				SDL_ClearError();
+			}
+
 
 	SDL_SetTextureBlendMode(_textWallPaper, SDL_BLENDMODE_BLEND);
 
